@@ -3,6 +3,6 @@
     <input wire:model="email" type="text" class="p-1 bg-slate-200 border border-slate-600 w-max">
     <label for="password">Contraseña</label>
     <input wire:model="password" type="password" class="p-1 bg-slate-200 border border-slate-600 w-max">
-    <button wire:click="login" class="py-1 px-2 rounded-lg bg-green-600 text-white my-2 w-max"> Iniciar Sesión</button>
-    <p>¿Nuevo? Regístrate <a href="{{ route('signup') }}" class="underline text-blue-700">aquí!</a> </p>
+    <button wire:click="login" class="py-1 px-2 rounded-lg bg-green-600 text-white my-2 w-max hover:cursor-pointer"> Iniciar Sesión</button>
+    <p>¿Nuevo? Regístrate <a href="{{ route('signup') }}" class="underline text-blue-700">aquí!</a></p>
 </div>
