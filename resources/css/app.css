@@ -10,4 +10,8 @@
 @theme {
     --font-sans: 'Nunito', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-mmdarkgray: #2C2C2C;
+    --color-mmgray: #DDDDDD;
+    --color-mmgreen: #2EB830;
+    --color-mmblue: #1A44D5;
 }
