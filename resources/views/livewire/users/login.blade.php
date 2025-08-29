@@ -78,7 +78,7 @@
             <div class="forms">
                 <div class="form login">
                     <span class="title">Iniciar sesión</span>
-                    <form action="#" wire:submit="login">
+                    <form wire:submit="login">
                         <div class="input-field">
                             <input wire:model="email" type="text" placeholder="Ingresa tu correo" required />
                             <i class="uil uil-envelope icon"></i>
@@ -99,7 +99,7 @@
                         </div>
 
                         <div class="input-field button">
-                            <input type="button" value="Iniciar sesión" />
+                            <input type="submit" value="Iniciar sesión" />
                         </div>
                     </form>
 
