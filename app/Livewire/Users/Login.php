@@ -3,6 +3,8 @@
 namespace App\Livewire\Users;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -11,35 +13,77 @@ class Login extends Component
     public $email;
     public $password;
 
-    protected $rules = [
-        'email' => 'required|email',
-        'password' => 'required',
-    ];
+    public $registerEmail;
+    public $registerPassword;
+    public $registerConfirmPassword;
 
     public function login()
     {
-        $this->validate();
+        $this->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
 
             $user = User::where('email', $this->email)->first();
 
             // Redireccionar según el rol
-            if ($user->hasRole('admin')) {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->hasRole('student')) {
+
+            if ($user->hasRole('student')) {
                 return redirect()->route('student.dashboard');
-            } elseif ($user->hasRole('mentor')) {
+            }
+            elseif ($user->hasRole('mentor')) {
                 return redirect()->route('mentor.dashboard');
             }
+            // elseif ($user->hasRole('admin')) {
+            //     return redirect()->route('admin.dashboard');
+            // }
 
-            // Fallback si no tiene roles específicos
-            return redirect()->route('admin.dashboard');
+            // De momento logout, pero debería enviarse a la página donde le pregunta si quiere ser mentor o student
+            $this->logout(request());
         }
 
         session()->flash('error', 'Credenciales incorrectas');
     }
 
+    public function signup()
+    {
+        // create user with email and password
+        $this->validate([
+            'registerEmail' => 'required|email|unique:users,email',
+            'registerPassword' => 'required',
+            'registerConfirmPassword' => 'required',
+        ]);
+
+        if ($this->registerPassword !== $this->registerConfirmPassword) {
+            session()->flash('error', 'Las contraseñas no coinciden');
+            return;
+        }
+
+        $user = User::create([
+            'email' => $this->registerEmail,
+            'password' => bcrypt($this->registerPassword),
+        ]);
+
+        if (Auth::attempt(['email' => $this->registerEmail, 'password' => $this->registerPassword])) {
+            // Redireccionar a la página de selección de rol
+            return redirect()->route('role-signup');
+        }
+
+
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 
     public function render()
     {

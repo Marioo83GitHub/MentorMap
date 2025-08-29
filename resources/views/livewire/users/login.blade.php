@@ -114,21 +114,21 @@
                 <div class="form signup">
                     <span class="title">Registro</span>
 
-                    <form action="#">
+                    <form wire:submit="signup">
                         <div class="input-field">
                             <input type="text" placeholder="Ingresa tu nombre" required />
                             <i class="uil uil-user"></i>
                         </div>
                         <div class="input-field">
-                            <input type="text" placeholder="Ingresa tu correo" required />
+                            <input wire:model="registerEmail" type="text" placeholder="Ingresa tu correo" required />
                             <i class="uil uil-envelope icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Crear una contraseña" required />
+                            <input wire:model="registerPassword" type="password" class="password" placeholder="Crear una contraseña" required />
                             <i class="uil uil-lock icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Confirmar la contraseña" required />
+                            <input wire:model="registerConfirmPassword" type="password" class="password" placeholder="Confirmar la contraseña" required />
                             <i class="uil uil-lock icon"></i>
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="input-field button">
-                            <input type="button" value="Registrarse" />
+                            <input type="submit" value="Registrarse" />
                         </div>
                     </form>
 
