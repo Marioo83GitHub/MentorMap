@@ -78,13 +78,13 @@
             <div class="forms">
                 <div class="form login">
                     <span class="title">Iniciar sesión</span>
-                    <form action="#">
+                    <form action="#" wire:submit="login">
                         <div class="input-field">
-                            <input type="text" placeholder="Ingresa tu correo" required />
+                            <input wire:model="email" type="text" placeholder="Ingresa tu correo" required />
                             <i class="uil uil-envelope icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Ingresa tu contraseña" required />
+                            <input wire:model="password" type="password" class="password" placeholder="Ingresa tu contraseña" required />
                             <i class="uil uil-lock icon"></i>
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
