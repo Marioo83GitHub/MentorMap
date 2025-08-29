@@ -9,5 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', LandingPage::class);
 Route::get('/login', Login::class)->name('login');
 
-Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard');
-Route::get('/student/dashboard', StudentDashboard::class)->name('student.dashboard');
+Route::group(['middleware' => ['role:mentor']], function () {
+    Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard');
+});
+Route::group(['middleware' => ['role:student']], function () {
+    Route::get('/student/dashboard', StudentDashboard::class)->name('student.dashboard');
+});
