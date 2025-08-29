@@ -47,7 +47,7 @@ class Login extends Component
         session()->flash('error', 'Credenciales incorrectas');
     }
 
-    public function signup()
+    public function singUp()
     {
         // create user with email and password
         $this->validate([
@@ -68,7 +68,7 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->registerEmail, 'password' => $this->registerPassword])) {
             // Redireccionar a la página de selección de rol
-            return redirect()->route('role-signup');
+            return redirect()->route('role-sign-up');
         }
 
 

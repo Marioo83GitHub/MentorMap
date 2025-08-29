@@ -2,19 +2,21 @@
 
 namespace App\Livewire\Users;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class RoleSignUp extends Component
 {
-    public function signupAsStudent()
+    public function signUpAsMentor()
     {
-        dd("signupAsStudent");
+        // Redireccionar a la ruta de registro de estudiantes
     }
 
-    public function signupAsMentor()
+    public function signUpAsStudent()
     {
-        dd("signupAsMentor");
+        // Redireccionar a la ruta de registro de estudiantes
     }
+
     public function render()
     {
         return view('livewire.users.role-sign-up');

@@ -14,7 +14,7 @@ Route::get('/login', Login::class)->name('login');
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/role-signup', RoleSignUp::class)->name('role-signup');
+    Route::get('/role-sign-up', RoleSignUp::class)->name('role-sign-up');
 
     Route::group(['middleware' => ['role:mentor']], function () {
         Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard');
