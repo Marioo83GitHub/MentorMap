@@ -15,3 +15,8 @@
     --color-mmgreen: #2EB830;
     --color-mmblue: #1A44D5;
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
+[x-cloak] {
+    display: none;
+}
