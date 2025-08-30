@@ -3,7 +3,6 @@
 namespace App\Livewire\Users;
 
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -37,9 +36,13 @@ class Login extends Component
             elseif ($user->hasRole('mentor')) {
                 return redirect()->route('mentor.dashboard');
             }
-            // elseif ($user->hasRole('admin')) {
-            //     return redirect()->route('admin.dashboard');
-            // }
+            elseif ($user->hasRole('admin')) {
+                dd("Admin role does nothing yet");
+                // return redirect()->route('admin.dashboard');
+            }
+            elseif (!$user->hasAnyRole(['student', 'mentor'])) {
+                return $this->redirectRoute('role-sign-up');
+            }
 
             dd("Falta hacer la logica de verificar si tiene roles y redirigir a otras vistas");
 

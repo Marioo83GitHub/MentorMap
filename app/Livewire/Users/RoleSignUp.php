@@ -2,20 +2,34 @@
 
 namespace App\Livewire\Users;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class RoleSignUp extends Component
 {
     public function signUpAsMentor()
     {
-        // Redireccionar a la ruta de registro de Mentores con verificación y toda la onda
-        dd("Mentor");
+        $user = Auth::user();
+        if ($user) {
+            // Store user id in session to use it in the mentor registration form
+            // asssign role mentor to user
+            $user->syncRoles(['mentor']);
+            // return redirect()->route('mentor.data.signup');
+            dd("Mentor");
+        }
     }
 
     public function signUpAsStudent()
     {
-        // Redireccionar a la ruta de registro de estudiantes
-        dd("Student");
+        $user = Auth::user();
+        if ($user) {
+            // Store user id in session to use it in the mentor registration form
+            // asssign role mentor to user
+            $user->syncRoles(['student']);
+            // return redirect()->route('student.dashboard');
+            dd("Student");
+        }
+
     }
 
     public function render()
