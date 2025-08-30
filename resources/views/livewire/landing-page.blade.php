@@ -998,7 +998,7 @@
                     Lo que dicen nuestros estudiantes
                 </h2>
                 <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                    Descubre cómo MentorMap ha transformado la experiencia educativa de miles de estudiantes alrededor del mundo
+                    Descubre cómo Mentor Map ha transformado la experiencia educativa de miles de estudiantes alrededor del mundo
                 </p>
             </div>
 
@@ -1027,7 +1027,7 @@
                         </div>
 
                         <blockquote class="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed">
-                            "MentorMap cambió completamente mi forma de estudiar. La IA personalizada me ayudó a identificar mis puntos débiles y me guió paso a paso hasta dominar Cálculo. ¡Increíble!"
+                            "Mentor Map cambió completamente mi forma de estudiar. La IA personalizada me ayudó a identificar mis puntos débiles y me guió paso a paso hasta dominar Cálculo. ¡Increíble!"
                         </blockquote>
 
                         <div class="flex items-center gap-4">
@@ -1103,7 +1103,7 @@
                         </div>
 
                         <blockquote class="text-gray-700 dark:text-gray-300 mb-6 text-base leading-relaxed">
-                            "Lo que más me gusta es que se adapta a mi ritmo de aprendizaje. Química era mi pesadilla, pero ahora es una de mis materias favoritas gracias a MentorMap."
+                            "Lo que más me gusta es que se adapta a mi ritmo de aprendizaje. Química era mi pesadilla, pero ahora es una de mis materias favoritas gracias a Mentor Map."
                         </blockquote>
 
                         <div class="flex items-center gap-4">
@@ -1261,7 +1261,7 @@
     <footer>
         <div class="px-4 py-6 relative z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200 dark:border-gray-700 overflow-hidden rounded-lg shadow-sm md:flex md:items-center md:justify-between">
             <span class="text-sm text-gray-500 dark:text-gray-400 sm:text-center">© 2025 <a
-                    href="https://flowbite.com/" class="dark:text-blue-400">MentorMap</a>. Todos los derechos reservados
+                    href="https://flowbite.com/" class="dark:text-blue-400">Mentor Map</a>. Todos los derechos reservados
             </span>
             <div class="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
                 <a href="#" class="text-gray-400 hover:text-gray-900 dark:hover:text-white">

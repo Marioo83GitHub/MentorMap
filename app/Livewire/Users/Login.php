@@ -47,7 +47,7 @@ class Login extends Component
         session()->flash('error', 'Credenciales incorrectas');
     }
 
-    public function singUp()
+    public function formSignUp()
     {
         // create user with email and password
         $this->validate([

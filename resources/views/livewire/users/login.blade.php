@@ -114,7 +114,7 @@
                 <div class="form signup">
                     <span class="title">Registro</span>
 
-                    <form wire:submit="signUp">
+                    <form wire:submit="formSignUp">
                         {{-- <div class="input-field">
                             <input type="text" placeholder="Ingresa tu nombre" required />
                             <i class="uil uil-user"></i>
