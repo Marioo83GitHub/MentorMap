@@ -41,12 +41,10 @@ class Login extends Component
                 // return redirect()->route('admin.dashboard');
             }
             elseif (!$user->hasAnyRole(['student', 'mentor'])) {
-                return $this->redirectRoute('role-sign-up');
+                return $this->redirectRoute('users.role-sign-up');
             }
 
-            dd("Falta hacer la logica de verificar si tiene roles y redirigir a otras vistas");
-
-            // De momento logout, pero debería enviarse a la página donde le pregunta si quiere ser mentor o student
+            // Logout 'cause there's no way another role exists
             $this->logout(request());
         }
 
