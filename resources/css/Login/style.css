@@ -57,7 +57,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image:  radial-gradient(circle at center, #2EB830, transparent);
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.8) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 1px, transparent 1px), radial-gradient(circle 500px at 20% 100%, rgba(179, 166, 166, 0.3), transparent), radial-gradient(circle 500px at 100% 80%, rgba(165, 154, 154, 0.3), transparent); background-size: 48px 48px, 48px 48px, 100% 100%, 100% 100%;
 }
 
 .container {

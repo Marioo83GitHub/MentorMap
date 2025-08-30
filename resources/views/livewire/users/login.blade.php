@@ -1,4 +1,4 @@
-<div class="login-main">
+<div class="login-main shadow-2xl border border-gray-200">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     @vite(['resources/css/Login/style.css', 'resources/css/Login/script.js'])
     <div class="login-info">
@@ -35,7 +35,7 @@
                                 {
                                     img: '{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}',
                                     title: 'Plataforma para conectar con mentores expertos',
-                                    desc: 'Accede a sesiones en línea y mejora tu aprendizaje con la guía de profesionales'
+                                    desc: 'Accede a sesiones en línea y mejora tu aprendizaje con la guía de profesionales.'
                                 },
                                 {
                                     img: '{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}',
@@ -104,7 +104,7 @@
                     </form>
 
                     <div class="login-signup">
-                        <span class="text">¿No eres miembro?
+                        <span class="text">¿Aun no estás registrado?
                             <a href="#" class="text signup-link">Regístrate ahora</a>
                         </span>
                     </div>
@@ -115,20 +115,20 @@
                     <span class="title">Registro</span>
 
                     <form action="#">
-                        <div class="input-field">
+                       <!-- <div class="input-field">
                             <input type="text" placeholder="Ingresa tu nombre" required />
                             <i class="uil uil-user"></i>
-                        </div>
+                        </div> -->
                         <div class="input-field">
                             <input type="text" placeholder="Ingresa tu correo" required />
                             <i class="uil uil-envelope icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Crear una contraseña" required />
+                            <input type="password" class="password" placeholder="Crea una contraseña" required />
                             <i class="uil uil-lock icon"></i>
                         </div>
                         <div class="input-field">
-                            <input type="password" class="password" placeholder="Confirmar la contraseña" required />
+                            <input type="password" class="password" placeholder="Confirma la contraseña" required />
                             <i class="uil uil-lock icon"></i>
                             <i class="uil uil-eye-slash showHidePw"></i>
                         </div>
@@ -136,7 +136,7 @@
                         <div class="checkbox-text">
                             <div class="checkbox-content">
                                 <input type="checkbox" id="termCon" />
-                                <label for="termCon" class="text">Acepto todos los terminos y condiones</label>
+                                <label for="termCon" class="text">Acepto todos los términos y condiones</label>
                             </div>
                         </div>
 
@@ -146,7 +146,7 @@
                     </form>
 
                     <div class="login-signup">
-                        <span class="text">¿Ya eres miembro?
+                        <span class="text">¿Ya tiene una cuenta?
                             <a href="#" class="text login-link">Iniciar sesión</a>
                         </span>
                     </div>
@@ -154,5 +154,4 @@
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
 </div>
