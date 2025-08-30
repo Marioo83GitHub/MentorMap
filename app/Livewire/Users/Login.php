@@ -26,6 +26,7 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
 
+
             $user = User::where('email', $this->email)->first();
 
             // Redireccionar según el rol
@@ -39,6 +40,8 @@ class Login extends Component
             // elseif ($user->hasRole('admin')) {
             //     return redirect()->route('admin.dashboard');
             // }
+
+            dd("Falta hacer la logica de verificar si tiene roles y redirigir a otras vistas");
 
             // De momento logout, pero debería enviarse a la página donde le pregunta si quiere ser mentor o student
             $this->logout(request());
@@ -70,11 +73,9 @@ class Login extends Component
             // Redireccionar a la página de selección de rol
             return redirect()->route('role-sign-up');
         }
-
-
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request)
     {
         Auth::logout();
 
