@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mentors', function (Blueprint $table) {
             $table->id();
-            $table->string('about_me');
+            $table->string('about_me')->nullable();
             $table->decimal('average_rating', total: 3, places: 2)->default(0.0);
             $table->unsignedInteger('hours_taught')->default(0);
             $table->unsignedInteger('finalized_sessions')->default(0);

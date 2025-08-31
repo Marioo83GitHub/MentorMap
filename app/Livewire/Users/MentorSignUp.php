@@ -25,8 +25,7 @@ class MentorSignUp extends Component
     public $country_id;
     public $department_id;
 
-
-    public $about_me;
+    // public $about_me;
 
     public function mount()
     {
@@ -49,7 +48,7 @@ class MentorSignUp extends Component
             'birth_date' => 'required|date',
             'photo' => 'nullable|image|max:2048', // Optional profile photo
 
-            'about_me' => 'required',
+            // 'about_me' => 'required',
         ]);
 
         $user = Auth::user();
@@ -70,7 +69,7 @@ class MentorSignUp extends Component
         }
 
         $mentor = new Mentor;
-        $mentor->about_me = $this->about_me;
+        // $mentor->about_me = $this->about_me;
         $mentor->user_id = $user->id;
 
         $user->save();
