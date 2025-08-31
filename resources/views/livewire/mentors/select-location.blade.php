@@ -1,3 +1,3 @@
 <div>
-    {{-- In work, do what you enjoy. --}}
+    Select Location, here we go... Map.
 </div>

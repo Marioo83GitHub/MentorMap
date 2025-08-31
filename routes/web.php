@@ -2,6 +2,7 @@
 
 use App\Livewire\LandingPage;
 use App\Livewire\Mentors\Dashboard as MentorDashboard;
+use App\Livewire\Mentors\SelectLocation;
 use App\Livewire\Students\Dashboard as StudentDashboard;
 use App\Livewire\Users\Login;
 use App\Livewire\Users\MentorSignUp;
@@ -22,6 +23,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['role:mentor']], function () {
         Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard');
+        Route::get('/mentor/dashboard', SelectLocation::class)->name('mentor.select-location');
     });
 
     Route::group(['middleware' => ['role:student']], function () {
