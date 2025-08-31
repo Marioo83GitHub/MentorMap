@@ -4,7 +4,6 @@ namespace App\Livewire\Users;
 
 use App\Models\Country;
 use App\Models\Mentor;
-use Faker\Extension\CountryExtension;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -31,9 +30,11 @@ class MentorSignUp extends Component
 
     public function mount()
     {
-        $this->countries = Country::all();
+        if (Auth::user()->hasRole('mentor')) {
+            return redirect()->route('mentors.dashboard');
+        }
+        $this->countries = Country::orderBy('name')->get();
         $this->country_id = 1; // Default to first country (Honduras)
-        $this->department_id = 1; // Default to first department (Choluteca)
     }
 
     public function saveMentorData()
@@ -51,7 +52,6 @@ class MentorSignUp extends Component
             'about_me' => 'required',
         ]);
 
-        // Save data to the database
         $user = Auth::user();
         $user->name = $this->name;
         $user->surname = $this->surname;
@@ -59,10 +59,14 @@ class MentorSignUp extends Component
         $user->phone = $this->phone;
         $user->birth_date = $this->birth_date;
         $user->sex = $this->sex;
+        $user->department_id = $this->department_id;
 
         if ($this->photo) {
-            $photoPath = $this->photo->store('profiles', 'public');
-            $user->photo = $photoPath;
+            $photoPath = $this->photo->store(
+                'profiles/' . $user->id, // carpeta única por usuario
+                'public'
+            );
+            $user->profile_picture_path = $photoPath;
         }
 
         $mentor = new Mentor;
@@ -72,14 +76,19 @@ class MentorSignUp extends Component
         $user->save();
         $mentor->save();
 
-        $this->redirectRoute('mentor.select-location');
+        $user->assignRole('mentor');
+
+        $this->redirectRoute('mentors.select-location');
     }
 
     public function render()
     {
-        // Countries
+        $this->departments = Country::find($this->country_id)->departments()->orderBy('name')->get();
 
-        $this->departments = Country::find($this->country_id)->departments;
+        // Gets the first department of the list of the selected country
+        if ($this->departments->count() > 0) {
+            $this->department_id = $this->departments[0]->id;
+        }
 
         return view('livewire.users.mentor-sign-up');
     }

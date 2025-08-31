@@ -31,10 +31,10 @@ class Login extends Component
             // Redireccionar según el rol
 
             if ($user->hasRole('student')) {
-                return redirect()->route('student.dashboard');
+                return redirect()->route('students.dashboard');
             }
             elseif ($user->hasRole('mentor')) {
-                return redirect()->route('mentor.dashboard');
+                return redirect()->route('mentors.dashboard');
             }
             elseif ($user->hasRole('admin')) {
                 dd("Admin role does nothing yet");

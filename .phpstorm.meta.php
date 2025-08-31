@@ -2288,8 +2288,8 @@ namespace PHPSTORM_META {
 'signed','throttle','verified','role','permission',
 'role_or_permission',);
         registerArgumentsSet('routes',
-'livewire.update','livewire.upload-file','livewire.preview-file','login','role-sign-up','mentor.dashboard',
-'student.dashboard','storage.local',);
+'livewire.update','livewire.upload-file','livewire.preview-file','login','role-sign-up','mentors.dashboard',
+'students.dashboard','storage.local',);
         registerArgumentsSet('views',
 'Components.header','layouts.app','livewire.landing-page','livewire.mentors.dashboard','livewire.students.dashboard',
 'livewire.users.login','livewire.users.role-sign-up','welcome','laravel-exceptions-renderer::components.card','laravel-exceptions-renderer::components.context',
