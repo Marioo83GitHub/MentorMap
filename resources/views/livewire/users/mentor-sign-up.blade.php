@@ -150,8 +150,13 @@
             <div class="flex justify-end mt-8">
                 <button type="submit" 
                         class="px-8 py-3 bg-mmgreen dark:bg-[#25a02e] text-white rounded-lg hover:bg-[#33ab35] dark:hover:bg-[#2c9f31] transition-colors font-medium shadow-lg dark:shadow-xl cursor-pointer">
-                    Continuar → Seleccionar Ubicación
+                    Continuar
                 </button>
+            </div>
+            <div class="flex justify-end mt-4">
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Siguiente: Seleccionar Ubicación
+                </p>
             </div>
         </form>
     </div>
