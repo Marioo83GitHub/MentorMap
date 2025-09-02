@@ -5,7 +5,7 @@
             <!-- Logo Section -->
             <div class="flex items-center space-x-3">
                 <div class="relative group">
-                    <div class="absolute -inset-2 bg-gradient-to-r from-[#2EB830]/20 to-[#33ab35]/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                    <div class="absolute -inset-2 bg-gradient-to-r from-mmgreen/20 to-[#33ab35]/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                     <div class="relative rounded-xl p-2  transition-all duration-300">
                         <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}" 
                              alt="MentorMap Logo" 
@@ -19,25 +19,25 @@
             
             <!-- Modern Navigation -->
             <nav class="hidden lg:flex items-center space-x-1">
-                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
+                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
                     <span class="relative z-10">Inicio</span>
-                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB830] to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
-                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
+                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
                     <span class="relative z-10">Mentores</span>
-                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB830] to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
-                <a href="#categorias" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
+                <a href="#categorias" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
                     <span class="relative z-10">Categorías</span>
-                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB830] to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
-                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
+                <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
                     <span class="relative z-10">Cómo Funciona</span>
-                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB830] to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
-                <a href="#testimonio" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
+                <a href="#testimonio" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
                     <span class="relative z-10">Testimonios</span>
-                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-[#2EB830] to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
+                    <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
             </nav>
             
@@ -45,14 +45,14 @@
             <div class="flex items-center space-x-3">
                 <!-- Login Button -->
                 <a href="{{ route('login') }}" 
-                   class="hidden sm:flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200">
+                   class="hidden sm:flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200">
                     Iniciar Sesión
                 </a>
                 
                 <!-- Primary CTA Button -->
                 <a href="{{ route('login') }}" 
-                   class="relative group overflow-hidden bg-gradient-to-r from-[#2EB830] to-[#33ab35] text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#33ab35] to-[#2EB830] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                   class="relative group overflow-hidden bg-gradient-to-r from-mmgreen to-[#33ab35] text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#33ab35] to-mmgreen opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <span class="relative flex items-center space-x-2">
                         <span>Encontrar Mentor</span>
                          <svg class="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,14 +91,14 @@
     <div class="lg:hidden hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100/50 dark:border-gray-700/50" id="mobile-menu">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex flex-col space-y-3">
-                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Inicio</a>
-                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Mentores</a>
-                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Categorías</a>
-                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Cómo Funciona</a>
-                <a href="#testimonio" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Testimonios</a>
+                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Inicio</a>
+                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Mentores</a>
+                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Categorías</a>
+                <a href="#" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Cómo Funciona</a>
+                <a href="#testimonio" class="px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Testimonios</a>
                 <div class="border-t border-gray-100 dark:border-gray-700 pt-3">
-                    <a href="{{ route('login') }}" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-[#2EB830] dark:hover:text-[#2EB830] hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Iniciar Sesión</a>
-                    <a href="{{ route('login') }}" class="block mt-2 bg-gradient-to-r from-[#2EB830] to-[#33ab35] text-white px-4 py-3 rounded-lg font-semibold text-center shadow-lg transition-all duration-300">Encontrar Mentor</a>
+                    <a href="{{ route('login') }}" class="block px-4 py-3 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen hover:bg-gray-50/80 dark:hover:bg-gray-800/80 rounded-lg font-medium transition-all duration-200">Iniciar Sesión</a>
+                    <a href="{{ route('login') }}" class="block mt-2 bg-gradient-to-r from-mmgreen to-[#33ab35] text-white px-4 py-3 rounded-lg font-semibold text-center shadow-lg transition-all duration-300">Encontrar Mentor</a>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <div class="flex bg-mmgray h-[100vh] gap-4 p-4">
     <div id="map" class="w-3/5 rounded-2xl grow"></div>
-    <div class="flex flex-col w-2/5 p-4 rounded-2xl shadow-2xl bg-white grow overflow-auto">
+    <div class="flex flex-col w-2/5 p-4 rounded-2xl shadow-2xl bg-white grow overflow-auto relative z-10">
 
 
         <label id="latitudeLabel">Latitude: </label>

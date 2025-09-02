@@ -176,6 +176,7 @@
 
     <!-- Sección de Estadísticas -->
     <section class="relative z-10 py-16 bg-[#1A44D5] dark:bg-[#142872]">
+        <div class="absolute inset-0 bg-mmblue rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
                 <div data-aos="fade-up" data-aos-delay="100">
