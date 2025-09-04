@@ -9,7 +9,6 @@ class Subject extends Model
     protected $table = 'subjects';
     protected $fillable = ['name', 'discipline_id'];
 
-
     public function mentors()
     {
         return $this->belongsToMany(Mentor::class, 'mentors_subjects', 'subject_id', 'mentor_id');
@@ -18,5 +17,10 @@ class Subject extends Model
     public function topics()
     {
         return $this->hasMany(Topic::class);
+    }
+
+    public function discipline()
+    {
+        return $this->belongsTo(Discipline::class);
     }
 }
