@@ -72,7 +72,7 @@ class Login extends Component
 
         if (Auth::attempt(['email' => $this->registerEmail, 'password' => $this->registerPassword])) {
             // Redireccionar a la página de selección de rol
-            return redirect()->route('role-sign-up');
+            return redirect()->route('users.role-sign-up');
         }
     }
 
