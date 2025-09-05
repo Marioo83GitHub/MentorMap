@@ -45,8 +45,10 @@
 
             <h2>Asignaturas Seleccionadas:</h2>
 
+
             @foreach ($selectedSubjects as $subject)
-                <div class="bg-slate-100 border rounded-lg px-4 py-3 flex flex-col">
+                <div class="bg-slate-100 border rounded-lg px-4 py-3 flex flex-col"
+                    wire:key="subjects-{{ $subject->id }}">
                     <div class="flex justify-between w-full mb-4">
                         <div class="flex flex-col">
                             <span><b>Disciplina:</b> {{ $subject->discipline->name }}</span>
@@ -57,24 +59,58 @@
                                 class="text-red-700 font-bold">X</button>
                         </div>
                     </div>
-                    <label class="text-red-700">* Este input es para añadir topics a las asignaturas</label>
-                    <div class="flex w-full gap-4">
-                        <input wire:model="topicToSave"type="text" class="bg-slate-200 border rounded-lg px-2 py-1 w-full">
-                        <button wire:click="addTopic({{ $subject->id }})"
-                            class="bg-mmblue rounded-lg text-white px-2 py-1">+</button>
-                    </div>
-                    <div class="flex flex-col gap-1">
 
+                    <button id="show-btn-{{ $subject->id }}" wire:click="$js.toggleInput({{ $subject->id }})"
+                        class="bg-mmblue rounded-lg text-white px-4 py-2 self-start">
+                        + Añadir tema
+                    </button>
+
+                    <div id="topic-input-{{ $subject->id }}" class="hidden mt-3 border-t pt-3">
+                        <label class="text-red-700 mb-2 block">* input para añadir temas...</label>
+                        <div class="flex w-full gap-4">
+                            <input id="topic-field-{{ $subject->id }}" type="text"
+                                class="bg-slate-200 border rounded-lg px-2 py-1 w-full"
+                                placeholder="Nombre del tema...">
+                            <button wire:click="$js.saveTopic({{ $subject->id }})"
+                                class="bg-green-600 rounded-lg text-white px-3 py-1">✓</button>
+                        </div>
                     </div>
+
+                    @if (!empty($topics[$subject->id]))
+                        <hr class="border border-zinc-400 w-full mt-2">
+                        <h3 class="font-semibold text-lg">Temas:</h3>
+                        @foreach ($topics[$subject->id] ?? [] as $topic)
+                            <span class="px-2 py-1 bg-green-200 rounded mt-1">- {{ $topic }}</span>
+                        @endforeach
+                    @endif
                 </div>
             @endforeach
-
         </div>
     </div>
 
-
-
-    {{-- Formulario, redactar about me y seleccionar Disciplines, Subjects y Topics (esto lo pondrá el). <br><br>
-    Además de seleccionar tarifa por Subject (asignatura). <br><br>
-    Luego de este, será lo de Verificación del DNI y Cartera Digital. --}}
+    <button wire:click="saveMentorSubjects" class="bg-mmgreen text-white font-semibold px-4 py-3 rounded-lg mt-4">Botón
+        para guardar todo</button>
 </div>
+
+@script
+    <script>
+        // Acciones JS con contexto del componente (tienen $wire disponible)
+        $js('toggleInput', (id) => {
+            document.getElementById(`show-btn-${id}`).classList.add('hidden');
+            document.getElementById(`topic-input-${id}`).classList.remove('hidden');
+            document.getElementById(`topic-field-${id}`).value = '';
+        });
+
+        $js('saveTopic', async (id) => {
+            const input = document.getElementById(`topic-field-${id}`);
+            const name = input.value.trim();
+            if (!name) return;
+
+            await $wire.call('addTopicFromJs', id, name);
+
+            input.value = '';
+            document.getElementById(`topic-input-${id}`).classList.add('hidden');
+            document.getElementById(`show-btn-${id}`).classList.remove('hidden');
+        });
+    </script>
+@endscript
