@@ -1,8 +1,19 @@
-<div class="flex h-screen antialiased text-gray-800 relative z-10">
+<div class="flex h-screen antialiased text-gray-800 relative z-10" wire:poll.1s="refreshMessages">
     <div class="flex flex-row h-full w-full overflow-x-hidden">
 
         <!-- Columna Izquierda: Lista de Conversaciones -->
         <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+            <div class="mb-4">
+                @if ($userRole === 'mentor')
+                    <a href="{{ route('mentors.dashboard') }}" class="text-sm text-indigo-600 hover:underline">
+                        &larr; Volver al Inicio
+                    </a>
+                @else
+                    <a href="{{ route('students.dashboard') }}" class="text-sm text-indigo-600 hover:underline">
+                        &larr; Volver al Inicio
+                    </a>
+                @endif
+            </div>
             <div class="flex flex-row items-center justify-center h-12 w-full">
                 <div class="font-bold text-2xl">Chats</div>
             </div>
@@ -13,11 +24,9 @@
                         <button wire:click="selectConversation({{ $conversation->id }})"
                                 class="flex flex-row items-center hover:bg-gray-100 rounded-xl p-2 {{ $selectedConversation && $selectedConversation->id == $conversation->id ? 'bg-gray-200' : '' }}">
                             <div class="flex items-center justify-center h-8 w-8 bg-indigo-200 rounded-full">
-                                <!-- CAMBIADO: de 'names' a 'name' -->
                                 {{ substr($conversation->getOtherParticipant()->name, 0, 1) }}
                             </div>
                             <div class="ml-2 text-sm font-semibold">
-                                <!-- CAMBIADO: de 'names' a 'name' -->
                                 {{ $conversation->getOtherParticipant()->name }}
                             </div>
                         </button>
@@ -33,6 +42,19 @@
             <div class="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
                 
                 @if ($selectedConversation)
+                    <!-- =================== INICIO: CABECERA DEL CHAT =================== -->
+                    <div class="flex items-center justify-between border-b-2 border-gray-200 pb-4 mb-4">
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0 text-white">
+                                {{ substr($selectedConversation->getOtherParticipant()->name, 0, 1) }}
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-lg font-semibold">{{ $selectedConversation->getOtherParticipant()->name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ===================== FIN: CABECERA DEL CHAT ==================== --> 
+
                     <div class="flex flex-col h-full overflow-x-auto mb-4">
                         <div class="flex flex-col h-full">
                             @forelse ($messages as $message)
@@ -41,7 +63,6 @@
                                         <div class="col-start-1 col-end-8 p-3 rounded-lg">
                                             <div class="flex flex-row items-center">
                                                 <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0 text-white">
-                                                    <!-- CAMBIADO: de 'names' a 'name' -->
                                                     {{ substr($message->sender->name, 0, 1) }}
                                                 </div>
                                                 <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">

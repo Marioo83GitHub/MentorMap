@@ -122,6 +122,16 @@ class ChatComponent extends Component
             ->get();
     }
 
+    //Mensaje en tiempo real
+    public function refreshMessages()
+    {
+        if ($this->selectedConversation) {
+            $this->messages = Message::where('conversation_id', $this->selectedConversation->id)
+                ->with('sender')
+                ->orderBy('created_at', 'asc')
+                ->get();
+        }
+    }
 
     /**
      * El método render() es el encargado de mostrar la vista.

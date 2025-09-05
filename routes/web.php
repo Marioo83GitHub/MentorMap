@@ -28,7 +28,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentors.dashboard');
         Route::get('/mentor/select-location', SelectLocation::class)->name('mentors.select-location');
         Route::get('/mentor/select-subjects', SelectSubjects::class)->name('mentors.select-subjects');
-        // Ruta para el chat
+        // Ruta para el chat de mentor
         Route::get('/mentor/chat/{conversationId?}', ChatComponent::class)->name('mentors.chat');
     });
 
