@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Livewire\Chat;
+
+use App\Models\Conversation;
+use App\Models\Message;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
+
+class ChatComponent extends Component
+{
+    // --- PROPIEDADES PÚBLICAS ---
+    // Estas propiedades están disponibles en la vista Blade.
+
+    public $conversations; // Colección de todas las conversaciones del usuario.
+    public $selectedConversation; // La conversación que está actualmente seleccionada/abierta.
+    public $messages; // Los mensajes de la conversación seleccionada.
+    public $newMessage; // El contenido del nuevo mensaje, vinculado al input con wire:model.
+    public $userRole; // Rol del usuario actual ('mentor' o 'student').
+
+    /**
+     * El método mount() es como el constructor de Livewire.
+     * Se ejecuta UNA VEZ cuando el componente se carga por primera vez.
+     * Aquí inicializamos las propiedades.
+     * @param int|null $conversationId - El ID de la conversación que se quiere abrir al cargar (opcional).
+     */
+    public function mount($conversationId = null)
+    {
+        // 1. Determinar el rol del usuario autenticado.
+        $user = Auth::user();
+        $this->userRole = $user->hasRole('mentor') ? 'mentor' : 'student';
+
+        // 2. Cargar todas las conversaciones del usuario.
+        $this->loadConversations();
+
+        // 3. Si se pasó un ID de conversación en la URL, se selecciona.
+        if ($conversationId) {
+            // Buscamos la conversación y nos aseguramos de que el usuario actual participe en ella.
+            $conversation = Conversation::where('id', $conversationId)
+                ->where(function ($query) {
+                    $user = Auth::user();
+                    if ($this->userRole === 'mentor') {
+                        $query->where('mentor_id', $user->mentor->id);
+                    } else {
+                        $query->where('student_id', $user->student->id);
+                    }
+                })->first();
+
+            if ($conversation) {
+                $this->selectConversation($conversation->id);
+            }
+        }
+    }
+
+    /**
+     * Carga las conversaciones del usuario desde la base de datos.
+     * Se usa with() para cargar las relaciones (mentor, student, user) y evitar el problema N+1.
+     */
+    public function loadConversations()
+    {
+        $user = Auth::user();
+        $query = Conversation::query();
+
+        // Carga ansiosa para optimizar las consultas.
+        // Esto trae los datos de los participantes de una vez.
+        $query->with(['mentor.user', 'student.user']);
+
+        if ($this->userRole === 'mentor') {
+            $query->where('mentor_id', $user->mentor->id);
+        } else {
+            $query->where('student_id', $user->student->id);
+        }
+
+        $this->conversations = $query->get();
+    }
+
+    /**
+     * Se ejecuta cuando el usuario hace clic en una conversación de la lista.
+     * Carga la conversación seleccionada y sus mensajes.
+     * @param int $conversationId - El ID de la conversación a seleccionar.
+     */
+    public function selectConversation($conversationId)
+    {
+        $this->selectedConversation = Conversation::with(['mentor.user', 'student.user'])->find($conversationId);
+        $this->messages = Message::where('conversation_id', $this->selectedConversation->id)
+            ->with('sender') // Carga la relación con el remitente (User)
+            ->orderBy('created_at', 'asc') // Ordena los mensajes del más antiguo al más nuevo
+            ->get();
+    }
+
+    /**
+     * Envía un nuevo mensaje en la conversación seleccionada.
+     * Se ejecuta cuando se envía el formulario en la vista.
+     */
+    public function sendMessage()
+    {
+        // 1. Validar que el mensaje no esté vacío.
+        if (empty($this->newMessage)) {
+            return;
+        }
+
+        // 2. Validar que haya una conversación seleccionada.
+        if (!$this->selectedConversation) {
+            return;
+        }
+
+        // 3. Crear el mensaje en la base de datos.
+        Message::create([
+            'conversation_id' => $this->selectedConversation->id,
+            'sender_id' => Auth::id(),
+            'content' => $this->newMessage,
+        ]);
+
+        // 4. Limpiar el campo del input en la vista.
+        $this->newMessage = '';
+
+        // 5. Recargar los mensajes para mostrar el nuevo mensaje instantáneamente.
+        $this->messages = Message::where('conversation_id', $this->selectedConversation->id)
+            ->with('sender')
+            ->orderBy('created_at', 'asc')
+            ->get();
+    }
+
+
+    /**
+     * El método render() es el encargado de mostrar la vista.
+     */
+    public function render()
+    {
+        return view('livewire.chat.chat-component');
+    }
+}
+

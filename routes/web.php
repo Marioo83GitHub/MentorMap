@@ -10,6 +10,7 @@ use App\Livewire\Users\MentorSignUp;
 use App\Livewire\Users\RoleSignUp;
 use App\Livewire\Users\StudentSignUp;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Chat\ChatComponent;
 
 Route::get('/', LandingPage::class);
 Route::get('/login', Login::class)->name('login');
@@ -27,11 +28,15 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentors.dashboard');
         Route::get('/mentor/select-location', SelectLocation::class)->name('mentors.select-location');
         Route::get('/mentor/select-subjects', SelectSubjects::class)->name('mentors.select-subjects');
+        // Ruta para el chat
+        Route::get('/mentor/chat/{conversationId?}', ChatComponent::class)->name('mentors.chat');
     });
 
 
     Route::group(['middleware' => ['role:student']], function () {
         Route::get('/student/dashboard', StudentDashboard::class)->name('students.dashboard');
+        //Ruta chat para estudiantes
+        Route::get('/student/chat/{conversationId?}', ChatComponent::class)->name('students.chat');
     });
 
 });
