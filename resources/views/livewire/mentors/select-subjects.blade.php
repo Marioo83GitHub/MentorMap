@@ -1,4 +1,4 @@
-<div class="p-4 flex flex-col">
+<div class="p-4 flex flex-col relative z-10">
 
     <h1 class="font-semibold w-full text-center text-xl">Seleccionar Asignaturas</h1>
     <hr class="border-2 border-mmgreen">
