@@ -2,10 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ChatSeeder::class);
         $this->call(MentorSeeder::class);
+        $this->call(DisciplineSeeder::class);
+        $this->call(SubjectSeeder::class);
     }
 }
