@@ -150,7 +150,7 @@
 
                         <div class="checkbox-text">
                             <div class="checkbox-content">
-                                <input type="checkbox" id="termCon" class="accent-mmgreen" />
+                                <input type="checkbox" id="termCon" class="accent-mmgreen" required/>
                                 <label for="termCon" class="text text-gray-700 dark:text-gray-300">Acepto todos los términos y condiones</label>
                             </div>
                         </div>

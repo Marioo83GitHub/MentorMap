@@ -166,9 +166,7 @@
         // Normalizar longitud al rango -180 a 180
         lng = ((lng + 180) % 360 + 360) % 360 - 180;
 
-        marker.setLatLng([lat, lng])
-            .bindPopup(createPopup('📍', 'Ubicación Seleccionada', 'Haz clic en "Guardar" para confirmar'))
-            .openPopup();
+        marker.setLatLng([lat, lng]);
             
         updateCoordinates(lat, lng);
         console.log("Nueva ubicación seleccionada - Lat:", lat, "Lng:", lng);

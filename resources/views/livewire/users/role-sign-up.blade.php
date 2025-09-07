@@ -25,8 +25,7 @@
             <!-- Mentor Card -->
             <div class="group relative">
                 <div class="absolute inset-0 bg-mmgreen rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                     wire:click="signUpAsMentor">
+                <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     
                     <!-- Icon -->
                     <div class="mb-6">
@@ -76,7 +75,7 @@
                     </div>
 
                     <!-- Button -->
-                    <button class="w-full py-4 bg-mmgreen text-white font-semibold rounded-md hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105">
+                    <button wire:click="signUpAsMentor" class="w-full py-4 bg-mmgreen text-white font-semibold rounded-md hover:from-emerald-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105 cursor-pointer">
                         <span class="flex items-center justify-center">
                             Comenzar como Mentor
                             <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,8 +89,7 @@
             <!-- Student Card -->
             <div class="group relative">
                 <div class="absolute inset-0 bg-mmblue rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-                <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                     wire:click="signUpAsStudent">
+                <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
                     
                     <!-- Icon -->
                     <div class="mb-6">
@@ -141,7 +139,7 @@
                     </div>
 
                     <!-- Button -->
-                    <button class="w-full py-4 bg-mmblue text-white font-semibold rounded-md hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105">
+                    <button wire:click="signUpAsStudent" class="w-full py-4 bg-mmblue text-white font-semibold rounded-md hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl transform group-hover:scale-105 cursor-pointer">
                         <span class="flex items-center justify-center">
                             Comenzar como Estudiante
                             <svg class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -54,7 +54,7 @@
                     <!-- Name Display -->
                     <div class="text-center">
                         <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200">
-                            {{ Auth::user()->name ? Auth::user()->name : 'Tu Nombre' }}
+                            Mentor
                         </h2>
                         
                         <p class="text-gray-600 dark:text-gray-400">{{ Auth::user()->email ? Auth::user()->email : 'Tu Email' }}</p>
@@ -83,15 +83,15 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Sexo</label>
-                            <div class="flex gap-4">
-                                <label class="flex items-center cursor-pointer">
-                                    <input wire:model="sex" type="radio" value="M" class="mr-2 text-[#2EB830] dark:text-[#25a02e] focus:ring-[#2EB830] dark:focus:ring-[#25a02e] dark:bg-gray-700 dark:border-gray-600">
-                                    <span class="text-sm text-gray-700 dark:text-gray-300">Masculino</span>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Sexo</label>
+                            <div class="flex gap-6">
+                                <label class="flex items-center cursor-pointer p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                    <input wire:model="sex" type="radio" value="M" class="w-5 h-5 accent-mmgreen mr-3">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Masculino</span>
                                 </label>
-                                <label class="flex items-center cursor-pointer">
-                                    <input wire:model="sex" type="radio" value="F" class="mr-2 text-[#2EB830] dark:text-[#25a02e] focus:ring-[#2EB830] dark:focus:ring-[#25a02e] dark:bg-gray-700 dark:border-gray-600">
-                                    <span class="text-sm text-gray-700 dark:text-gray-300">Femenino</span>
+                                <label class="flex items-center cursor-pointer p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                    <input wire:model="sex" type="radio" value="F" class="w-5 h-5 accent-mmgreen mr-3">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Femenino</span>
                                 </label>
                             </div>
                             @error('sex')<span class="text-red-500 dark:text-red-400 text-xs">{{ $message }}</span>@enderror
