@@ -24,16 +24,16 @@ class ChatSeeder extends Seeder
     {
         // --- CREACIÓN DE MENTORES ---
         $mentor1User = User::create([
-            'name' => 'Mentor Uno Prueba', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
-            'email' => 'mentor1@example.com',
+            'name' => 'Mario Carvajal', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
+            'email' => 'mariocarvajal@gmail.com',
             'password' => Hash::make('password'),
         ]);
         $mentor1User->assignRole('mentor');
         $mentor1 = Mentor::create(['user_id' => $mentor1User->id]);
 
         $mentor2User = User::create([
-            'name' => 'Mentor Dos Demo', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
-            'email' => 'mentor2@example.com',
+            'name' => 'Jose Rueda', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
+            'email' => 'joserueda@gmail.com',
             'password' => Hash::make('password'),
         ]);
         $mentor2User->assignRole('mentor');
@@ -42,16 +42,16 @@ class ChatSeeder extends Seeder
 
         // --- CREACIÓN DE ESTUDIANTES ---
         $student1User = User::create([
-            'name' => 'Estudiante Uno Prueba', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
-            'email' => 'student1@example.com',
+            'name' => 'Moises Aguilar', 
+            'email' => 'moisesaguilar@gmail.com',
             'password' => Hash::make('password'),
         ]);
         $student1User->assignRole('student');
         $student1 = Student::create(['user_id' => $student1User->id]);
 
         $student2User = User::create([
-            'name' => 'Estudiante Dos Demo', // CAMBIADO: 'names' y 'surnames' se combinan en 'name'
-            'email' => 'student2@example.com',
+            'name' => 'Axcel Aplicano', 
+            'email' => 'axcelaplicano@gmail.com',
             'password' => Hash::make('password'),
         ]);
         $student2User->assignRole('student');
