@@ -8,5 +8,10 @@
             Ir a mis Chats
         </a>
     </div>
+    <div class="p-4">
+        <a href="{{ route('students.search-mentor') }}" class="text-blue-600 hover:underline">
+            Buscar Mentor
+        </a>
+    </div>
 </div>
 
