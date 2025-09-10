@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
 
             $table->foreignId('mentorship_id')->constrained(table: 'mentorships')->noActionOnDelete();
+            $table->foreignId('topic_id')->nullable()->constrained(table: 'topics')->nullOnDelete();
 
             $table->timestamps();
         });

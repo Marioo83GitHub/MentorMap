@@ -133,6 +133,12 @@ class ChatComponent extends Component
         }
     }
 
+    //Agendas Modal
+    public function triggerScheduleModal($mentorId)
+    {
+        $this->dispatch('openScheduleModal', $mentorId);
+    }
+
     /**
      * El método render() es el encargado de mostrar la vista.
      */

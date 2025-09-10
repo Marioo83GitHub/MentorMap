@@ -52,6 +52,20 @@
                                 <p class="text-lg font-semibold">{{ $selectedConversation->getOtherParticipant()->name }}</p>
                             </div>
                         </div>
+
+                        <!-- =================== BOTÓN PARA AGENDAR (SOLO PARA ESTUDIANTES) =================== -->
+                        @if ($userRole === 'student' && $selectedConversation->getOtherParticipant()->mentor)
+                        <div class="relative">
+                            <!-- ========= ESTA ES LA LÍNEA CORREGIDA: Usamos wire:click ========= -->
+                            <button wire:click="triggerScheduleModal({{ $selectedConversation->getOtherParticipant()->mentor->id }})" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none" title="Agendar Sesión">
+                                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        @endif
+                        <!-- =================== FIN DEL BOTÓN PARA AGENDAR =================== -->
+
                     </div>
                     <!-- ===================== FIN: CABECERA DEL CHAT ==================== --> 
 
@@ -124,7 +138,11 @@
                 @endif
             </div>
         </div>
-
     </div>
+
+    <!-- =================== COMPONENTE PARA EL MODAL DE AGENDAR =================== -->
+    @livewire('students.schedule-appointment')
+    <!-- ================================================================================= -->
+    
 </div>
 
