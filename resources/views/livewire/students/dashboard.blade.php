@@ -8,5 +8,6 @@
             Ir a mis Chats
         </a>
     </div>
+    @livewire('shared.appointments-list')
 </div>
 

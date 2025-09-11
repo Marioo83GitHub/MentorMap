@@ -113,5 +113,6 @@
                 setTimeout(initializeTheme, 100);
             });
         </script>
+        
     </body>
 </html>
