@@ -23,17 +23,6 @@ class ChatSeeder extends Seeder
     {
         // --- 1. CREACIÓN DE DISCIPLINAS Y MATERIAS ---
         $this->command->info('Creando Disciplinas y Materias...');
-        
-        $isw = Discipline::create(['name' => 'Ingeniería de Software']);
-        $progWeb = Subject::create(['name' => 'Programación Web', 'discipline_id' => $isw->id]);
-        $movil = Subject::create(['name' => 'Desarrollo Móvil', 'discipline_id' => $isw->id]);
-        
-        $math = Discipline::create(['name' => 'Matemáticas']);
-        $calculo = Subject::create(['name' => 'Cálculo', 'discipline_id' => $math->id]);
-        $algebra = Subject::create(['name' => 'Álgebra', 'discipline_id' => $math->id]);
-
-        $idiomas = Discipline::create(['name' => 'Idiomas']);
-        $ingles = Subject::create(['name' => 'Inglés', 'discipline_id' => $idiomas->id]);
 
         // --- 2. CREACIÓN DE MENTORES ---
         $this->command->info('Creando Mentores...');
@@ -48,7 +37,16 @@ class ChatSeeder extends Seeder
 
         // --- 3. ASIGNAR ASIGNATURAS A MENTORES (EL PUENTE QUE FALTABA) ---
         $this->command->info('Asignando Subjects a los Mentores...');
-        
+
+        // Obtener las asignaturas por nombre
+        $progWeb = Subject::where('name', 'Programación Web')->first();
+        $movil = Subject::where('name', 'Desarrollo Móvil')->first();
+        $calculo = Subject::where('name', 'Cálculo')->first();
+        $algebra = Subject::where('name', 'Álgebra')->first();
+        $ingles = Subject::where('name', 'Inglés')->first();
+
+        // dd($progWeb, $movil, $calculo, $algebra, $ingles);
+
         // Mario Carvajal enseñará Programación Web y Desarrollo Móvil
         $mentor1->subjects()->attach([$progWeb->id, $movil->id]);
 
@@ -111,7 +109,7 @@ class ChatSeeder extends Seeder
             ['conversation_id' => $convo4->id, 'sender_id' => $student2User->id, 'content' => 'Hola Mario, ¿podrías explicarme cómo funcionan las migraciones en Laravel?', 'created_at' => now(), 'updated_at' => now()],
             ['conversation_id' => $convo4->id, 'sender_id' => $mentor1User->id, 'content' => 'Por supuesto, Axcel. Es un concepto clave. ¿Quieres agendar una sesión para verlo a fondo?', 'created_at' => now(), 'updated_at' => now()],
         ]);
-        
+
         $this->command->info('¡Seeder de demostración completado con éxito!');
     }
 }

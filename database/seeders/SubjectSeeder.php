@@ -30,12 +30,13 @@ class SubjectSeeder extends Seeder {
                 'Música',
             ],
             'Programación' => [
+                'Programación Web',
                 'Python',
                 'Java',
-                'JavaScript',
+                'Desarrollo Móvil',
                 'Bases de Datos',
             ],
-            'Idiomas Extranjeros' => [
+            'Idiomas' => [
                 'Inglés',
                 'Francés',
                 'Alemán',

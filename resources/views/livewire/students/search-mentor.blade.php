@@ -86,6 +86,8 @@
                         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
                             <p><b>Nombre:</b> {{ $selectedMentor->user->name . ' ' . $selectedMentor->user->surname }}
                             </p>
+                            <p><b>Acerca del Mentor:</b> {{ $selectedMentor->about_me }}
+                            </p>
                             <p><b>Calificación:</b> {{ $selectedMentor->average_rating }} stars</p>
 
                             <button wire:click="closeMentorProfile"

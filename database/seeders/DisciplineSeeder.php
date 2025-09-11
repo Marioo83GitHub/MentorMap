@@ -17,7 +17,7 @@ class DisciplineSeeder extends Seeder {
             'Ciencias',
             'Arte',
             'Programación',
-            'Idiomas Extranjeros',
+            'Idiomas',
         ];
 
         foreach ($disciplines as $discipline) {
