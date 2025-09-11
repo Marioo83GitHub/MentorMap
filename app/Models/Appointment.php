@@ -11,6 +11,7 @@ class Appointment extends Model
         'scheduled_at',
         'mentor_id',
         'student_id',
+        'topic_id',
         'status',
         'duration',
         'mentor_present',
@@ -32,5 +33,10 @@ class Appointment extends Model
     public function mentorship()
     {
         return $this->belongsTo(Mentorship::class);
+    }
+
+    public function topic()
+    {
+        return $this->belongsTo(Topic::class);
     }
 }

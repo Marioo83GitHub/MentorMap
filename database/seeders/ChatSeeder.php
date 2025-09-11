@@ -46,7 +46,17 @@ class ChatSeeder extends Seeder
         $mentor2User->assignRole('mentor');
         $mentor2 = Mentor::create(['user_id' => $mentor2User->id, 'about_me' => 'Apasionado por las matemáticas y la enseñanza de conceptos complejos de forma sencilla.']);
 
-        // --- 3. CREACIÓN DE TEMAS PARA LOS MENTORES (LA CLAVE PARA TU MODAL) ---
+        // --- 3. ASIGNAR ASIGNATURAS A MENTORES (EL PUENTE QUE FALTABA) ---
+        $this->command->info('Asignando Subjects a los Mentores...');
+        
+        // Mario Carvajal enseñará Programación Web y Desarrollo Móvil
+        $mentor1->subjects()->attach([$progWeb->id, $movil->id]);
+
+        // Jose Rueda enseñará Cálculo, Álgebra e Inglés
+        $mentor2->subjects()->attach([$calculo->id, $algebra->id, $ingles->id]);
+
+
+        // --- 4. CREACIÓN DE TEMAS PARA LOS MENTORES (LA CLAVE PARA TU MODAL) ---
         $this->command->info('Asignando Temas a los Mentores...');
 
         // Temas para Mario Carvajal (Mentor 1)
@@ -60,7 +70,7 @@ class ChatSeeder extends Seeder
         Topic::create(['topic' => 'Preparación para examen de Inglés B2', 'mentor_id' => $mentor2->id, 'subject_id' => $ingles->id]);
 
 
-        // --- 4. CREACIÓN DE ESTUDIANTES ---
+        // --- 5. CREACIÓN DE ESTUDIANTES ---
         $this->command->info('Creando Estudiantes...');
 
         $student1User = User::create(['name' => 'Moises Aguilar', 'email' => 'moisesaguilar@gmail.com', 'password' => Hash::make('password')]);
@@ -72,7 +82,7 @@ class ChatSeeder extends Seeder
         $student2 = Student::create(['user_id' => $student2User->id]);
 
 
-        // --- 5. CREACIÓN DE CONVERSACIONES Y MENSAJES ---
+        // --- 6. CREACIÓN DE CONVERSACIONES Y MENSAJES ---
         $this->command->info('Creando Conversaciones y Mensajes...');
 
         // Conversación 1: Mentor 1 con Estudiante 1
@@ -105,3 +115,4 @@ class ChatSeeder extends Seeder
         $this->command->info('¡Seeder de demostración completado con éxito!');
     }
 }
+
