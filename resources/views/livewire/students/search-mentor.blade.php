@@ -4,67 +4,99 @@
     <div wire:ignore id="map" class="p-4 w-1/2 h-full rounded-2xl border shadow-xl bg-white border-zinc-400">
     </div>
 
-    {{-- Settings div --}}
-    <div class="p-4 w-1/2 h-full rounded-2xl border shadow-xl bg-white border-zinc-400 overflow-auto">
+    {{-- Right div, contains filters and mentors --}}
+    <div class="flex flex-col p-4 w-1/2 h-full rounded-2xl border shadow-xl bg-white border-zinc-400">
+
+        <div class="flex justify-between">
+            <h2 class="text-xl font-bold">Buscar Mentor</h2>
+            {{-- Get Location Button --}}
+            <button wire:click="$dispatch('getLocation')"
+                class="my-2 w-max flex items-center justify-center gap-3 bg-mmblue hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                Obtener Mi Ubicación Actual
+            </button>
+        </div>
+
         <div wire:ignore>
-            <label><b>Lat: </b><span id="latitudeLabel"></span></label><br>
-            <label><b>Lng: </b><span id="longitudeLabel"></span></label><br>
-            <label class="mt-16">Radio de distancia: </label>
-            <input wire:model="distanceRange" type="range" id="radiusInput" min="200" max="30000" value="1000"
-                step="100" class="w-full">
-            <span id="radiusLabel">1000 m</span>
-        </div>
-
-        {{-- Get Location Button --}}
-        <button wire:click="$dispatch('getLocation')"
-            class="w-full flex items-center justify-center gap-3 bg-mmblue hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                    d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                    clip-rule="evenodd"></path>
-            </svg>
-            Obtener Mi Ubicación Actual
-        </button>
-
-        <div class="flex gap-2">
-
-            {{-- Button to show filters --}}
-            <button x-on:click="$wire.showFiltersModal = true"
-                class="bg-mmblue text-white rounded-lg px-3 py-2 mt-2">Filtros</button>
-
-            {{-- Button to close filters --}}
-            <button wire:show="showFiltersModal" x-on:click="$wire.showFiltersModal = false"
-                class="bg-mmgreen text-white rounded-lg px-3 py-2 mt-2">Cerrar Filtros</button>
-        </div>
-
-        {{-- Modal --}}
-        <div wire:show="showFiltersModal" class="flex flex-col mt-2">
-
-            <div class="flex gap-4">
-
-                <div class="flex flex-col">
-                    <label class="font-semibold">Disciplina</label>
-                    <select wire:model.live="disciplineId" class="px-3 py-2 bg-slate-300">
-                        @foreach ($allDisciplines as $discipline)
-                            <option value="{{ $discipline->id }}"> {{ $discipline->name }} </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="flex flex-col">
-                    <label class="font-semibold">Asignatura</label>
-                    <select wire:model="subjectId" class="px-3 py-2 bg-slate-300">
-                        @foreach ($subjects as $subject)
-                            <option value="{{ $subject->id }}"> {{ $subject->name }} </option>
-                        @endforeach
-                    </select>
-                </div>
+            <div class="border p-2" hidden>
+                <p class="text-red-700 font-semibold">* La lat y la lng son solo para dev, quitar del front</p>
+                <label><b>Lat: </b><span id="latitudeLabel"></span></label><br>
+                <label><b>Lng: </b><span id="longitudeLabel"></span></label><br>
             </div>
         </div>
 
-        <button wire:click="$js.search" class="px-4 py-2 bg-mmblue text-white mt-8 rounded-lg">
+        <div class="flex gap-4 w-full">
+            <div class="flex flex-col w-full" wire:ignore>
+                <label class="font-semibold">Radio de distancia: </label>
+                <input wire:model="distanceRange" type="range" id="radiusInput" min="200" max="30000"
+                    value="1000" step="100" class="w-full">
+                <span id="radiusLabel">1000 m</span>
+            </div>
+            {{-- Filtro de Disciplina --}}
+            <div class="flex flex-col mt-2">
+                <label class="font-semibold">Disciplina</label>
+                <select wire:model="disciplineId" class="px-3 py-2 bg-slate-300">
+                    @foreach ($allDisciplines as $discipline)
+                        <option value="{{ $discipline->id }}"> {{ $discipline->name }} </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
+        <button wire:click="$js.search" class="px-4 py-2 bg-mmgreen text-white mt-4 rounded-lg">
             Buscar Mentores en esta área
         </button>
+
+        <div class="flex flex-col gap-2 grow bg-red-100 overflow-auto">
+            @foreach ($mentorsFound as $mentor)
+                <div wire:key="{{ 'mentor-found-' . $mentor->id }}"
+                    class="bg-slate-200 rounded-xl px-4 py-3 border border-zinc-400 w-full flex justify-between">
+
+                    <div class="flex flex-col">
+                        <p><b>[foto] Nombre:</b> {{ $mentor->user->name . ' ' . $mentor->user->surname }}</p>
+                        <p><b>Calificación promedio:</b> {{ $mentor->average_rating }} stars </p>
+                        <p><b>Disciplinas:</b> (mostrar en pastillas) </p>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <button wire:click="showMentorProfile({{ $mentor->id }})"
+                            class="bg-mmblue text-white text-sm px-2 rounded">
+                            Perfil Detallado
+                        </button>
+
+                        <button class="bg-mmgreen text-white text-sm px-2 rounded">
+                            Enviar Mensaje
+                        </button>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- Modal FUERA del foreach -->
+            @if ($selectedMentorId)
+                @php
+                    $selectedMentor = $mentorsFound->firstWhere('id', $selectedMentorId);
+                @endphp
+
+                <div class="fixed inset-0 bg-black/50 z-[9999]">
+                    <div class="fixed inset-0 flex items-center justify-center z-[9999]">
+                        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
+                            <p><b>Nombre:</b> {{ $selectedMentor->user->name . ' ' . $selectedMentor->user->surname }}
+                            </p>
+                            <p><b>Calificación:</b> {{ $selectedMentor->average_rating }} stars</p>
+
+                            <button wire:click="closeMentorProfile"
+                                class="mt-4 bg-red-800 text-white text-sm px-4 py-2 rounded">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+        </div>
     </div>
 </div>
 

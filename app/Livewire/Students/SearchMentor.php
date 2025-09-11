@@ -3,46 +3,58 @@
 namespace App\Livewire\Students;
 
 use App\Models\Discipline;
+use App\Models\Mentor;
 use Livewire\Component;
 
 class SearchMentor extends Component {
-    public $showFiltersModal = false;
 
     public $allDisciplines = [];
     public $disciplineId = 1;
     public $subjects = [];
-    public $subjectId;
 
     public $distanceRange = 1000;
     public $searchLatitude = null;
     public $searchLongitude = null;
+    public $mentorsFound = [];
+
+    public $showProfileModal = false;
+
+    public $selectedMentorId = null;
 
     public function mount() {
         $this->allDisciplines = Discipline::all();
         $this->subjects = Discipline::find($this->disciplineId)->subjects;
     }
+    public function showMentorProfile($mentorId) {
+        $this->selectedMentorId = $mentorId;
+    }
+
+    public function closeMentorProfile() {
+        $this->selectedMentorId = null;
+    }
 
     public function searchMentors($currentLat, $currentLng) {
-
         $this->searchLatitude = $currentLat;
         $this->searchLongitude = $currentLng;
 
-        dd(
-            'disciplineId: ' . $this->disciplineId,
-            'subjectId: ' . $this->subjectId,
-            'distanceRange: ' . $this->distanceRange,
-            'searchLatitude: ' . $this->searchLatitude,
-            'searchLongitude: ' . $this->searchLongitude
-        );
-    }
+        // Convertimos metros a grados aprox
+        $distanceInKm = $this->distanceRange / 1000;
 
-    public function updatedDisciplineId($new_id) {
-        $this->disciplineId = $new_id;
-        $this->subjects = Discipline::find($new_id)->subjects;
+        // 1 grado latitud ≈ 111 km
+        $deltaLat = $distanceInKm / 111;
 
-        // $this->subjectId = $this->subjects[0]->id;
-        // Most efficient way than above
-        $this->subjectId = $this->subjects[0]->id ?? null;
+        // 1 grado longitud ≈ 111 km * cos(lat)
+        $deltaLng = $distanceInKm / (111 * cos(deg2rad($this->searchLatitude)));
+
+        $minLat = $this->searchLatitude - $deltaLat;
+        $maxLat = $this->searchLatitude + $deltaLat;
+        $minLng = $this->searchLongitude - $deltaLng;
+        $maxLng = $this->searchLongitude + $deltaLng;
+
+        $this->mentorsFound = Mentor::query()
+            ->whereBetween('latitude_aprox', [$minLat, $maxLat])
+            ->whereBetween('longitude_aprox', [$minLng, $maxLng])
+            ->get();
     }
 
     public function render() {
