@@ -13,11 +13,11 @@ class DisciplineSeeder extends Seeder {
     public function run(): void {
 
         $disciplines = [
-            'Desarrollo de Software',
-            'Ciencias Sociales',
-            'Arte Prehistorico',
-            'Fisica',
-            'Literatura',
+            'Matemáticas',
+            'Ciencias',
+            'Arte',
+            'Programación',
+            'Idiomas Extranjeros',
         ];
 
         foreach ($disciplines as $discipline) {
