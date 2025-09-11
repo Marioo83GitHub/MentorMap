@@ -13,5 +13,6 @@
             Buscar Mentor
         </a>
     </div>
+    @livewire('shared.appointments-list')
 </div>
 

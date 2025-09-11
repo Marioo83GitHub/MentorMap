@@ -15,5 +15,7 @@
         </a>
     </div>
 
+    @livewire('shared.appointments-list')
+
 </div>
 
