@@ -6,7 +6,6 @@ use App\Models\Conversation;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
 
 class ChatComponent extends Component
 {
@@ -32,7 +31,7 @@ class ChatComponent extends Component
         $this->userRole = $user->hasRole('mentor') ? 'mentor' : 'student';
 
         // 2. Cargar todas las conversaciones del usuario.
-        $this->loadConversations();
+        $this->loadConversations($user);
 
         // 3. Si se pasó un ID de conversación en la URL, se selecciona.
         if ($conversationId) {
@@ -57,9 +56,8 @@ class ChatComponent extends Component
      * Carga las conversaciones del usuario desde la base de datos.
      * Se usa with() para cargar las relaciones (mentor, student, user) y evitar el problema N+1.
      */
-    public function loadConversations()
+    public function loadConversations($user)
     {
-        $user = Auth::user();
         $query = Conversation::query();
 
         // Carga ansiosa para optimizar las consultas.

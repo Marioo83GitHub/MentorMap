@@ -1,5 +1,4 @@
 <div class="flex h-screen p-4 gap-4 relative z-10">
-
     {{-- Map div --}}
     <div wire:ignore id="map" class="p-4 w-1/2 h-full rounded-2xl border shadow-xl bg-white border-zinc-400">
     </div>
@@ -36,7 +35,7 @@
                     value="1000" step="100" class="w-full">
                 <span id="radiusLabel">1000 m</span>
             </div>
-            {{-- Filtro de Disciplina --}}
+            {{-- Discipline filter --}}
             <div class="flex flex-col mt-2">
                 <label class="font-semibold">Disciplina</label>
                 <select wire:model="disciplineId" class="px-3 py-2 bg-slate-300">
@@ -59,17 +58,18 @@
                     <div class="flex flex-col">
                         <p><b>[foto] Nombre:</b> {{ $mentor->user->name . ' ' . $mentor->user->surname }}</p>
                         <p><b>Calificación promedio:</b> {{ $mentor->average_rating }} stars </p>
-                        <p><b>Disciplinas:</b> (mostrar en pastillas) </p>
+                        <p><b>Disciplinas:</b>
+                            {{-- Mostrando disciplinas, hacerlo en forma de pastillas --}}
+                            @foreach ($mentor->disciplines->pluck('name') as $discipline)
+                                <span>{{ $discipline . ' | '}}</span>
+                            @endforeach
+                        </p>
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <button wire:click="showMentorProfile({{ $mentor->id }})"
                             class="bg-mmblue text-white text-sm px-2 rounded">
                             Perfil Detallado
-                        </button>
-
-                        <button class="bg-mmgreen text-white text-sm px-2 rounded">
-                            Enviar Mensaje
                         </button>
                     </div>
                 </div>
@@ -86,14 +86,24 @@
                         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
                             <p><b>Nombre:</b> {{ $selectedMentor->user->name . ' ' . $selectedMentor->user->surname }}
                             </p>
-                            <p><b>Acerca del Mentor:</b> {{ $selectedMentor->about_me }}
+                            <p><b>Acerca del Mentor (about me):</b> {{ $selectedMentor->about_me }}
                             </p>
-                            <p><b>Calificación:</b> {{ $selectedMentor->average_rating }} stars</p>
 
-                            <button wire:click="closeMentorProfile"
-                                class="mt-4 bg-red-800 text-white text-sm px-4 py-2 rounded">
-                                Cerrar
-                            </button>
+                            <p><b>Calificación Promedio:</b> {{ $selectedMentor->average_rating }} stars</p>
+                            <p><b>Sesiones Finalizadas:</b> {{ $selectedMentor->finalized_sessions }} stars</p>
+
+
+
+                            <div class="flex justify-between">
+                                <button wire:click="sendMessage({{ $selectedMentor->id }})"
+                                    class="mt-4 bg-mmgreen text-white text-sm px-4 py-2 rounded">
+                                    Enviar Mensaje
+                                </button>
+                                <button wire:click="closeMentorProfile"
+                                    class="mt-4 bg-red-800 text-white text-sm px-4 py-2 rounded">
+                                    Cerrar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

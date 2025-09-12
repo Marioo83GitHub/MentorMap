@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Students;
 
+use App\Models\Conversation;
 use App\Models\Discipline;
 use App\Models\Mentor;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class SearchMentor extends Component {
@@ -17,14 +19,22 @@ class SearchMentor extends Component {
     public $searchLongitude = null;
     public $mentorsFound = [];
 
-    public $showProfileModal = false;
-
     public $selectedMentorId = null;
 
     public function mount() {
         $this->allDisciplines = Discipline::all();
         $this->subjects = Discipline::find($this->disciplineId)->subjects;
     }
+
+    public function sendMessage($mentorId)
+    {
+        $conversation = Conversation::firstOrCreate([
+            'mentor_id' => $mentorId,
+            'student_id' => Auth::user()->student->id,
+        ]);
+        return $this->redirectRoute('students.chat', ['conversationId' => $conversation->id]);
+    }
+
     public function showMentorProfile($mentorId) {
         $this->selectedMentorId = $mentorId;
     }

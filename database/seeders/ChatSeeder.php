@@ -27,7 +27,7 @@ class ChatSeeder extends Seeder
         // --- 2. CREACIÓN DE MENTORES ---
         $this->command->info('Creando Mentores...');
 
-        $mentor1User = User::create(['name' => 'Mario Carvajal', 'email' => 'mariocarvajal@gmail.com', 'password' => Hash::make('password')]);
+        $mentor1User = User::create(['name' => 'Mario Carbajal', 'email' => 'mariocarbajal@gmail.com', 'password' => Hash::make('password')]);
         $mentor1User->assignRole('mentor');
         $mentor1 = Mentor::create(['user_id' => $mentor1User->id, 'about_me' => 'Experto en desarrollo backend con Laravel y ecosistema TALL stack.']);
 
@@ -47,7 +47,7 @@ class ChatSeeder extends Seeder
 
         // dd($progWeb, $movil, $calculo, $algebra, $ingles);
 
-        // Mario Carvajal enseñará Programación Web y Desarrollo Móvil
+        // Mario Carbajal enseñará Programación Web y Desarrollo Móvil
         $mentor1->subjects()->attach([$progWeb->id, $movil->id]);
 
         // Jose Rueda enseñará Cálculo, Álgebra e Inglés
@@ -57,7 +57,7 @@ class ChatSeeder extends Seeder
         // --- 4. CREACIÓN DE TEMAS PARA LOS MENTORES (LA CLAVE PARA TU MODAL) ---
         $this->command->info('Asignando Temas a los Mentores...');
 
-        // Temas para Mario Carvajal (Mentor 1)
+        // Temas para Mario Carbajal (Mentor 1)
         Topic::create(['topic' => 'Desarrollo con Laravel y Livewire', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
         Topic::create(['topic' => 'Bases de Datos con Eloquent', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
         Topic::create(['topic' => 'Desarrollo de APIs RESTful', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
