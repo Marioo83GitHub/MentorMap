@@ -11,7 +11,7 @@ use Livewire\Component;
 class SearchMentor extends Component {
 
     public $allDisciplines = [];
-    public $disciplineId = 1;
+    public $disciplineId = 0;
     public $subjects = [];
 
     public $distanceRange = 1000;
@@ -24,7 +24,6 @@ class SearchMentor extends Component {
 
     public function mount() {
         $this->allDisciplines = Discipline::all();
-        $this->subjects = Discipline::find($this->disciplineId)->subjects;
     }
 
     public function sendMessage($mentorId) {
@@ -67,6 +66,7 @@ class SearchMentor extends Component {
     public function searchMentors($currentLat, $currentLng) {
         $this->searchLatitude = $currentLat;
         $this->searchLongitude = $currentLng;
+        $disciplineId = $this->disciplineId;
 
         // Convertimos metros a grados aprox
         $distanceInKm = $this->distanceRange / 1000;
@@ -82,10 +82,20 @@ class SearchMentor extends Component {
         $minLng = $this->searchLongitude - $deltaLng;
         $maxLng = $this->searchLongitude + $deltaLng;
 
-        $this->mentorsFound = Mentor::query()
-            ->whereBetween('latitude_aprox', [$minLat, $maxLat])
-            ->whereBetween('longitude_aprox', [$minLng, $maxLng])
-            ->get();
+        if ($disciplineId == 0) {
+            $this->mentorsFound = Mentor::query()
+                ->whereBetween('latitude_aprox', [$minLat, $maxLat])
+                ->whereBetween('longitude_aprox', [$minLng, $maxLng])
+                ->get();
+        } else {
+            $this->mentorsFound = Mentor::query()
+                ->whereBetween('latitude_aprox', [$minLat, $maxLat])
+                ->whereBetween('longitude_aprox', [$minLng, $maxLng])
+                ->whereHas('subjects', function ($query) use ($disciplineId) {
+                    $query->where('discipline_id', $disciplineId);
+                })
+                ->get();
+        }
     }
 
     public function render() {

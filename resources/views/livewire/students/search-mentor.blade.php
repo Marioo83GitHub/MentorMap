@@ -39,6 +39,7 @@
             <div class="flex flex-col mt-2">
                 <label class="font-semibold">Disciplina</label>
                 <select wire:model="disciplineId" class="px-3 py-2 bg-slate-300">
+                    <option value="0">Todas</option>
                     @foreach ($allDisciplines as $discipline)
                         <option value="{{ $discipline->id }}"> {{ $discipline->name }} </option>
                     @endforeach
@@ -59,9 +60,17 @@
                         <p><b>[foto] Nombre:</b> {{ $mentor->user->name . ' ' . $mentor->user->surname }}</p>
                         <p><b>Calificación promedio:</b> {{ $mentor->average_rating }} stars </p>
                         <p><b>Disciplinas:</b>
-                            {{-- Mostrando disciplinas, hacerlo en forma de pastillas --}}
-                            @foreach ($mentor->disciplines->pluck('name') as $discipline)
-                                <span>{{ $discipline . ' | ' }}</span>
+                            @php
+                                $disciplines = $mentor
+                                    ->subjects()
+                                    ->with('discipline')
+                                    ->get()
+                                    ->pluck('discipline')
+                                    ->unique('id')
+                                    ->pluck('name');
+                            @endphp
+                            @foreach ($disciplines as $discipline)
+                                <span class="bg-blue-300 px-2 py-1 rounded">{{ $discipline }}</span>
                             @endforeach
                         </p>
                     </div>
@@ -83,7 +92,7 @@
 
                 <div class="fixed inset-0 bg-black/50 z-[9999]">
                     <div class="fixed inset-0 flex items-center justify-center z-[9999]">
-                        <div class="bg-white rounded-lg p-6 max-w-4xl mx-4 shadow-xl max-h-[80vh] overflow-y-auto">
+                        <div class="bg-white rounded-lg p-6 max-w-4xl mx-4 shadow-xl max-h-[80vh] overflow-auto">
                             <div class="flex gap-6">
 
                                 <div class="border-r border-zinc-400 pr-6 min-w-[300px]">
@@ -101,23 +110,27 @@
                                     <h2 class="font-semibold text-lg">Disciplinas y Materias que imparte</h2>
 
                                     @if (count($selectedMentorSubjects) > 0)
-                                        @foreach ($selectedMentorSubjects as $disciplineGroup)
-                                            <article class="flex flex-col p-4 rounded-lg bg-slate-100 border">
-                                                <h3 class="font-semibold text-md mb-2 text-blue-700">
-                                                    {{ $disciplineGroup['discipline_name'] }}
-                                                </h3>
-                                                <hr class="border-zinc-300 mb-3">
 
-                                                <div class="flex flex-wrap gap-2">
-                                                    @foreach ($disciplineGroup['subjects'] as $subject)
-                                                        <span
-                                                            class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm border border-blue-200">
-                                                            {{ $subject['name'] }}
-                                                        </span>
-                                                    @endforeach
-                                                </div>
-                                            </article>
-                                        @endforeach
+                                        <div class="h-full overflow-auto">
+
+                                            @foreach ($selectedMentorSubjects as $disciplineGroup)
+                                                <article class="flex flex-col p-4 rounded-lg bg-slate-100 border">
+                                                    <h3 class="font-semibold text-md mb-2 text-blue-700">
+                                                        {{ $disciplineGroup['discipline_name'] }}
+                                                    </h3>
+                                                    <hr class="border-zinc-300 mb-3">
+
+                                                    <div class="flex flex-wrap gap-2">
+                                                        @foreach ($disciplineGroup['subjects'] as $subject)
+                                                            <span
+                                                                class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm border border-blue-200">
+                                                                {{ $subject['name'] }}
+                                                            </span>
+                                                        @endforeach
+                                                    </div>
+                                                </article>
+                                            @endforeach
+                                        </div>
                                     @else
                                         <div class="text-gray-500 text-center py-4">
                                             Este mentor no tiene materias asignadas

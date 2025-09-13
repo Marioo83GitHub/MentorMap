@@ -24,16 +24,18 @@ class Mentor extends Model {
         return $this->belongsToMany(Subject::class, 'mentors_subjects', 'mentor_id', 'subject_id');
     }
 
-    public function disciplines() {
-        return $this->hasManyThrough(
-            Discipline::class,
-            Subject::class,
-            'id', // Foreign key on subjects table (subject_id in pivot)
-            'id', // Foreign key on disciplines table
-            'id', // Local key on mentors table
-            'discipline_id' // Local key on subjects table
-        )->distinct();
-    }
+    // public function disciplines() {
+    //     return $this->belongsToMany(
+    //         Discipline::class,
+    //         'mentors_subjects', // tabla pivot
+    //         'mentor_id',        // foreign key del mentor en la pivot
+    //         'subject_id'        // foreign key del subject en la pivot
+    //     )
+    //         ->join('subjects', 'mentors_subjects.subject_id', '=', 'subjects.id')
+    //         ->join('disciplines', 'subjects.discipline_id', '=', 'disciplines.id')
+    //         ->select('disciplines.*')
+    //         ->distinct();
+    // }
 
     public function topics() {
         return $this->hasMany(Topic::class);
