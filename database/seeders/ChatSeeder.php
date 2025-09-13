@@ -3,114 +3,135 @@
 namespace Database\Seeders;
 
 use App\Models\Conversation;
-use App\Models\Discipline;
-use App\Models\Mentor;
 use App\Models\Message;
+use App\Models\Mentor;
 use App\Models\Student;
-use App\Models\Subject;
-use App\Models\Topic;
-use App\Models\User;
+use App\Models\Subject; // Importamos Subject
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class ChatSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     * Este seeder crea un ecosistema completo de datos de demostración.
      */
     public function run(): void
     {
-        // --- 1. CREACIÓN DE DISCIPLINAS Y MATERIAS ---
-        $this->command->info('Creando Disciplinas y Materias...');
+        $this->command->info('💬 Creando conversaciones y mensajes realistas...');
 
-        // --- 2. CREACIÓN DE MENTORES ---
-        $this->command->info('Creando Mentores...');
+        // --- 1. OBTENER USUARIOS ESPECÍFICOS Y ALEATORIOS ---
+        
+        // Obtenemos a los mentores principales por su email
+        $mentorMario = Mentor::whereHas('user', fn($q) => $q->where('email', 'mariocarbajal@gmail.com'))->with('user')->first();
+        $mentorJose = Mentor::whereHas('user', fn($q) => $q->where('email', 'joserueda@gmail.com'))->with('user')->first();
 
-        $mentor1User = User::create(['name' => 'Mario Carbajal', 'email' => 'mariocarbajal@gmail.com', 'password' => Hash::make('password')]);
-        $mentor1User->assignRole('mentor');
-        $mentor1 = Mentor::create(['user_id' => $mentor1User->id, 'about_me' => 'Experto en desarrollo backend con Laravel y ecosistema TALL stack.']);
+        // Obtenemos a los estudiantes principales por su email
+        $studentMoises = Student::whereHas('user', fn($q) => $q->where('email', 'moisesaguilar@gmail.com'))->with('user')->first();
+        $studentAxcel = Student::whereHas('user', fn($q) => $q->where('email', 'axcelaplicano@gmail.com'))->with('user')->first();
+        $studentValeria = Student::whereHas('user', fn($q) => $q->where('email', 'valeria.cruz@gmail.com'))->with('user')->first();
+        
+        // Tomamos algunos mentores y estudiantes al azar para más variedad
+        $randomMentors = Mentor::with('user', 'subjects')->whereNotIn('id', [$mentorMario?->id, $mentorJose?->id])->inRandomOrder()->take(5)->get();
 
-        $mentor2User = User::create(['name' => 'Jose Rueda', 'email' => 'joserueda@gmail.com', 'password' => Hash::make('password')]);
-        $mentor2User->assignRole('mentor');
-        $mentor2 = Mentor::create(['user_id' => $mentor2User->id, 'about_me' => 'Apasionado por las matemáticas y la enseñanza de conceptos complejos de forma sencilla.']);
-
-        // --- 3. ASIGNAR ASIGNATURAS A MENTORES (EL PUENTE QUE FALTABA) ---
-        $this->command->info('Asignando Subjects a los Mentores...');
-
-        // Obtener las asignaturas por nombre
-        $progWeb = Subject::where('name', 'Programación Web')->first();
-        $movil = Subject::where('name', 'Desarrollo Móvil')->first();
-        $calculo = Subject::where('name', 'Cálculo')->first();
-        $algebra = Subject::where('name', 'Álgebra')->first();
-        $ingles = Subject::where('name', 'Inglés')->first();
-
-        // dd($progWeb, $movil, $calculo, $algebra, $ingles);
-
-        // Mario Carbajal enseñará Programación Web y Desarrollo Móvil
-        $mentor1->subjects()->attach([$progWeb->id, $movil->id]);
-
-        // Jose Rueda enseñará Cálculo, Álgebra e Inglés
-        $mentor2->subjects()->attach([$calculo->id, $algebra->id, $ingles->id]);
+        // --- 2. ASIGNAR MATERIAS A MENTORES PRINCIPALES (PARA ASEGURAR CONSISTENCIA) ---
+        if ($mentorMario) {
+            $progSubjects = Subject::whereIn('name', ['Programación Web', 'Bases de Datos'])->pluck('id');
+            $mentorMario->subjects()->syncWithoutDetaching($progSubjects);
+        }
+        if ($mentorJose) {
+            $mathSubjects = Subject::whereIn('name', ['Cálculo', 'Álgebra'])->pluck('id');
+            $mentorJose->subjects()->syncWithoutDetaching($mathSubjects);
+        }
 
 
-        // --- 4. CREACIÓN DE TEMAS PARA LOS MENTORES (LA CLAVE PARA TU MODAL) ---
-        $this->command->info('Asignando Temas a los Mentores...');
+        // --- 3. CREAR CONVERSACIONES GARANTIZADAS PARA MARIO Y JOSÉ ---
 
-        // Temas para Mario Carbajal (Mentor 1)
-        Topic::create(['topic' => 'Desarrollo con Laravel y Livewire', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
-        Topic::create(['topic' => 'Bases de Datos con Eloquent', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
-        Topic::create(['topic' => 'Desarrollo de APIs RESTful', 'mentor_id' => $mentor1->id, 'subject_id' => $progWeb->id]);
+        if ($mentorMario && $studentMoises) {
+            $this->createConversation(
+                $mentorMario,
+                $studentMoises,
+                [
+                    ['sender' => $studentMoises, 'content' => 'Hola Mario, soy Moises. Vi tu perfil y tu experiencia en Laravel es justo lo que necesito para mi tesis. ¿Podríamos hablar?'],
+                    ['sender' => $mentorMario, 'content' => '¡Hola Moises! Por supuesto, encantado de ayudar. Cuéntame un poco más sobre tu proyecto.', 'delay_seconds' => 45],
+                ]
+            );
+        }
 
-        // Temas para Jose Rueda (Mentor 2)
-        Topic::create(['topic' => 'Cálculo Diferencial e Integral', 'mentor_id' => $mentor2->id, 'subject_id' => $calculo->id]);
-        Topic::create(['topic' => 'Álgebra Lineal y Matrices', 'mentor_id' => $mentor2->id, 'subject_id' => $algebra->id]);
-        Topic::create(['topic' => 'Preparación para examen de Inglés B2', 'mentor_id' => $mentor2->id, 'subject_id' => $ingles->id]);
+        if ($mentorJose && $studentAxcel) {
+            $this->createConversation(
+                $mentorJose,
+                $studentAxcel,
+                [
+                    ['sender' => $studentAxcel, 'content' => 'Buenas tardes José. Estoy preparándome para el examen de admisión y el cálculo se me complica. ¿Me podrías ayudar?'],
+                    ['sender' => $mentorJose, 'content' => 'Hola Axcel. Claro que sí, el cálculo es mi especialidad. Podemos empezar por los fundamentos de derivadas.', 'delay_seconds' => 30],
+                    ['sender' => $studentAxcel, 'content' => 'Perfecto, ¡muchas gracias!', 'delay_seconds' => 20],
+                ]
+            );
+        }
+        
+        if ($mentorMario && $studentValeria) {
+            $this->createConversation(
+                $mentorMario,
+                $studentValeria,
+                [
+                    ['sender' => $mentorMario, 'content' => 'Hola Valeria, soy Mario. Vi que te interesa el diseño y quieres aprender a programar. ¡Es una gran combinación! Si necesitas ayuda con HTML o CSS, no dudes en consultarme.'],
+                    ['sender' => $studentValeria, 'content' => '¡Hola Mario! Qué amable, muchas gracias. Justo estoy atascada con el diseño responsivo.', 'delay_seconds' => 90],
+                ]
+            );
+        }
+        
+        if ($mentorJose && $studentMoises) {
+            $this->createConversation(
+                $mentorJose,
+                $studentMoises,
+                [
+                    ['sender' => $studentMoises, 'content' => 'Hola José, una consulta, ¿también ayudas con temas de Álgebra Lineal?'],
+                    ['sender' => $mentorJose, 'content' => '¡Hola Moises! Sí, claro. Matrices, determinantes, espacios vectoriales. ¿Qué necesitas repasar?', 'delay_seconds' => 40],
+                ]
+            );
+        }
 
+        // --- 4. CREAR ALGUNAS CONVERSACIONES ALEATORIAS ADICIONALES ---
+        $randomStudent = Student::with('user')->inRandomOrder()->first();
+        if ($randomMentors->isNotEmpty() && $randomStudent) {
+            $this->createConversation(
+                $randomMentors->first(),
+                $randomStudent,
+                [
+                    ['sender' => $randomStudent, 'content' => 'Hola, ¿está disponible para una tutoría esta semana?'],
+                    ['sender' => $randomMentors->first(), 'content' => 'Hola, sí. ¿Qué día y hora te viene bien?', 'delay_seconds' => 120],
+                ]
+            );
+        }
 
-        // --- 5. CREACIÓN DE ESTUDIANTES ---
-        $this->command->info('Creando Estudiantes...');
+        $this->command->info('✅ Conversaciones creadas con éxito.');
+    }
 
-        $student1User = User::create(['name' => 'Moises Aguilar', 'email' => 'moisesaguilar@gmail.com', 'password' => Hash::make('password')]);
-        $student1User->assignRole('student');
-        $student1 = Student::create(['user_id' => $student1User->id]);
-
-        $student2User = User::create(['name' => 'Axcel Aplicano', 'email' => 'axcelaplicano@gmail.com', 'password' => Hash::make('password')]);
-        $student2User->assignRole('student');
-        $student2 = Student::create(['user_id' => $student2User->id]);
-
-
-        // --- 6. CREACIÓN DE CONVERSACIONES Y MENSAJES ---
-        $this->command->info('Creando Conversaciones y Mensajes...');
-
-        // Conversación 1: Mentor 1 con Estudiante 1
-        $convo1 = Conversation::create(['mentor_id' => $mentor1->id, 'student_id' => $student1->id]);
-        Message::insert([
-            ['conversation_id' => $convo1->id, 'sender_id' => $student1User->id, 'content' => 'Hola Mentor, ¿tienes tiempo para una duda con Livewire?', 'created_at' => now(), 'updated_at' => now()],
-            ['conversation_id' => $convo1->id, 'sender_id' => $mentor1User->id, 'content' => '¡Claro! Dime en qué te puedo ayudar.', 'created_at' => now(), 'updated_at' => now()],
+    /**
+     * Helper para crear una conversación y sus mensajes.
+     */
+    private function createConversation(Mentor $mentor, Student $student, array $messages): void
+    {
+        // ... (Este método no necesita cambios, está perfecto)
+        $conversation = Conversation::firstOrCreate([
+            'mentor_id' => $mentor->id,
+            'student_id' => $student->id,
         ]);
 
-        // Conversación 2: Mentor 2 con Estudiante 2
-        $convo2 = Conversation::create(['mentor_id' => $mentor2->id, 'student_id' => $student2->id]);
-        Message::insert([
-            ['conversation_id' => $convo2->id, 'sender_id' => $student2User->id, 'content' => 'Buenas tardes, necesito ayuda con un tema de cálculo diferencial. ¿Está disponible?', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        $timestamp = Carbon::now()->subMinutes(rand(5, 60));
 
-        // Conversación 3: Mentor 2 con Estudiante 1
-        $convo3 = Conversation::create(['mentor_id' => $mentor2->id, 'student_id' => $student1->id]);
-        Message::insert([
-            ['conversation_id' => $convo3->id, 'sender_id' => $mentor2User->id, 'content' => 'Hola Moises, vi que estabas buscando ayuda con Álgebra. ¿Podemos hablar?', 'created_at' => now(), 'updated_at' => now()],
-            ['conversation_id' => $convo3->id, 'sender_id' => $student1User->id, 'content' => '¡Hola! Sí, perfecto, muchas gracias.', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        foreach ($messages as $message) {
+            $senderId = $message['sender'] instanceof Mentor ? $message['sender']->user_id : $message['sender']->user_id;
+            $delay = $message['delay_seconds'] ?? rand(10, 120);
+            $timestamp->addSeconds($delay);
 
-        // Conversación 4: Mentor 1 con Estudiante 2
-        $convo4 = Conversation::create(['mentor_id' => $mentor1->id, 'student_id' => $student2->id]);
-        Message::insert([
-            ['conversation_id' => $convo4->id, 'sender_id' => $student2User->id, 'content' => 'Hola Mario, ¿podrías explicarme cómo funcionan las migraciones en Laravel?', 'created_at' => now(), 'updated_at' => now()],
-            ['conversation_id' => $convo4->id, 'sender_id' => $mentor1User->id, 'content' => 'Por supuesto, Axcel. Es un concepto clave. ¿Quieres agendar una sesión para verlo a fondo?', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        $this->command->info('¡Seeder de demostración completado con éxito!');
+            Message::create([
+                'conversation_id' => $conversation->id,
+                'sender_id' => $senderId,
+                'content' => $message['content'],
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp,
+            ]);
+        }
     }
 }
-

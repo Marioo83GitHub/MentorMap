@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder {
     /**
@@ -49,5 +50,61 @@ class UserSeeder extends Seeder {
             'email' => 'mario@gmail.com',
             'password' => bcrypt('123'),
         ]);
+
+        // --- MENTORES ---
+
+        // 2. Mentor Mario Carbajal
+        $mentor1User = User::firstOrCreate(
+            ['email' => 'mariocarbajal@gmail.com'],
+            [
+                'name' => 'Mario Carbajal',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $mentor1User->assignRole('mentor');
+        Mentor::firstOrCreate(
+            ['user_id' => $mentor1User->id],
+            ['about_me' => 'Experto en desarrollo backend con Laravel y ecosistema TALL stack.']
+        );
+
+        // 3. Mentor Jose Rueda
+        $mentor2User = User::firstOrCreate(
+            ['email' => 'joserueda@gmail.com'],
+            [
+                'name' => 'Jose Rueda',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $mentor2User->assignRole('mentor');
+        Mentor::firstOrCreate(
+            ['user_id' => $mentor2User->id],
+            ['about_me' => 'Apasionado por las matemáticas y la enseñanza de conceptos complejos de forma sencilla.']
+        );
+
+
+        // --- ESTUDIANTES ---
+
+        // 4. Estudiante Moises Aguilar
+        $student1User = User::firstOrCreate(
+            ['email' => 'moisesaguilar@gmail.com'],
+            [
+                'name' => 'Moises Aguilar',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student1User->assignRole('student');
+        Student::firstOrCreate(['user_id' => $student1User->id]);
+
+        // 5. Estudiante Axcel Aplicano
+        $student2User = User::firstOrCreate(
+            ['email' => 'axcelaplicano@gmail.com'],
+            [
+                'name' => 'Axcel Aplicano',
+                'password' => Hash::make('password'),
+            ]
+        );
+        $student2User->assignRole('student');
+        Student::firstOrCreate(['user_id' => $student2User->id]);
+    
     }
 }

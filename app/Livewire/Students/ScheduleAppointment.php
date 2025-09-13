@@ -34,6 +34,7 @@ class ScheduleAppointment extends Component
     
     // Propiedades para la CITA
     public $scheduled_at;
+    public $duration = 1; // --- CAMPO AÑADIDO --- Valor por defecto de 1 hora.
 
     public function mount()
     {
@@ -106,6 +107,7 @@ class ScheduleAppointment extends Component
             'selectedSubject' => 'required',
             'topic_id' => 'required|exists:topics,id',
             'scheduled_at' => 'required|date|after:now',
+            'duration' => 'required|integer|min:1|max:4', // --- REGLA AÑADIDA ---
         ];
 
         if ($this->isNewMentorship) {
@@ -133,6 +135,7 @@ class ScheduleAppointment extends Component
             'student_id' => $studentId,
             'topic_id' => $this->topic_id,
             'scheduled_at' => $this->scheduled_at,
+            'duration' => $this->duration, // --- CAMPO AÑADIDO ---
         ]);
 
         $this->closeModal();
@@ -151,4 +154,3 @@ class ScheduleAppointment extends Component
         return view('livewire.students.schedule-appointment');
     }
 }
-

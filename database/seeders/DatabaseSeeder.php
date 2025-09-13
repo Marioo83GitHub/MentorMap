@@ -14,9 +14,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySeeder::class);
         $this->call(DepartmentSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(MentorSeeder::class);
         $this->call(DisciplineSeeder::class);
         $this->call(SubjectSeeder::class);
+        $this->call(MentorSeeder::class);
+        $this->call(StudentSeeder::class);
         $this->call(ChatSeeder::class);
     }
 }
