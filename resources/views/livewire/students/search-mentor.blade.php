@@ -61,7 +61,7 @@
                         <p><b>Disciplinas:</b>
                             {{-- Mostrando disciplinas, hacerlo en forma de pastillas --}}
                             @foreach ($mentor->disciplines->pluck('name') as $discipline)
-                                <span>{{ $discipline . ' | '}}</span>
+                                <span>{{ $discipline . ' | ' }}</span>
                             @endforeach
                         </p>
                     </div>
@@ -83,27 +83,60 @@
 
                 <div class="fixed inset-0 bg-black/50 z-[9999]">
                     <div class="fixed inset-0 flex items-center justify-center z-[9999]">
-                        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-                            <p><b>Nombre:</b> {{ $selectedMentor->user->name . ' ' . $selectedMentor->user->surname }}
-                            </p>
-                            <p><b>Acerca del Mentor (about me):</b> {{ $selectedMentor->about_me }}
-                            </p>
+                        <div class="bg-white rounded-lg p-6 max-w-4xl mx-4 shadow-xl max-h-[80vh] overflow-y-auto">
+                            <div class="flex gap-6">
 
-                            <p><b>Calificación Promedio:</b> {{ $selectedMentor->average_rating }} stars</p>
-                            <p><b>Sesiones Finalizadas:</b> {{ $selectedMentor->finalized_sessions }} stars</p>
+                                <div class="border-r border-zinc-400 pr-6 min-w-[300px]">
+                                    <p><b>Nombre:</b>
+                                        {{ $selectedMentor->user->name . ' ' . $selectedMentor->user->surname }}
+                                    </p>
+                                    <p><b>Acerca del Mentor:</b> {{ $selectedMentor->about_me }}
+                                    </p>
 
+                                    <p><b>Calificación Promedio:</b> {{ $selectedMentor->average_rating }} estrellas</p>
+                                    <p><b>Sesiones Finalizadas:</b> {{ $selectedMentor->finalized_sessions }}</p>
+                                </div>
 
+                                <div class="flex flex-col gap-4 flex-1">
+                                    <h2 class="font-semibold text-lg">Disciplinas y Materias que imparte</h2>
 
-                            <div class="flex justify-between">
+                                    @if (count($selectedMentorSubjects) > 0)
+                                        @foreach ($selectedMentorSubjects as $disciplineGroup)
+                                            <article class="flex flex-col p-4 rounded-lg bg-slate-100 border">
+                                                <h3 class="font-semibold text-md mb-2 text-blue-700">
+                                                    {{ $disciplineGroup['discipline_name'] }}
+                                                </h3>
+                                                <hr class="border-zinc-300 mb-3">
+
+                                                <div class="flex flex-wrap gap-2">
+                                                    @foreach ($disciplineGroup['subjects'] as $subject)
+                                                        <span
+                                                            class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm border border-blue-200">
+                                                            {{ $subject['name'] }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            </article>
+                                        @endforeach
+                                    @else
+                                        <div class="text-gray-500 text-center py-4">
+                                            Este mentor no tiene materias asignadas
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between mt-6 pt-4 border-t">
                                 <button wire:click="sendMessage({{ $selectedMentor->id }})"
-                                    class="mt-4 bg-mmgreen text-white text-sm px-4 py-2 rounded">
+                                    class="bg-mmgreen text-white text-sm px-4 py-2 rounded hover:bg-green-600 transition-colors">
                                     Enviar Mensaje
                                 </button>
                                 <button wire:click="closeMentorProfile"
-                                    class="mt-4 bg-red-800 text-white text-sm px-4 py-2 rounded">
+                                    class="bg-red-800 text-white text-sm px-4 py-2 rounded hover:bg-red-900 transition-colors">
                                     Cerrar
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>

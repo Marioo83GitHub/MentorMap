@@ -20,14 +20,14 @@ class SearchMentor extends Component {
     public $mentorsFound = [];
 
     public $selectedMentorId = null;
+    public $selectedMentorSubjects = [];
 
     public function mount() {
         $this->allDisciplines = Discipline::all();
         $this->subjects = Discipline::find($this->disciplineId)->subjects;
     }
 
-    public function sendMessage($mentorId)
-    {
+    public function sendMessage($mentorId) {
         $conversation = Conversation::firstOrCreate([
             'mentor_id' => $mentorId,
             'student_id' => Auth::user()->student->id,
@@ -37,10 +37,31 @@ class SearchMentor extends Component {
 
     public function showMentorProfile($mentorId) {
         $this->selectedMentorId = $mentorId;
+
+        // Obtener las subjects del mentor agrupadas por discipline
+        $mentor = Mentor::with(['subjects.discipline'])->find($mentorId);
+
+        if ($mentor) {
+            $this->selectedMentorSubjects = $mentor->subjects
+                ->groupBy('discipline.name')
+                ->map(function ($subjects, $disciplineName) {
+                    return [
+                        'discipline_name' => $disciplineName,
+                        'discipline_id' => $subjects->first()->discipline->id,
+                        'subjects' => $subjects->map(function ($subject) {
+                            return [
+                                'id' => $subject->id,
+                                'name' => $subject->name,
+                            ];
+                        })->values()
+                    ];
+                })->values()->toArray();
+        }
     }
 
     public function closeMentorProfile() {
         $this->selectedMentorId = null;
+        $this->selectedMentorSubjects = [];
     }
 
     public function searchMentors($currentLat, $currentLng) {

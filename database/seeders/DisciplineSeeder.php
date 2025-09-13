@@ -21,7 +21,7 @@ class DisciplineSeeder extends Seeder {
         ];
 
         foreach ($disciplines as $discipline) {
-            Discipline::create(['name' => $discipline]);
+            Discipline::firstOrCreate(['name' => $discipline]);
         }
     }
 }

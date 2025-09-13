@@ -2,101 +2,173 @@
 
 namespace Database\Seeders;
 
+use App\Models\Discipline;
 use App\Models\User;
 use App\Models\Mentor;
+use App\Models\Subject;
+use App\Models\Topic;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
-class MentorSeeder extends Seeder
-{
+class MentorSeeder extends Seeder {
     /**
-     * Coordenadas del centro de la ciudad de Choluteca, Honduras.
-     * Usaremos este punto como base para generar las ubicaciones aleatorias.
+     * Coordenadas del centro de Tegucigalpa, Honduras
      */
-    private const CHOLUTECA_LAT = 13.3033;
-    private const CHOLUTECA_LON = -87.1833;
+    private const TEGUCIGALPA_LAT = 13.3015;
+    private const TEGUCIGALPA_LON = -87.1827;
 
     /**
-     * Listas de nombres y apellidos comunes en español para generar datos realistas.
+     * Datos de los mentores
      */
-    private array $firstNames = [
-        'Alejandro', 'Beatriz', 'Carlos', 'Daniela', 'Eduardo', 'Fernanda', 'Gabriel', 'Hilda', 'Ivan', 'Jimena',
-        'Kevin', 'Laura', 'Manuel', 'Natalia', 'Oscar', 'Patricia', 'Ricardo', 'Sofia', 'Tomás', 'Valeria',
-        'Andrea', 'David', 'Elena', 'Francisco', 'Gabriela', 'Hugo', 'Isabel', 'Javier', 'Lucía', 'Miguel'
+    private array $mentorsData = [
+        [
+            'name' => 'Carlos',
+            'surname' => 'Hernández',
+            'email' => 'carlos.hernandez@gmail.com',
+            'about_me' => 'Profesor universitario con 10 años de experiencia en matemáticas y física. Especializado en cálculo diferencial e integral.',
+            'disciplines' => [
+                'Matemáticas' => ['Cálculo', 'Álgebra'],
+                'Física' => ['Mecánica Clásica']
+            ],
+            'topics' => [
+                'Cálculo' => ['Derivadas', 'Integrales'],
+                'Álgebra' => ['Ecuaciones lineales', 'Matrices'],
+                'Mecánica Clásica' => ['Cinemática', 'Dinámica']
+            ]
+        ],
+        [
+            'name' => 'María',
+            'surname' => 'González',
+            'email' => 'maria.gonzalez@gmail.com',
+            'about_me' => 'Licenciada en Química con maestría en Bioquímica. 8 años de experiencia docente en ciencias naturales.',
+            'disciplines' => [
+                'Química' => ['Química Orgánica', 'Química Inorgánica'],
+                'Biología' => ['Bioquímica']
+            ],
+            'topics' => [
+                'Química Orgánica' => ['Hidrocarburos', 'Grupos funcionales'],
+                'Química Inorgánica' => ['Tabla periódica', 'Enlaces químicos'],
+                'Bioquímica' => ['Metabolismo', 'Enzimas']
+            ]
+        ],
+        [
+            'name' => 'Roberto',
+            'surname' => 'Martínez',
+            'email' => 'roberto.martinez@gmail.com',
+            'about_me' => 'Ingeniero en Sistemas con experiencia en desarrollo web y móvil. Especialista en tecnologías modernas.',
+            'disciplines' => [
+                'Programación' => ['Desarrollo Web', 'Desarrollo Móvil'],
+                'Ingeniería de Software' => ['Bases de Datos']
+            ],
+            'topics' => [
+                'Desarrollo Web' => ['HTML/CSS', 'JavaScript'],
+                'Desarrollo Móvil' => ['React Native', 'Flutter'],
+                'Bases de Datos' => ['MySQL', 'PostgreSQL']
+            ]
+        ],
+        [
+            'name' => 'Ana',
+            'surname' => 'López',
+            'email' => 'ana.lopez@gmail.com',
+            'about_me' => 'Licenciada en Letras con especialización en literatura hispanoamericana. 12 años enseñando idiomas.',
+            'disciplines' => [
+                'Español' => ['Gramática', 'Literatura'],
+                'Inglés' => ['Gramática Inglesa']
+            ],
+            'topics' => [
+                'Gramática' => ['Sintaxis', 'Morfología'],
+                'Literatura' => ['Narrativa', 'Poesía'],
+                'Gramática Inglesa' => ['Present tenses', 'Past tenses']
+            ]
+        ],
+        [
+            'name' => 'Luis',
+            'surname' => 'Rodríguez',
+            'email' => 'luis.rodriguez@gmail.com',
+            'about_me' => 'Economista con maestría en Finanzas. Consultor empresarial con 15 años de experiencia en el sector privado.',
+            'disciplines' => [
+                'Economía' => ['Microeconomía', 'Macroeconomía'],
+                'Finanzas' => ['Finanzas Corporativas']
+            ],
+            'topics' => [
+                'Microeconomía' => ['Oferta y demanda', 'Elasticidad'],
+                'Macroeconomía' => ['PIB', 'Inflación'],
+                'Finanzas Corporativas' => ['Análisis financiero', 'Inversiones']
+            ]
+        ]
     ];
 
-    private array $lastNames = [
-        'García', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Perez', 'Sanchez', 'Ramirez', 'Torres',
-        'Flores', 'Rivera', 'Gomez', 'Diaz', 'Cruz', 'Reyes', 'Morales', 'Ortiz', 'Gutierrez', 'Chavez',
-        'Mendoza', 'Castillo', 'Jimenez', 'Ruiz', 'Alvarez', 'Moreno', 'Romero', 'Acosta', 'Mejia', 'Salazar'
-    ];
-
-
-    /**
-     * Run the database seeds.
-     * Este seeder creará 30 mentores con datos realistas y ubicaciones aleatorias
-     * en un radio de 3km alrededor del centro de Choluteca.
-     */
-    public function run(): void
-    {
-        // Asegurarnos de que el rol 'mentor' existe antes de intentar asignarlo.
+    public function run(): void {
+        // Asegurar que existe el rol de mentor
         $mentorRole = Role::firstOrCreate(['name' => 'mentor']);
 
-        for ($i = 0; $i < 30; $i++) {
-            // 1. Generar nombre y correo electrónico personalizados.
-            $firstName = $this->firstNames[array_rand($this->firstNames)];
-            $lastName = $this->lastNames[array_rand($this->lastNames)];
-
-            // Limpiamos y creamos el correo electrónico.
-            $emailName = Str::slug($firstName . ' ' . $lastName, '.');
-            $email = $emailName . '@gmail.com';
-
-            // Verificamos que el email sea único en la base de datos.
-            // Si ya existe, le agregamos un número.
-            $c = 1;
-            while (User::where('email', $email)->exists()) {
-                $email = $emailName . $c . '@gmail.com';
-                $c++;
-            }
-
-            // 2. Crear el registro de Usuario (User)
+        foreach ($this->mentorsData as $index => $mentorData) {
+            // 1. Crear el usuario
             $user = User::create([
-                'name' => $firstName,
-                'surname' => $lastName,
-                'email' => $email,
-                'password' => Hash::make('password'), // Contraseña simple para todos.
+                'name' => $mentorData['name'],
+                'surname' => $mentorData['surname'],
+                'email' => $mentorData['email'],
+                'password' => Hash::make('password'),
                 'account_status' => 'active',
             ]);
 
-            // 3. Asignar el rol de 'mentor' al usuario recién creado.
+            // 2. Asignar rol de mentor
             $user->assignRole($mentorRole);
 
-            // 4. Generar las coordenadas aleatorias.
-            $coordinates = $this->generateRandomCoordinates(self::CHOLUTECA_LAT, self::CHOLUTECA_LON, 3); // Radio de 3 km
+            // 3. Generar coordenadas aleatorias en un radio de 1km
+            $coordinates = $this->generateRandomCoordinates(
+                self::TEGUCIGALPA_LAT,
+                self::TEGUCIGALPA_LON,
+                1.0
+            );
 
-            // 5. Crear el registro de Mentor y asociarlo con el usuario.
-            Mentor::create([
+            // 4. Crear el mentor
+            $mentor = Mentor::create([
                 'user_id' => $user->id,
-                'about_me' => 'Mentor experto en diversas áreas con más de 5 años de experiencia, comprometido con el desarrollo profesional y personal de mis aprendices.',
+                'about_me' => $mentorData['about_me'],
                 'latitude_aprox' => $coordinates['lat'],
                 'longitude_aprox' => $coordinates['lon'],
+                'average_rating' => rand(40, 50) / 10, // Entre 4.0 y 5.0
+                'hours_taught' => rand(50, 500),
+                'finalized_sessions' => rand(10, 100),
             ]);
+
+            // 5. Procesar disciplinas y subjects
+            foreach ($mentorData['disciplines'] as $disciplineName => $subjects) {
+                // Crear o encontrar la disciplina
+                $discipline = Discipline::firstOrCreate(['name' => $disciplineName]);
+
+                foreach ($subjects as $subjectName) {
+                    // Crear o encontrar la subject
+                    $subject = Subject::firstOrCreate([
+                        'name' => $subjectName,
+                        'discipline_id' => $discipline->id
+                    ]);
+
+                    // Asociar el mentor con la subject (tabla pivot)
+                    $mentor->subjects()->syncWithoutDetaching([$subject->id]);
+
+                    // 6. Crear topics para esta subject
+                    if (isset($mentorData['topics'][$subjectName])) {
+                        foreach ($mentorData['topics'][$subjectName] as $topicName) {
+                            Topic::create([
+                                'topic' => $topicName,
+                                'mentor_id' => $mentor->id,
+                                'subject_id' => $subject->id,
+                            ]);
+                        }
+                    }
+                }
+            }
         }
     }
 
     /**
-     * Genera un punto de coordenadas aleatorio dentro de un radio específico desde un punto central.
-     *
-     * @param float $baseLat Latitud del punto central.
-     * @param float $baseLon Longitud del punto central.
-     * @param float $radiusInKm Radio en kilómetros.
-     * @return array ['lat' => float, 'lon' => float]
+     * Genera coordenadas aleatorias dentro de un radio específico
      */
-    private function generateRandomCoordinates($baseLat, $baseLon, $radiusInKm): array
-    {
-        $radiusInDeg = $radiusInKm / 111.32; // Conversión aproximada de km a grados.
+    private function generateRandomCoordinates(float $baseLat, float $baseLon, float $radiusInKm): array {
+        $radiusInDeg = $radiusInKm / 111.32;
 
         $u = mt_rand() / mt_getrandmax();
         $v = mt_rand() / mt_getrandmax();
@@ -105,12 +177,11 @@ class MentorSeeder extends Seeder
         $t = 2 * M_PI * $v;
 
         $x = $w * cos($t);
-        // Corrige la distorsión de la longitud a medida que nos alejamos del ecuador.
         $y = $w * sin($t) / cos(deg2rad($baseLat));
 
         return [
-            'lat' => $baseLat + $x,
-            'lon' => $baseLon + $y,
+            'lat' => round($baseLat + $x, 6),
+            'lon' => round($baseLon + $y, 6),
         ];
     }
 }
