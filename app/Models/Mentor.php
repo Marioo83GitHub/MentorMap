@@ -11,6 +11,7 @@ class Mentor extends Model {
         'average_rating',
         'hours_taught',
         'finalized_sessions',
+        'price_per_hour',
         'latitude_aprox',
         'longitude_aprox',
         'user_id',

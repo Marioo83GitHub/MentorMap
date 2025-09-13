@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('average_rating', total: 3, places: 2)->default(0.0);
             $table->unsignedInteger('hours_taught')->default(0);
             $table->unsignedInteger('finalized_sessions')->default(0);
+            $table->decimal('price_per_hour', total: 8, places: 2)->default(0.0);
             $table->decimal('latitude_aprox', total: 24, places: 20)->default(0.0);
             $table->decimal('longitude_aprox', total: 24, places: 20)->default(0.0);
 

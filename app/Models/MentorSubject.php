@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MentorSubject extends Model
 {
     protected $table = 'mentors_subjects';
-    protected $fillable = ['mentor_id', 'subject_id', 'price_per_hour'];
+    protected $fillable = ['mentor_id', 'subject_id'];
 
     public function mentors()
     {

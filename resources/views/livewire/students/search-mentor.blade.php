@@ -70,9 +70,10 @@
                                     ->pluck('name');
                             @endphp
                             @foreach ($disciplines as $discipline)
-                                <span class="bg-blue-300 px-2 py-1 rounded">{{ $discipline }}</span>
+                                <span class="bg-blue-300 px-2 py-1 rounded-full">{{ $discipline }}</span>
                             @endforeach
                         </p>
+                        <p><b>Tarifa:</b> L {{ $mentor->price_per_hour }}  </p>
                     </div>
 
                     <div class="flex flex-col gap-2">
@@ -102,7 +103,8 @@
                                     <p><b>Acerca del Mentor:</b> {{ $selectedMentor->about_me }}
                                     </p>
 
-                                    <p><b>Calificación Promedio:</b> {{ $selectedMentor->average_rating }} estrellas</p>
+                                    <p><b>Calificación Promedio:</b> {{ $selectedMentor->average_rating }} estrellas
+                                    </p>
                                     <p><b>Sesiones Finalizadas:</b> {{ $selectedMentor->finalized_sessions }}</p>
                                 </div>
 

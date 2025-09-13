@@ -9,8 +9,7 @@ use App\Models\Topic;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class MentorSeeder extends Seeder
-{
+class MentorSeeder extends Seeder {
     // Coordenadas para las dos ciudades
     private const TEGUCIGALPA_COORDS = ['lat' => 14.0723, 'lon' => -87.1921];
     private const CHOLUTECA_COORDS = ['lat' => 13.313846, 'lon' => -87.169518];
@@ -29,10 +28,9 @@ class MentorSeeder extends Seeder
     /**
      * El método principal que ejecuta el seeder.
      */
-    public function run(): void
-    {
+    public function run(): void {
         $this->command->info('🤖 Iniciando RealisticMentorSeeder...');
-        
+
         // --- 1. CREAR MENTORES PRINCIPALES ---
         $this->createPrincipalMentors();
 
@@ -60,8 +58,7 @@ class MentorSeeder extends Seeder
     /**
      * Crea los mentores principales (Mario y José) con datos específicos.
      */
-    private function createPrincipalMentors(): void
-    {
+    private function createPrincipalMentors(): void {
         $this->command->info('👤 Creando mentores principales: Mario Carbajal y José Rueda...');
 
         // --- Datos para MARIO CARBAJAL ---
@@ -76,6 +73,7 @@ class MentorSeeder extends Seeder
                 'about_me' => 'Desarrollador full-stack y entusiasta de la ciencia de datos. Me especializo en Laravel y aplico modelos estadísticos y físicos para resolver problemas complejos.',
                 'latitude_aprox' => self::TEGUCIGALPA_COORDS['lat'],
                 'longitude_aprox' => self::TEGUCIGALPA_COORDS['lon'],
+                'price_per_hour' => 150.00,
             ]
         );
         $this->assignTopicsToMentor($marioMentor, [
@@ -96,6 +94,7 @@ class MentorSeeder extends Seeder
                 'about_me' => 'Profesor de matemáticas y músico aficionado. Creo que la lógica de los números y la armonía de la música están conectadas. También ofrezco preparación para exámenes de inglés.',
                 'latitude_aprox' => self::TEGUCIGALPA_COORDS['lat'],
                 'longitude_aprox' => self::TEGUCIGALPA_COORDS['lon'],
+                'price_per_hour' => 100.00,
             ]
         );
         $this->assignTopicsToMentor($joseMentor, [
@@ -108,8 +107,7 @@ class MentorSeeder extends Seeder
     /**
      * Asigna un conjunto de materias y temas a un mentor específico.
      */
-    private function assignTopicsToMentor(Mentor $mentor, array $subjectsAndTopics): void
-    {
+    private function assignTopicsToMentor(Mentor $mentor, array $subjectsAndTopics): void {
         foreach ($subjectsAndTopics as $subjectName => $topics) {
             $subject = Subject::where('name', $subjectName)->first();
             if ($subject) {
@@ -129,12 +127,11 @@ class MentorSeeder extends Seeder
     /**
      * Lógica para crear un único mentor ALEATORIO.
      */
-    private function createRandomMentor(array $coords, $subjectsByDiscipline): void
-    {
+    private function createRandomMentor(array $coords, $subjectsByDiscipline): void {
         $firstName = $this->firstNames[array_rand($this->firstNames)];
         $lastName = $this->lastNames[array_rand($this->lastNames)];
         $email = strtolower($firstName) . '.' . strtolower($lastName) . rand(10, 999) . '@gmaildemo.com';
-        
+
         $user = User::firstOrCreate(
             ['email' => $email],
             ['name' => $firstName, 'surname' => $lastName, 'password' => Hash::make('password123')]
@@ -154,7 +151,7 @@ class MentorSeeder extends Seeder
             [rand(3, 15), $selectedSubjects->pluck('name')->implode(', ')],
             $this->aboutMeTemplates[$mainDiscipline] ?? $this->aboutMeTemplates['Ciencias']
         );
-        
+
         $randomCoords = $this->generateRandomCoordinates($coords['lat'], $coords['lon'], 3.0);
 
         $mentor = Mentor::firstOrCreate(
@@ -163,6 +160,7 @@ class MentorSeeder extends Seeder
                 'about_me' => $aboutMe,
                 'latitude_aprox' => $randomCoords['lat'],
                 'longitude_aprox' => $randomCoords['lon'],
+                'price_per_hour' => rand(1, 6) * 50,
                 'average_rating' => rand(40, 50) / 10,
                 'hours_taught' => rand(20, 800),
                 'finalized_sessions' => rand(5, 200),
@@ -171,10 +169,10 @@ class MentorSeeder extends Seeder
         $mentor->subjects()->syncWithoutDetaching($selectedSubjects->pluck('id'));
 
         $topicIds = Topic::whereIn('subject_id', $selectedSubjects->pluck('id'))
-                         ->whereNull('mentor_id')
-                         ->inRandomOrder()
-                         ->limit(rand(2, 5))
-                         ->pluck('id');
+            ->whereNull('mentor_id')
+            ->inRandomOrder()
+            ->limit(rand(2, 5))
+            ->pluck('id');
 
         if ($topicIds->isNotEmpty()) {
             Topic::whereIn('id', $topicIds)->update(['mentor_id' => $mentor->id]);
@@ -184,16 +182,22 @@ class MentorSeeder extends Seeder
     /**
      * Genera coordenadas aleatorias dentro de un radio específico en kilómetros.
      */
-    private function generateRandomCoordinates(float $baseLat, float $baseLon, float $radiusInKm): array
-    {
+    private function generateRandomCoordinates(float $baseLat, float $baseLon, float $radiusInKm): array {
         $radiusInDeg = $radiusInKm / 111.32;
-        $u = lcg_value();
-        $v = lcg_value();
+
+        // Generar valores aleatorios en [0, 1)
+        $u = mt_rand() / mt_getrandmax();
+        $v = mt_rand() / mt_getrandmax();
+
         $w = $radiusInDeg * sqrt($u);
         $t = 2 * M_PI * $v;
+
         $x = $w * cos($t);
         $y = $w * sin($t) / cos(deg2rad($baseLat));
-        return ['lat' => round($baseLat + $x, 6), 'lon' => round($baseLon + $y, 6)];
+
+        return [
+            'lat' => round($baseLat + $x, 6),
+            'lon' => round($baseLon + $y, 6)
+        ];
     }
 }
-
