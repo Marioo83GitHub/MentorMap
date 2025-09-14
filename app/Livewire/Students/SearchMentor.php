@@ -31,7 +31,10 @@ class SearchMentor extends Component {
             'mentor_id' => $mentorId,
             'student_id' => Auth::user()->student->id,
         ]);
-        return $this->redirectRoute('students.chat', ['conversationId' => $conversation->id]);
+
+        $this->dispatch('open-new-tab',
+            url: route('students.chat', ['conversationId' => $conversation->id])
+        )->self();
     }
 
     public function showMentorProfile($mentorId) {

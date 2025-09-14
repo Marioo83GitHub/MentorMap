@@ -274,6 +274,10 @@
             $wire.searchMentors(currentLat, currentLng);
         });
 
+        $wire.on('open-new-tab', (data) => {
+            window.open(data.url, '_blank');
+        });
+
         $wire.on('getLocation', () => {
             const locationBtn = document.querySelector('button[wire\\:click="\\$dispatch(\'getLocation\')"]');
             const originalText = locationBtn.innerHTML;
