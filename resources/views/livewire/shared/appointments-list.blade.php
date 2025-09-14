@@ -55,7 +55,7 @@
             @endforeach
         </div>
     @else
-        <div class="mt-4 p-6 bg-white rounded-lg shadow-md text-center dark:bg-gray-800">
+        <div class="mt-4 p-6 bg-white rounded-lg shadow-md text-center dark:bg-slate-900">
             <p class="text-gray-500 dark:text-gray-400">No tienes ninguna sesión próxima agendada.</p>
         </div>
     @endif
