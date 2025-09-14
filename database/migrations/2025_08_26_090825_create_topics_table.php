@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('topic');
-            $table->foreignId('mentor_id')->constrained(table: 'mentors')->unique();
-            $table->foreignId('subject_id')->constrained(table: 'subjects')->unique();
+            $table->foreignId('mentor_id')->constrained(table: 'mentors');
+            $table->foreignId('subject_id')->constrained(table: 'subjects');
             $table->timestamps();
         });
     }

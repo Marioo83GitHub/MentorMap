@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Appointment;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MentorSeeder::class);
         $this->call(StudentSeeder::class);
         $this->call(ChatSeeder::class);
+        $this->call(AppointmentSeeder::class);
     }
 }
