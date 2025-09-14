@@ -56,20 +56,33 @@ class ChatComponent extends Component
     /**
      * Carga las conversaciones del usuario desde la base de datos.
      * Se usa with() para cargar las relaciones (mentor, student, user) y evitar el problema N+1.
+     * Las conversaciones se ordenan por el último mensaje enviado.
      */
     public function loadConversations($user)
     {
         $query = Conversation::query();
 
         // Carga ansiosa para optimizar las consultas.
-        // Esto trae los datos de los participantes de una vez.
-        $query->with(['mentor.user', 'student.user']);
+        // Esto trae los datos de los participantes y el último mensaje de una vez.
+        $query->with(['mentor.user', 'student.user', 'lastMessage']);
 
         if ($this->userRole === 'mentor') {
             $query->where('mentor_id', $user->mentor->id);
         } else {
             $query->where('student_id', $user->student->id);
         }
+
+        // Agregar subconsulta para obtener el último mensaje de cada conversación
+        $query->addSelect([
+            'last_message_time' => Message::select('created_at')
+                ->whereColumn('conversation_id', 'conversations.id')
+                ->orderBy('created_at', 'desc')
+                ->limit(1)
+        ]);
+
+        // Ordenar por el último mensaje (más reciente primero)
+        // Si no hay mensajes, esas conversaciones aparecen al final
+        $query->orderByDesc('last_message_time');
 
         $this->conversations = $query->get();
     }
@@ -86,6 +99,16 @@ class ChatComponent extends Component
             ->with('sender') // Carga la relación con el remitente (User)
             ->orderBy('created_at', 'asc') // Ordena los mensajes del más antiguo al más nuevo
             ->get();
+    }
+
+    /**
+     * Vuelve a la lista de conversaciones (especialmente útil en móviles).
+     */
+    public function backToConversations()
+    {
+        $this->selectedConversation = null;
+        $this->messages = [];
+        $this->newMessage = '';
     }
 
     /**
@@ -119,6 +142,9 @@ class ChatComponent extends Component
             ->with('sender')
             ->orderBy('created_at', 'asc')
             ->get();
+
+        // 6. Recargar las conversaciones para actualizar el orden (última actividad primero)
+        $this->loadConversations(Auth::user());
     }
 
     //Mensaje en tiempo real
@@ -129,6 +155,9 @@ class ChatComponent extends Component
                 ->with('sender')
                 ->orderBy('created_at', 'asc')
                 ->get();
+            
+            // También recargar las conversaciones para mantener el orden actualizado
+            $this->loadConversations(Auth::user());
         }
     }
 

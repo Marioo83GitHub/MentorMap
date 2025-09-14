@@ -23,6 +23,16 @@ class Conversation extends Model
         return $this->belongsTo(Student::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class)->latest('created_at');
+    }
+
     public function getOtherParticipant()
     {
         //Si el ID del usuario asociado al mentor de esta conversación es el del usuario logueado...
