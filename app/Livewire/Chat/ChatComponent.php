@@ -17,6 +17,7 @@ class ChatComponent extends Component
     public $messages; // Los mensajes de la conversación seleccionada.
     public $newMessage; // El contenido del nuevo mensaje, vinculado al input con wire:model.
     public $userRole; // Rol del usuario actual ('mentor' o 'student').
+    public $searchTerm = ''; // Término de búsqueda para filtrar conversaciones.
 
     /**
      * El método mount() es como el constructor de Livewire.
@@ -135,6 +136,23 @@ class ChatComponent extends Component
     public function triggerScheduleModal($mentorId)
     {
         $this->dispatch('openScheduleModal', $mentorId);
+    }
+
+    /**
+     * Getter para obtener las conversaciones filtradas por el término de búsqueda.
+     * Se usa como una propiedad computada en la vista.
+     */
+    public function getFilteredConversationsProperty()
+    {
+        if (empty($this->searchTerm)) {
+            return $this->conversations;
+        }
+
+        return $this->conversations->filter(function ($conversation) {
+            $otherParticipant = $conversation->getOtherParticipant();
+            $fullName = $otherParticipant->name . ' ' . $otherParticipant->surname;
+            return stripos($fullName, $this->searchTerm) !== false;
+        });
     }
 
     /**
