@@ -67,7 +67,7 @@
         <x-sidebar-student />
 
         <!-- Main Content Area -->
-        <div class="flex flex-col flex-auto flex-shrink-0 h-full lg:ml-72 ml-0 p-3 sm:p-4 lg:p-6">
+        <div class="flex flex-col flex-auto flex-shrink-0 h-full lg:ml-72 ml-0 p-3 sm:p-4 lg:p-6 bg-gray-50 dark:bg-[#0a0e1f]">
 
             <!-- Calendar Header -->
             <div
@@ -411,7 +411,7 @@
                     </style>
 
                     <div
-                        class="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700/50">
+                        class="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700/50">
                         <div id="calendar"></div>
                     </div>
                 </div>

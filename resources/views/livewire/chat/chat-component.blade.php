@@ -5,7 +5,7 @@
     <div class="flex flex-col lg:flex-row h-screen mx-auto bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl">
         
         <!-- Sidebar: Conversations List -->
-        <div class="w-full lg:w-96 bg-white dark:bg-gray-900 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-700 flex flex-col {{ $selectedConversation ? 'hidden lg:flex' : 'flex' }}">
+        <div class="w-full lg:w-96 bg-white/95 dark:bg-[#020721] backdrop-blur-md border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-700 flex flex-col {{ $selectedConversation ? 'hidden lg:flex' : 'flex' }}">
             
             <!-- Sidebar Header -->
             <div class="p-4 lg:p-6">
@@ -134,7 +134,7 @@
         </div>
         
         <!-- Main Chat Area -->
-        <div class="flex-1 flex flex-col bg-gray-50 dark:bg-gray-800 {{ !$selectedConversation ? 'hidden lg:flex' : 'flex' }}">
+        <div class="flex-1 flex flex-col bg-gray-50 dark:bg-[#0a0e1f] {{ !$selectedConversation ? 'hidden lg:flex' : 'flex' }}">
             
             @if ($selectedConversation)
                 <!-- Chat Header - Fixed in mobile -->
