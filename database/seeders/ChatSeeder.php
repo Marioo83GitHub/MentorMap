@@ -6,7 +6,6 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Mentor;
 use App\Models\Student;
-use App\Models\Subject; // Importamos Subject
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -17,89 +16,65 @@ class ChatSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->command->info('💬 Creando conversaciones y mensajes realistas...');
+        $this->command->info('💬 Creando conversaciones enfocadas en Mario y Moises...');
 
-        // --- 1. OBTENER USUARIOS ESPECÍFICOS Y ALEATORIOS ---
-        
-        // Obtenemos a los mentores principales por su email
-        $mentorMario = Mentor::whereHas('user', fn($q) => $q->where('email', 'mariocarbajal@gmail.com'))->with('user')->first();
-        $mentorJose = Mentor::whereHas('user', fn($q) => $q->where('email', 'joserueda@gmail.com'))->with('user')->first();
-
-        // Obtenemos a los estudiantes principales por su email
+        // --- 1. OBTENER USUARIOS CLAVE Y COLECCIONES ---
+        $mentorMario = Mentor::whereHas('user', fn($q) => $q->where('email', 'mariocarbajal@gmail.com'))->with('user', 'subjects')->first();
         $studentMoises = Student::whereHas('user', fn($q) => $q->where('email', 'moisesaguilar@gmail.com'))->with('user')->first();
-        $studentAxcel = Student::whereHas('user', fn($q) => $q->where('email', 'axcelaplicano@gmail.com'))->with('user')->first();
-        $studentValeria = Student::whereHas('user', fn($q) => $q->where('email', 'valeria.cruz@gmail.com'))->with('user')->first();
         
-        // Tomamos algunos mentores y estudiantes al azar para más variedad
-        $randomMentors = Mentor::with('user', 'subjects')->whereNotIn('id', [$mentorMario?->id, $mentorJose?->id])->inRandomOrder()->take(5)->get();
+        $allStudents = Student::with('user')->get();
+        $otherMentors = Mentor::with('user', 'subjects')
+            ->whereHas('user', fn($q) => $q->where('email', '!=', 'mariocarbajal@gmail.com'))
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
 
-        // --- 2. ASIGNAR MATERIAS A MENTORES PRINCIPALES (PARA ASEGURAR CONSISTENCIA) ---
-        if ($mentorMario) {
-            $progSubjects = Subject::whereIn('name', ['Programación Web', 'Bases de Datos'])->pluck('id');
-            $mentorMario->subjects()->syncWithoutDetaching($progSubjects);
+        // Validar que los usuarios clave existen
+        if (!$mentorMario || !$studentMoises) {
+            $this->command->error('No se encontró a Mario Carbajal o Moises Aguilar. Asegúrate de que sus seeders se ejecuten primero.');
+            return;
         }
-        if ($mentorJose) {
-            $mathSubjects = Subject::whereIn('name', ['Cálculo', 'Álgebra'])->pluck('id');
-            $mentorJose->subjects()->syncWithoutDetaching($mathSubjects);
-        }
 
+        // --- 2. CREAR CONVERSACIONES PARA EL MENTOR MARIO ---
+        $this->command->info("Creando conversaciones para el mentor Mario Carbajal...");
+        foreach ($allStudents as $student) {
+            if ($mentorMario->subjects->isEmpty()) continue;
 
-        // --- 3. CREAR CONVERSACIONES GARANTIZADAS PARA MARIO Y JOSÉ ---
+            // ¡NUEVO! Seleccionamos una materia aleatoria de las que enseña Mario
+            $randomSubject = $mentorMario->subjects->random()->name;
 
-        if ($mentorMario && $studentMoises) {
+            // ¡NUEVO! Creamos una conversación más larga y dinámica
             $this->createConversation(
                 $mentorMario,
-                $studentMoises,
+                $student,
                 [
-                    ['sender' => $studentMoises, 'content' => 'Hola Mario, soy Moises. Vi tu perfil y tu experiencia en Laravel es justo lo que necesito para mi tesis. ¿Podríamos hablar?'],
-                    ['sender' => $mentorMario, 'content' => '¡Hola Moises! Por supuesto, encantado de ayudar. Cuéntame un poco más sobre tu proyecto.', 'delay_seconds' => 45],
+                    ['sender' => $student, 'content' => "Hola Mario, soy {$student->user->name}. Vi que tienes experiencia en {$randomSubject} y me gustaría hacerte una consulta."],
+                    ['sender' => $mentorMario, 'content' => "¡Hola {$student->user->name}! Claro que sí. ¿En qué te puedo ayudar?", 'delay_seconds' => rand(30, 60)],
+                    ['sender' => $student, 'content' => "Estoy empezando y me siento un poco perdido con los conceptos básicos. ¿Ofreces clases introductorias?", 'delay_seconds' => rand(45, 90)],
+                    ['sender' => $mentorMario, 'content' => "Por supuesto. Una buena base es fundamental. Podemos agendar una sesión para cubrir los fundamentos cuando gustes.", 'delay_seconds' => rand(30, 60)],
                 ]
             );
         }
 
-        if ($mentorJose && $studentAxcel) {
-            $this->createConversation(
-                $mentorJose,
-                $studentAxcel,
-                [
-                    ['sender' => $studentAxcel, 'content' => 'Buenas tardes José. Estoy preparándome para el examen de admisión y el cálculo se me complica. ¿Me podrías ayudar?'],
-                    ['sender' => $mentorJose, 'content' => 'Hola Axcel. Claro que sí, el cálculo es mi especialidad. Podemos empezar por los fundamentos de derivadas.', 'delay_seconds' => 30],
-                    ['sender' => $studentAxcel, 'content' => 'Perfecto, ¡muchas gracias!', 'delay_seconds' => 20],
-                ]
-            );
-        }
-        
-        if ($mentorMario && $studentValeria) {
-            $this->createConversation(
-                $mentorMario,
-                $studentValeria,
-                [
-                    ['sender' => $mentorMario, 'content' => 'Hola Valeria, soy Mario. Vi que te interesa el diseño y quieres aprender a programar. ¡Es una gran combinación! Si necesitas ayuda con HTML o CSS, no dudes en consultarme.'],
-                    ['sender' => $studentValeria, 'content' => '¡Hola Mario! Qué amable, muchas gracias. Justo estoy atascada con el diseño responsivo.', 'delay_seconds' => 90],
-                ]
-            );
-        }
-        
-        if ($mentorJose && $studentMoises) {
-            $this->createConversation(
-                $mentorJose,
-                $studentMoises,
-                [
-                    ['sender' => $studentMoises, 'content' => 'Hola José, una consulta, ¿también ayudas con temas de Álgebra Lineal?'],
-                    ['sender' => $mentorJose, 'content' => '¡Hola Moises! Sí, claro. Matrices, determinantes, espacios vectoriales. ¿Qué necesitas repasar?', 'delay_seconds' => 40],
-                ]
-            );
+        // --- 3. CREAR 5 CONVERSACIONES PARA EL ESTUDIANTE MOISES ---
+        $this->command->info("Creando 5 conversaciones para el estudiante Moises Aguilar...");
+        if ($otherMentors->count() < 5) {
+            $this->command->warn('No se encontraron 5 mentores diferentes para Moises, se crearán las que sean posibles.');
         }
 
-        // --- 4. CREAR ALGUNAS CONVERSACIONES ALEATORIAS ADICIONALES ---
-        $randomStudent = Student::with('user')->inRandomOrder()->first();
-        if ($randomMentors->isNotEmpty() && $randomStudent) {
+        foreach ($otherMentors as $mentor) {
+             if ($mentor->subjects->isEmpty()) continue;
+            
+            // Seleccionamos una materia aleatoria del mentor
+            $mentorSubject = $mentor->subjects->random()->name;
+
             $this->createConversation(
-                $randomMentors->first(),
-                $randomStudent,
+                $mentor,
+                $studentMoises,
                 [
-                    ['sender' => $randomStudent, 'content' => 'Hola, ¿está disponible para una tutoría esta semana?'],
-                    ['sender' => $randomMentors->first(), 'content' => 'Hola, sí. ¿Qué día y hora te viene bien?', 'delay_seconds' => 120],
+                    ['sender' => $studentMoises, 'content' => "Hola {$mentor->user->name}, soy Moises. Me interesa aprender sobre {$mentorSubject}. ¿Crees que me podrías ayudar?"],
+                    ['sender' => $mentor, 'content' => "¡Hola Moises! Por supuesto, es un tema que me apasiona. ¿Tienes alguna duda en particular o quieres empezar desde cero?", 'delay_seconds' => rand(40, 120)],
+                    ['sender' => $studentMoises, 'content' => "Me gustaría empezar desde cero para asegurar que no me pierdo nada importante.", 'delay_seconds' => rand(30, 80)],
                 ]
             );
         }
@@ -112,26 +87,34 @@ class ChatSeeder extends Seeder
      */
     private function createConversation(Mentor $mentor, Student $student, array $messages): void
     {
-        // ... (Este método no necesita cambios, está perfecto)
         $conversation = Conversation::firstOrCreate([
             'mentor_id' => $mentor->id,
             'student_id' => $student->id,
         ]);
 
-        $timestamp = Carbon::now()->subMinutes(rand(5, 60));
+        $timestamp = Carbon::now()->subHours(rand(1, 48)); // Rango de tiempo más amplio
 
         foreach ($messages as $message) {
-            $senderId = $message['sender'] instanceof Mentor ? $message['sender']->user_id : $message['sender']->user_id;
-            $delay = $message['delay_seconds'] ?? rand(10, 120);
+            $senderId = $message['sender'] instanceof Mentor 
+                ? $message['sender']->user_id 
+                : $message['sender']->user_id;
+
+            $delay = $message['delay_seconds'] ?? rand(20, 180); // Aumentamos el delay para más realismo
             $timestamp->addSeconds($delay);
 
-            Message::create([
-                'conversation_id' => $conversation->id,
-                'sender_id' => $senderId,
-                'content' => $message['content'],
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp,
-            ]);
+            // Evitamos crear mensajes duplicados en la misma conversación
+            Message::firstOrCreate(
+                [
+                    'conversation_id' => $conversation->id,
+                    'sender_id' => $senderId,
+                    'content' => $message['content'],
+                ],
+                [
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp,
+                ]
+            );
         }
     }
 }
+

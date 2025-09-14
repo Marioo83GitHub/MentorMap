@@ -41,8 +41,8 @@ class StudentSeeder extends Seeder
             'email' => 'sofia.ramirez@gmail.com',
         ],
         [
-            'name' => 'Usuario',
-            'surname' => 'Estudiante',
+            'name' => 'Carlo',
+            'surname' => 'Contreras',
             'email' => 'student@gmail.com',
         ]
     ];
