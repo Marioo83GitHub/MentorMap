@@ -13,9 +13,9 @@
                             class="absolute -inset-2 bg-gradient-to-r from-mmgreen/20 to-[#33ab35]/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300">
                         </div>
                         <div class="relative rounded-xl p-1 sm:p-2 transition-all duration-300">
-                            <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/colored/LogoTextHorizontal_nobg.png') }}" alt="MentorMap Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto dark:hidden">
-                            <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/white/LogoTextHorizontal.png') }}" alt="MentorMap Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto hidden dark:block">
                         </div>
                     </div>
@@ -67,7 +67,8 @@
         <x-sidebar-student />
 
         <!-- Main Content Area -->
-        <div class="flex flex-col flex-auto flex-shrink-0 h-full lg:ml-72 ml-0 p-3 sm:p-4 lg:p-6 bg-gray-50 dark:bg-[#0a0e1f]">
+        <div
+            class="flex flex-col flex-auto flex-shrink-0 h-full lg:ml-72 ml-0 p-3 sm:p-4 lg:p-6 bg-gray-50 dark:bg-[#0a0e1f]">
 
             <!-- Calendar Header -->
             <div
@@ -427,185 +428,153 @@
     </div>
 </div>
 
-<!-- FullCalendar JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-<script>
-    let calendar;
+@script
+    <script>
+        $js('loadSessionsData', (appointments) => {
+            console.log('Datos recibidos:', appointments);
+            if (calendar) {
+                // Limpiar eventos existentes
+                calendar.removeAllEvents();
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        // Eventos de sesiones de ejemplo
-        const sessions = [
-            {
-                title: 'Matemáticas - Dr. García',
-                start: '2025-09-22T09:00:00',
-                end: '2025-09-22T10:00:00',
-                color: '#1a44d5',
-                extendedProps: {
-                    mentor: 'Dr. García',
-                    subject: 'Matemáticas',
-                    status: 'scheduled',
-                    type: 'session'
-                }
-            },
-            {
-                title: 'Física - Prof. López',
-                start: '2025-09-22T09:00:00',
-                end: '2025-09-22T10:00:00',
-                color: '#8b5cf6',
-                extendedProps: {
-                    mentor: 'Prof. López',
-                    subject: 'Física',
-                    status: 'scheduled',
-                    type: 'session'
-                }
-            },
-            {
-                title: 'Programación - Ing. Martínez',
-                start: '2025-09-22T09:00:00',
-                end: '2025-09-22T10:00:00',
-                color: '#1a44d5',
-                extendedProps: {
-                    mentor: 'Ing. Martínez',
-                    subject: 'Programación',
-                    status: 'scheduled',
-                    type: 'session'
-                }
-            },
-            {
-                title: 'Química - Dra. Rodríguez',
-                start: '2025-09-22T09:00:00',
-                end: '2025-09-22T10:00:00',
-                color: '#f59e0b',
-                extendedProps: {
-                    mentor: 'Dra. Rodríguez',
-                    subject: 'Química',
-                    status: 'completed',
-                    type: 'session'
-                }
-            },
-            {
-                title: 'Historia - Prof. Hernández',
-                start: '2025-09-25T11:30:00',
-                end: '2025-09-25T12:30:00',
-                color: '#ef4444',
-                extendedProps: {
-                    mentor: 'Prof. Hernández',
-                    subject: 'Historia',
-                    status: 'scheduled',
-                    type: 'session'
-                }
+                // Agregar nuevos eventos
+                calendar.addEventSource(appointments);
+            } else {
+                // Si el calendario no está inicializado, guardamos los datos
+                window.pendingAppointments = appointments;
             }
-        ];
+        });
+    </script>
+@endscript
+@assets
+    <!-- FullCalendar JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script>
+        let calendar;
 
-        calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'es',
-            fixedWeekCount: false,
-            showNonCurrentDates: true,
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            buttonText: {
-                today: 'Hoy',
-                month: 'Mes',
-                week: 'Semana',
-                day: 'Día'
-            },
-            events: sessions,
-            dayMaxEvents: 3,
-            eventClick: function (info) {
-                showEventDetails(info.event);
-            },
-            dayPopoverContent: function (arg) {
-                let html = `<div class='p-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl shadow-2xl w-80 border border-gray-700/50 backdrop-filter backdrop-blur-xl'>`;
-                html += `<h3 class='text-lg font-bold text-emerald-400 mb-3 flex items-center gap-2'>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                fixedWeekCount: false,
+                showNonCurrentDates: true,
+                events: [],
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Día'
+                },
+                dayMaxEvents: 3,
+                eventClick: function(info) {
+                    showEventDetails(info.event);
+                },
+                dayPopoverContent: function(arg) {
+                    let html =
+                        `<div class='p-4 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-xl shadow-2xl w-80 border border-gray-700/50 backdrop-filter backdrop-blur-xl'>`;
+                    html += `<h3 class='text-lg font-bold text-emerald-400 mb-3 flex items-center gap-2'>
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
                     </svg>
                     Sesiones del día
                 </h3>`;
-                html += `<div class='space-y-2'>`;
-                arg.events.forEach(event => {
-                    const props = event.extendedProps;
-                    const statusText = getStatusText(props.status);
-                    html += `<div class='flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-gray-700/30 hover:border-gray-600/50' onclick='showEventDetailsFromPopover("${event.id}")'>`;
-                    html += `<span class='inline-block w-3 h-3 rounded-full shadow-lg' style='background:${event.backgroundColor || event.color}; box-shadow: 0 0 10px ${event.backgroundColor || event.color}40;'></span>`;
-                    html += `<div class='flex-1'>`;
-                    html += `<div class='font-semibold text-gray-100'>${event.title}</div>`;
-                    html += `<div class='text-xs text-mmgreen'>${event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} - ${statusText}</div>`;
-                    html += `</div>`;
-                    html += `<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    html += `<div class='space-y-2'>`;
+                    arg.events.forEach(event => {
+                        const props = event.extendedProps;
+                        const statusText = getStatusText(props.status);
+                        html +=
+                            `<div class='flex items-center gap-3 p-3 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 transition-all duration-300 cursor-pointer border border-gray-700/30 hover:border-gray-600/50' onclick='showEventDetailsFromPopover("${event.id}")'>`;
+                        html +=
+                            `<span class='inline-block w-3 h-3 rounded-full shadow-lg' style='background:${event.backgroundColor || event.color}; box-shadow: 0 0 10px ${event.backgroundColor || event.color}40;'></span>`;
+                        html += `<div class='flex-1'>`;
+                        html += `<div class='font-semibold text-gray-100'>${event.title}</div>`;
+                        html +=
+                            `<div class='text-xs text-mmgreen'>${event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })} - ${statusText}</div>`;
+                        html += `</div>`;
+                        html += `<svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>`;
+                        html += `</div>`;
+                    });
                     html += `</div>`;
-                });
-                html += `</div>`;
-                html += `</div>`;
-                return { html };
-            },
-            themeSystem: 'standard',
-        });
+                    html += `</div>`;
+                    return {
+                        html
+                    };
+                },
+                themeSystem: 'standard',
+            });
 
-        calendar.render();
+            calendar.render();
 
-        // Actualiza el modo oscuro si cambia
-        function updateDarkMode() {
-            if (document.documentElement.classList.contains('dark')) {
-                calendarEl.classList.add('dark');
-            } else {
-                calendarEl.classList.remove('dark');
-            }
-        }
-        updateDarkMode();
-
-        // Escuchar cambios de tema
-        const observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                if (mutation.attributeName === 'class') {
-                    updateDarkMode();
+            // Actualiza el modo oscuro si cambia
+            function updateDarkMode() {
+                if (document.documentElement.classList.contains('dark')) {
+                    calendarEl.classList.add('dark');
+                } else {
+                    calendarEl.classList.remove('dark');
                 }
+            }
+            updateDarkMode();
+
+            // Escuchar cambios de tema
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        updateDarkMode();
+                    }
+                });
+            });
+            observer.observe(document.documentElement, {
+                attributes: true
             });
         });
-        observer.observe(document.documentElement, { attributes: true });
-    });
 
-    function getStatusText(status) {
-        const statusMap = {
-            'scheduled': 'Programada',
-            'completed': 'Completada',
-            'cancelled': 'Cancelada',
-            'in_progress': 'En Progreso'
-        };
-        return statusMap[status] || status;
-    }
+        function getStatusText(status) {
+            const statusMap = {
+                'scheduled': 'Programada',
+                'completed': 'Completada',
+                'cancelled': 'Cancelada',
+                'in_progress': 'En Progreso'
+            };
+            return statusMap[status] || status;
+        }
 
-    function showEventDetails(event) {
-        const props = event.extendedProps;
-        const statusText = getStatusText(props.status);
-        const startTime = event.start.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-        const endTime = event.end ? event.end.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) : '';
-        const date = event.start.toLocaleDateString('es-ES', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+        function showEventDetails(event) {
+            const props = event.extendedProps;
+            const statusText = getStatusText(props.status);
+            const startTime = event.start.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            const endTime = event.end ? event.end.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            }) : '';
+            const date = event.start.toLocaleDateString('es-ES', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
 
-        const statusColor = {
-            'scheduled': 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200',
-            'completed': 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200',
-            'cancelled': 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200',
-            'in_progress': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200'
-        };
+            const statusColor = {
+                'scheduled': 'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200',
+                'completed': 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200',
+                'cancelled': 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200',
+                'in_progress': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200'
+            };
 
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 p-4';
-        modal.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(55, 65, 81, 0.3))';
-        modal.innerHTML = `
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 p-4';
+            modal.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(55, 65, 81, 0.3))';
+            modal.innerHTML = `
             <div class="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 rounded-2xl max-w-md w-full shadow-2xl border border-gray-200 dark:border-gray-700/50 overflow-hidden backdrop-blur-xl">
                 <div class="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-emerald-600/20 dark:to-blue-600/20 backdrop-filter backdrop-blur-xl border-b border-gray-200 dark:border-gray-700/50" style="background: linear-gradient(135deg, ${event.backgroundColor || event.color}20, ${event.backgroundColor || event.color}10);">
                     <div class="flex justify-between items-start">
@@ -627,7 +596,7 @@
                     </div>
                     <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
                         <span class="text-gray-700 dark:text-gray-300 font-medium">Horario:</span>
-                        <span class="font-semibold text-blue-600 dark:text-emerald-300">${startTime} - ${endTime}</span>
+                        <span class="font-semibold text-blue-600 dark:text-emerald-300">${startTime}</span>
                     </div>
                     <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
                         <span class="text-gray-700 dark:text-gray-300 font-medium">Estado:</span>
@@ -637,108 +606,111 @@
                     </div>
                     <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
                         <span class="text-gray-700 dark:text-gray-300 font-medium">Duración:</span>
-                        <span class="font-semibold text-gray-900 dark:text-white">60 minutos</span>
+                        <span class="font-semibold text-gray-900 dark:text-white">${props.duration}</span>
                     </div>
                     <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
                         <span class="text-gray-700 dark:text-gray-300 font-medium">Modalidad:</span>
                         <span class="font-semibold text-gray-900 dark:text-white">Online</span>
                     </div>
-                    
+
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-600/50 flex gap-3">
                         ${props.status === 'scheduled' ? `
-                            <button class="flex-1 bg-mmgreen hover:from-emerald-700 hover:opacity-80 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-emerald-500/25">
-                                Unirse a la sesión
-                            </button>
-                            <button class="flex-1 bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg transition-all duration-300 font-semibold border border-gray-300 dark:border-gray-600/50 hover:border-gray-400 dark:hover:border-gray-500/50">
-                                Reagendar
-                            </button>
-                        ` : ''}
+                                                            <button class="flex-1 bg-mmgreen hover:from-emerald-700 hover:opacity-80 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-emerald-500/25">
+                                                                Unirse a la sesión
+                                                            </button>
+                                                            <button class="flex-1 bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg transition-all duration-300 font-semibold border border-gray-300 dark:border-gray-600/50 hover:border-gray-400 dark:hover:border-gray-500/50">
+                                                                Reagendar
+                                                            </button>
+                                                        ` : ''}
                         ${props.status === 'completed' ? `
-                            <button class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-blue-500/25">
-                                Ver notas
-                            </button>
-                            <button class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-yellow-500/25">
-                                Calificar mentor
-                            </button>
-                        ` : ''}
+                                                            <button class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-blue-500/25">
+                                                                Ver notas
+                                                            </button>
+                                                            <button class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-yellow-500/25">
+                                                                Calificar mentor
+                                                            </button>
+                                                        ` : ''}
                     </div>
                 </div>
             </div>
         `;
 
-        document.body.appendChild(modal);
+            document.body.appendChild(modal);
 
-        // Cerrar modal
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                modal.remove();
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') {
-                modal.remove();
-            }
-        }, { once: true });
-    }
-
-    function showEventDetailsFromPopover(eventId) {
-        const event = calendar.getEventById(eventId);
-        if (event) {
-            showEventDetails(event);
-        }
-    }
-
-    // Función para actualizar el mini calendario cuando cambie la vista principal
-    calendar.on('datesSet', function (info) {
-        const date = info.view.currentStart;
-        generateMiniCalendar(date.getMonth(), date.getFullYear());
-    });
-
-    // Generar mini calendario inicial
-    generateMiniCalendar(new Date().getMonth(), new Date().getFullYear());
-
-    function generateMiniCalendar(month, year) {
-        const today = new Date();
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const miniGrid = document.getElementById('mini-calendar-grid');
-        const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-
-        if (!miniGrid) return;
-
-        document.getElementById('mini-calendar-month').textContent = `${monthNames[month]} ${year}`;
-        miniGrid.innerHTML = '';
-
-        // Empty cells for days before month starts
-        for (let i = 0; i < firstDay; i++) {
-            const emptyDay = document.createElement('div');
-            emptyDay.className = 'text-center py-1';
-            miniGrid.appendChild(emptyDay);
-        }
-
-        // Days of the month
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayElement = document.createElement('div');
-            const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-
-            let classes = 'text-center py-1 cursor-pointer rounded text-xs';
-            if (isToday) {
-                classes += ' bg-mmgreen text-white font-bold';
-            } else {
-                classes += ' text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600';
-            }
-
-            dayElement.className = classes;
-            dayElement.textContent = day;
-
-            // Click en mini calendario para navegar
-            dayElement.addEventListener('click', () => {
-                const clickedDate = new Date(year, month, day);
-                calendar.gotoDate(clickedDate);
+            // Cerrar modal
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
             });
 
-            miniGrid.appendChild(dayElement);
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    modal.remove();
+                }
+            }, {
+                once: true
+            });
         }
-    }
-</script>
+
+        function showEventDetailsFromPopover(eventId) {
+            const event = calendar.getEventById(eventId);
+            if (event) {
+                showEventDetails(event);
+            }
+        }
+
+        // Función para actualizar el mini calendario cuando cambie la vista principal
+        calendar.on('datesSet', function(info) {
+            const date = info.view.currentStart;
+            generateMiniCalendar(date.getMonth(), date.getFullYear());
+        });
+
+        // Generar mini calendario inicial
+        generateMiniCalendar(new Date().getMonth(), new Date().getFullYear());
+
+        function generateMiniCalendar(month, year) {
+            const today = new Date();
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const miniGrid = document.getElementById('mini-calendar-grid');
+            const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+            if (!miniGrid) return;
+
+            document.getElementById('mini-calendar-month').textContent = `${monthNames[month]} ${year}`;
+            miniGrid.innerHTML = '';
+
+            // Empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'text-center py-1';
+                miniGrid.appendChild(emptyDay);
+            }
+
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                const isToday = day === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+
+                let classes = 'text-center py-1 cursor-pointer rounded text-xs';
+                if (isToday) {
+                    classes += ' bg-mmgreen text-white font-bold';
+                } else {
+                    classes += ' text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600';
+                }
+
+                dayElement.className = classes;
+                dayElement.textContent = day;
+
+                // Click en mini calendario para navegar
+                dayElement.addEventListener('click', () => {
+                    const clickedDate = new Date(year, month, day);
+                    calendar.gotoDate(clickedDate);
+                });
+
+                miniGrid.appendChild(dayElement);
+            }
+        }
+    </script>
+@endassets

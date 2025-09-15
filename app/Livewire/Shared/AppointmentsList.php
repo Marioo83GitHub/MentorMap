@@ -38,7 +38,6 @@ class AppointmentsList extends Component
         // las ordenamos por la más próxima y tomamos las 5 primeras.
         $this->appointments = $query->where('scheduled_at', '>=', now())
                                     ->orderBy('scheduled_at', 'asc')
-                                    ->take(5)
                                     ->get();
     }
 
