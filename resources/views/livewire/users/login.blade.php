@@ -1,6 +1,6 @@
 <div class="login-main shadow-2xl border border-gray-200 dark:border-gray-700 relative z-10 bg-white dark:bg-gray-800">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/login.css', 'resources/js/app.js'])
     <div class="login-info bg-white dark:bg-gray-800">
         <div class="hidden md:flex"
             style="height:100%; display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
