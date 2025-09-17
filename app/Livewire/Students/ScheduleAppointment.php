@@ -34,7 +34,7 @@ class ScheduleAppointment extends Component
     
     // Propiedades para la CITA
     public $scheduled_at;
-    public $duration = 1; // --- CAMPO AÑADIDO --- Valor por defecto de 1 hora.
+    public $duration = 1;
 
     public function mount()
     {
@@ -100,42 +100,47 @@ class ScheduleAppointment extends Component
     public function saveAppointment()
     {
         $studentId = Auth::user()->student->id;
-        $mentorshipId = null;
+        $mentorship = null; // Usaremos una variable para la mentoría
 
+        // --- CAMBIO 1: La regla del título ahora está fuera del if ---
         $rules = [
             'selectedDiscipline' => 'required',
             'selectedSubject' => 'required',
             'topic_id' => 'required|exists:topics,id',
             'scheduled_at' => 'required|date|after:now',
-            'duration' => 'required|integer|min:1|max:4', // --- REGLA AÑADIDA ---
+            'duration' => 'required|integer|min:1|max:4',
+            'mentorship_title' => 'required|string|max:255', // Siempre requerido
         ];
-
-        if ($this->isNewMentorship) {
-            $rules['mentorship_title'] = 'required|string|max:255';
-        }
 
         $this->validate($rules);
 
-        if ($this->isNewMentorship) {
-            $newMentorship = Mentorship::create([
+        // --- CAMBIO 2: Lógica unificada para obtener o crear la mentoría ---
+        // Buscamos si ya existe una mentoría activa
+        $mentorship = Mentorship::where('student_id', $studentId)
+            ->where('mentor_id', $this->mentor_id)
+            ->where('active', true)
+            ->first();
+
+        if ($mentorship) {
+            // Si ya existe, actualizamos su título
+            $mentorship->update(['title' => $this->mentorship_title]);
+        } else {
+            // Si no existe, la creamos
+            $mentorship = Mentorship::create([
                 'title' => $this->mentorship_title,
                 'mentor_id' => $this->mentor_id,
                 'student_id' => $studentId,
             ]);
-            $mentorshipId = $newMentorship->id;
-        } else {
-            $mentorshipId = Mentorship::where('student_id', $studentId)
-                ->where('mentor_id', $this->mentor_id)
-                ->firstOrFail()->id;
         }
 
+        // Finalmente, creamos la cita usando el ID de la mentoría
         Appointment::create([
-            'mentorship_id' => $mentorshipId,
+            'mentorship_id' => $mentorship->id,
             'mentor_id' => $this->mentor_id,
             'student_id' => $studentId,
             'topic_id' => $this->topic_id,
             'scheduled_at' => $this->scheduled_at,
-            'duration' => $this->duration, // --- CAMPO AÑADIDO ---
+            'duration' => $this->duration,
         ]);
 
         $this->closeModal();

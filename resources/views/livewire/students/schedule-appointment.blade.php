@@ -41,19 +41,17 @@
 
                 {{-- Cuerpo del Modal --}}
                 <div class="p-6 space-y-6">
-                    {{-- PASO 1: (CONDICIONAL) INICIAR NUEVA MENTORÍA --}}
-                    @if($isNewMentorship)
+                    {{-- PASO 1: DETALLES DE LA SESIÓN --}}
                     <div class="space-y-2">
-                        <h4 class="font-medium text-gray-800 dark:text-gray-200">Paso 1: Iniciar Nueva Mentoría</h4>
+                        <h4 class="font-medium text-gray-800 dark:text-gray-200">Paso 1: Detalles de la Sesión</h4>
                         <div>
-                            <label for="mentorship_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título de la Mentoría</label>
+                            <label for="mentorship_title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Título o Motivo de la Sesión</label>
                             <input type="text" id="mentorship_title" wire:model.defer="mentorship_title" 
-                                   class="mt-1 block w-full transition duration-75 rounded-lg shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-inset focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-indigo-500"
-                                   placeholder="Ej: Ayuda General con Programación Web">
+                                class="mt-1 block w-full transition duration-75 rounded-lg shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-1 focus:ring-inset focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:border-indigo-500"
+                                placeholder="Ej: Repaso para examen parcial">
                             @error('mentorship_title') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                         </div>
                     </div>
-                    @endif
                     
                     {{-- PASO 2: ELEGIR TEMA EN CASCADA --}}
                     <div class="space-y-4">
