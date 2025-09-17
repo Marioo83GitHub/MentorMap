@@ -25,7 +25,7 @@ class SelectLocation extends Component {
             $mentor->save();
         }
 
-        $this->redirectRoute('mentors.select-subjects');
+        $this->redirectRoute('mentors.dashboard');
     }
 
     public function render() {
