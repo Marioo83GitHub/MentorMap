@@ -73,13 +73,14 @@ class ChatComponent extends Component {
         $query->addSelect([
             'last_message_time' => Message::select('created_at')
                 ->whereColumn('conversation_id', 'conversations.id')
-                ->orderBy('created_at')
+                ->orderBy('created_at', 'desc')
                 ->limit(1)
         ]);
 
         // Ordenar por el último mensaje (más reciente primero)
-        // Si no hay mensajes, esas conversaciones aparecen al final
-        // $query->orderByDesc('last_message_time');
+        // Si no hay mensajes, Las muestra al final
+
+        $query->orderByDesc('last_message_time');
 
         $this->conversations = $query->get();
     }
