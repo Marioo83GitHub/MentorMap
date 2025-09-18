@@ -7,16 +7,16 @@
                 <div class="relative group">
                     <div class="absolute -inset-2 bg-gradient-to-r from-mmgreen/20 to-[#33ab35]/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
                     <div class="relative rounded-xl p-2  transition-all duration-300">
-                        <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}" 
-                             alt="MentorMap Logo" 
+                        <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}"
+                             alt="Mentor Map Logo"
                              class="h-8 w-auto dark:hidden">
-                        <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}" 
-                             alt="MentorMap Logo" 
+                        <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}"
+                             alt="Mentor Map Logo"
                              class="h-8 w-auto hidden dark:block">
                     </div>
                 </div>
             </div>
-            
+
             <!-- Modern Navigation -->
             <nav class="hidden lg:flex items-center space-x-1">
                 <a href="#" class="relative px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200 group">
@@ -40,17 +40,17 @@
                     <div class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-mmgreen to-[#33ab35] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full"></div>
                 </a>
             </nav>
-            
+
             <!-- Modern Action Buttons -->
             <div class="flex items-center space-x-3">
                 <!-- Login Button -->
-                <a href="{{ route('login') }}" 
+                <a href="{{ route('login') }}"
                    class="hidden sm:flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-mmgreen dark:hover:text-mmgreen font-medium rounded-lg hover:bg-gray-50/80 dark:hover:bg-gray-800/80 transition-all duration-200">
                     Iniciar Sesión
                 </a>
-                
+
                 <!-- Primary CTA Button -->
-                <a href="{{ route('login') }}" 
+                <a href="{{ route('login') }}"
                    class="relative group overflow-hidden bg-gradient-to-r from-mmgreen to-[#33ab35] text-white px-6 py-2.5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-r from-[#33ab35] to-mmgreen opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <span class="relative flex items-center space-x-2">
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Mobile Navigation Menu -->
     <div class="lg:hidden hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100/50 dark:border-gray-700/50" id="mobile-menu">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -110,7 +110,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
