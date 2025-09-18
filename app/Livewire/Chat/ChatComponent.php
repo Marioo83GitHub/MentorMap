@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Chat;
 
+use App\Models\Appointment;
 use App\Models\Conversation;
+use App\Models\Mentorship;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -17,7 +19,14 @@ class ChatComponent extends Component {
     public $newMessage; // El contenido del nuevo mensaje, vinculado al input con wire:model.
     public $userRole; // Rol del usuario actual ('mentor' o 'student').
     public $searchTerm = ''; // Término de búsqueda para filtrar conversaciones.
+
     public $showScheduleModal = false;
+    public $title = 'Revisión de fundamentos';
+    public $hours = 1;
+
+    public $selectedDate = null;
+    public $selectedTime;
+    public $subtotal = 0;
 
     /**
      * El método mount() es como el constructor de Livewire.
@@ -26,6 +35,12 @@ class ChatComponent extends Component {
      * @param int|null $conversationId - El ID de la conversación que se quiere abrir al cargar (opcional).
      */
     public function mount($conversationId = null) {
+
+        // select 2 days from today
+        $this->selectedDate = date('Y-m-d', strtotime('+1 days'));
+        // current time in format H:i, select 4 pm only
+        $this->selectedTime = '16:00';
+
         // 1. Determinar el rol del usuario autenticado.
         $user = Auth::user();
         $this->userRole = $user->hasRole('mentor') ? 'mentor' : 'student';
@@ -49,6 +64,55 @@ class ChatComponent extends Component {
             if ($conversation) {
                 $this->selectConversation($conversation->id);
             }
+        }
+    }
+
+    public function confirmAppointment() {
+        // Validar los datos antes de crear la cita
+        // $this->validate([
+        //     'title' => 'required|string|max:255',
+        //     'hours' => 'required|integer|min:1',
+        //     'selectedTime' => 'required|date_format:H:i',
+        // ]);
+
+        // Aquí puedes agregar la lógica para crear la cita en la base de datos
+        // Por ejemplo:
+        // Appointment::create([...]);
+        $dateTimeString = $this->selectedDate . ' ' . $this->selectedTime;
+        $scheduledAt = date('Y-m-d H:i:s', strtotime($dateTimeString));
+
+        $mentorship = Mentorship::create([
+            'title' => $this->title,
+            'description' => null, // Ajusta esto según tu lógica
+            'mentor_id' => $this->selectedConversation->mentor->id,
+            'student_id' => $this->selectedConversation->student->id,
+            'active' => true,
+        ]);
+
+        Appointment::create([
+            'mentor_id' => $this->selectedConversation->mentor->id,
+            'student_id' => $this->selectedConversation->student->id,
+            'scheduled_at' => $scheduledAt,
+            'status' => 'scheduled',
+            'duration' => $this->hours,
+            'notes' => $this->title,
+            'mentorship_id' => $mentorship->id, // Ajusta esto según tu lógica
+            'topic_id' => null, // Ajusta esto según tu lógica
+        ]);
+
+        // Cerrar el modal y resetear los campos
+        $this->showScheduleModal = false;
+        $this->title = '';
+        $this->hours = 1;
+        $this->selectedTime = null;
+        $this->subtotal = 0;
+
+        // Opcional: Mostrar un mensaje de éxito o redirigir a otra página
+    }
+
+    public function updatedHours() {
+        if ($this->selectedConversation) {
+            $this->subtotal = $this->selectedConversation->mentor->price_per_hour * $this->hours;
         }
     }
 
@@ -97,6 +161,8 @@ class ChatComponent extends Component {
             ->with('sender') // Carga la relación con el remitente (User)
             ->orderBy('created_at', 'asc') // Ordena los mensajes del más antiguo al más nuevo
             ->get();
+
+        $this->subtotal = $this->selectedConversation->mentor->price_per_hour * $this->hours;
     }
 
     /**

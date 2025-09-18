@@ -196,8 +196,7 @@
                         <!-- Action Buttons -->
                         <div class="flex items-center space-x-1 lg:space-x-2">
                             @if ($userRole === 'student' && $selectedConversation->getOtherParticipant()->mentor)
-                                <button
-                                    x-on:click="$wire.showScheduleModal = true"
+                                <button x-on:click="$wire.showScheduleModal = true"
                                     class="bg-blue-500 hover:bg-blue-600 text-white px-2 lg:px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1 lg:space-x-2 shadow-md hover:shadow-lg text-sm lg:text-base">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -377,61 +376,53 @@
                                 M
                             </div>
                             <div>
-                                <h3 class="font-semibold text-gray-900 dark:text-white">{{ $selectedConversation->mentor->user->name . ' ' . $selectedConversation->mentor->user->surname}}</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Matemáticas • L 150/hora</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contenido de ejemplo -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-4">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Seleccionar Fecha</h3>
-                            <div
-                                class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
-                                <p class="text-gray-600 dark:text-gray-300">Calendario aquí...</p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-4">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">Horarios Disponibles</h3>
-                            <div class="space-y-2">
-                                <button
-                                    class="w-full text-left p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                    <span class="font-medium text-gray-900 dark:text-white">09:00 - 10:00</span>
-                                </button>
-                                <button
-                                    class="w-full text-left p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                    <span class="font-medium text-gray-900 dark:text-white">14:00 - 15:00</span>
-                                </button>
-                                <button
-                                    class="w-full text-left p-3 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors">
-                                    <span class="font-medium text-gray-900 dark:text-white">16:00 - 17:00</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Nota adicional -->
-                    <div
-                        class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                        <div class="flex items-start space-x-2">
-                            <svg class="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <div>
-                                <h4 class="font-medium text-blue-900 dark:text-blue-200">Información importante</h4>
-                                <p class="text-sm text-blue-700 dark:text-blue-300 mt-1">
-                                    Las sesiones tienen una duración mínima de 1 hora. Puedes cancelar hasta 24 horas
-                                    antes sin costo.
+                                <h3 class="font-semibold text-gray-900 dark:text-white">
+                                    @if ($selectedConversation)
+                                        {{ $selectedConversation->mentor->user->name . ' ' . $selectedConversation->mentor->user->surname }}
+                                    @endif
+                                </h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">L
+                                    @if ($selectedConversation)
+                                        {{ $selectedConversation->mentor->price_per_hour }}/hora
+                                    @endif
                                 </p>
                             </div>
                         </div>
                     </div>
 
+                    <div class="flex gap-6">
+                        <div class="space-y-2 w-full">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Ingresa el título de la sesión</h3>
+                            <input placeholder="Revisión de fundamentos..." type="text" wire:model="title"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+                        <div class="space-y-2 w-max">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Cantidad de horas</h3>
+                            <input type="number" placeholder="Ej. 2" wire:model.live="hours"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+                    </div>
+
+
+                    <!-- Contenido de ejemplo -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Selecciona la Fecha</h3>
+                            <input type="date" wire:model="selectedDate"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+
+                        {{-- Hours --}}
+                        <div class="space-y-3">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Selecciona la hora</h3>
+                            <input type="time" wire:model="selectedTime" min="08:00" max="22:00"
+                                step="900"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -439,7 +430,7 @@
             <div
                 class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-t border-gray-200 dark:border-gray-600 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
                 <div class="text-sm text-gray-500 dark:text-gray-400">
-                    Total: <span class="font-semibold text-gray-900 dark:text-white">L 150.00</span>
+                    Total: <span class="font-semibold text-gray-900 dark:text-white">L {{ $subtotal }}</span>
                 </div>
 
                 <div class="flex space-x-3">
@@ -448,7 +439,7 @@
                         Cancelar
                     </button>
 
-                    <button
+                    <button wire:click="confirmAppointment"
                         class="px-6 py-2.5 bg-mmgreen hover:bg-green-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
                         Confirmar Sesión
                     </button>
