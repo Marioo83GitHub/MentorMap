@@ -783,10 +783,6 @@
                 </div>
                 <div class="p-6 space-y-4 bg-gray-50/50 dark:bg-gray-800/50 backdrop-filter backdrop-blur-sm">
                     <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
-                        <span class="text-gray-700 dark:text-gray-300 font-medium">Mentor:</span>
-                        <span class="font-semibold text-gray-900 dark:text-white">${props.mentor}</span>
-                    </div>
-                    <div class="flex items-center justify-between p-3 bg-white/70 dark:bg-gray-700/30 rounded-lg border border-gray-200 dark:border-gray-600/30">
                         <span class="text-gray-700 dark:text-gray-300 font-medium">Horario:</span>
                         <span class="font-semibold text-blue-600 dark:text-emerald-300">${startTime}</span>
                     </div>
