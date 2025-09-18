@@ -13,9 +13,9 @@
                             class="absolute -inset-2 bg-gradient-to-r from-mmblue/20 to-blue-600/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300">
                         </div>
                         <div class="relative rounded-xl p-1 sm:p-2 transition-all duration-300">
-                            <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/colored/LogoTextHorizontal_nobg.png') }}" alt="MentorMap Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto dark:hidden">
-                            <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/white/LogoTextHorizontal.png') }}" alt="MentorMap Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto hidden dark:block">
                         </div>
                     </div>
@@ -24,7 +24,8 @@
                     <h1 class="text-lg sm:text-xl lg:text-xl font-bold text-gray-900 dark:text-white">Panel de
                         Mentor
                     </h1>
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">¡Bienvenido de vuelta! Gestiona tu enseñanza
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">¡Bienvenido de vuelta! Gestiona tu
+                        enseñanza
                     </p>
                 </div>
             </div>
@@ -65,12 +66,12 @@
         <!-- Sidebar -->
         <div id="sidebar"
             class="fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-[#020721] border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 transition-transform duration-300 ease-in-out">
-            
+
             <!-- Sidebar Content -->
             <div class="flex flex-col h-full pt-16 lg:pt-0">
                 <!-- Navigation Menu -->
                 <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-                    
+
                     <!-- Dashboard -->
                     <a href="{{ route('mentors.dashboard') }}"
                         class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg bg-mmblue/10 text-mmblue dark:bg-mmblue/20 dark:text-blue-300 transition-all duration-200">
@@ -80,7 +81,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 5a2 2 0 012-2h4a2 2 0 012 2v14l-5-3-5 3V5z"></path>
                         </svg>
-                        Dashboard
+                        Inicio
                     </a>
 
                     <!-- Ubicación -->
@@ -88,7 +89,8 @@
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
@@ -107,10 +109,22 @@
                         <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
                     </a>
 
-                    <!-- 
+                    <!-- Chats -->
+                    <a href="{{ route('mentors.select-subjects') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.168 18.477 18.582 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                            </path>
+                        </svg>
+                        Seleccionar Disciplinas
+                    </a>
+
+                    <!--
                     <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
 
-                   
+
                     <a href="#"
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +134,7 @@
                         Mis Sesiones
                     </a>
 
-                  
+
                     <a href="#"
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,7 +144,7 @@
                         Mis Estudiantes
                     </a>
 
-                  
+
                     <a href="#"
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +154,7 @@
                         Mis Materias
                     </a>
 
-                   
+
                     <a href="#"
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,10 +164,10 @@
                         Reseñas
                     </a>
 
-                   
+
                     <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
 
-                 
+
                     <a href="#"
                         class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,12 +190,13 @@
         </div>
 
         <!-- Sidebar Overlay for Mobile -->
-        <div id="sidebar-overlay" class="fixed inset-0 backdrop-blur-md bg-opacity-50 z-20 lg:hidden hidden" onclick="toggleSidebar()"></div>
+        <div id="sidebar-overlay" class="fixed inset-0 backdrop-blur-md bg-opacity-50 z-20 lg:hidden hidden"
+            onclick="toggleSidebar()"></div>
 
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden lg:ml-0">
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-[#0a0e1f] p-4 sm:p-6 lg:p-8">
-                
+
                 <!-- Page Header -->
                 <div class="mb-6 sm:mb-8">
                     <div class="sm:flex sm:items-center sm:justify-between">
@@ -213,7 +228,7 @@
     function toggleSidebar() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
-        
+
         sidebar.classList.toggle('-translate-x-full');
         overlay.classList.toggle('hidden');
     }
@@ -228,7 +243,7 @@
     document.addEventListener('click', function(event) {
         const menu = document.getElementById('user-menu');
         const button = event.target.closest('button');
-        
+
         if (!button || !button.getAttribute('onclick')?.includes('toggleUserMenu')) {
             menu.classList.add('hidden');
         }
@@ -239,7 +254,7 @@
         if (window.innerWidth >= 1024) {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
-            
+
             sidebar.classList.remove('-translate-x-full');
             overlay.classList.add('hidden');
         }

@@ -18,7 +18,10 @@ class SelectSubjects extends Component {
     public $showTopicInput = [];
     public $topics = [];
 
-
+    public function saveMentorSubjects()
+    {
+        $this->redirectRoute('mentors.dashboard');
+    }
 
     public function toggleTopicInput($subjectId) {
         $this->showTopicInput[$subjectId] = !($this->showTopicInput[$subjectId] ?? false);

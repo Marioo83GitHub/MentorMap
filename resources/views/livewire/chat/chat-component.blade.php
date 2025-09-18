@@ -1,27 +1,27 @@
 <!-- Modern Chat Interface -->
 <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" wire:poll.1s="refreshMessages">
-    
+
     <!-- Main Chat Container -->
     <div class="flex flex-col lg:flex-row h-screen mx-auto bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-2xl">
-        
+
         <!-- Sidebar: Conversations List -->
         <div class="w-full lg:w-96 bg-white/95 dark:bg-[#020721] backdrop-blur-md border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-700 flex flex-col {{ $selectedConversation ? 'hidden lg:flex' : 'flex' }}">
-            
+
             <!-- Sidebar Header -->
             <div class="p-4 lg:p-6">
                 <!-- Back Button -->
                 <div class="mb-3 lg:mb-4">
                     @if ($userRole === 'mentor')
-                        <a href="{{ route('mentors.dashboard') }}" 
+                        <a href="{{ route('mentors.dashboard') }}"
                            class="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium group">
                             <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                             </svg>
-                            <span class="hidden sm:inline">Volver al Dashboard</span>
+                            <span class="hidden sm:inline">Volver al Inicio</span>
                             <span class="sm:hidden">Volver</span>
                         </a>
                     @else
-                        <a href="{{ route('students.dashboard') }}" 
+                        <a href="{{ route('students.dashboard') }}"
                            class="inline-flex items-center text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors font-medium group">
                             <svg class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -31,7 +31,7 @@
                         </a>
                     @endif
                 </div>
-                
+
                 <!-- Title Section -->
                 <div class="flex items-center space-x-3 mb-3 lg:mb-4">
                     <div>
@@ -45,24 +45,24 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Search Bar -->
                 <div class="relative">
-                    <input type="text" 
+                    <input type="text"
                            wire:model.live="searchTerm"
                            placeholder="Buscar un chat o iniciar uno nuevo"
                            class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-2 pl-10 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                    
+
                     <!-- Search Icon -->
                     <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
                         <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
-                    
+
                     <!-- Clear Search Button -->
                     @if($searchTerm)
-                        <button wire:click="$set('searchTerm', '')" 
+                        <button wire:click="$set('searchTerm', '')"
                                 class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -71,13 +71,13 @@
                     @endif
                 </div>
             </div>
-            
+
             <!-- Conversations List -->
             <div class="flex-1 overflow-y-auto p-2 lg:p-4 space-y-1 lg:space-y-2">
                 @forelse ($this->filteredConversations as $conversation)
                     <button wire:click="selectConversation({{ $conversation->id }})"
                         class="w-full p-3 lg:p-4 rounded-xl transition-all duration-200 text-left group hover:bg-gray-50 dark:hover:bg-gray-800 {{ $selectedConversation && $selectedConversation->id == $conversation->id ? 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-sm' : 'border border-transparent hover:border-gray-200 dark:hover:border-gray-700' }}">
-                        
+
                         <div class="flex items-center space-x-3">
                             <!-- Avatar -->
                             <div class="relative">
@@ -87,7 +87,7 @@
                                 <!-- Online Status -->
                                 <div class="absolute -bottom-1 -right-1 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
                             </div>
-                            
+
                             <!-- Contact Info -->
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-semibold text-sm lg:text-base text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -95,7 +95,7 @@
                                 </h3>
                                 <p class="text-xs lg:text-sm text-gray-500 dark:text-gray-400 truncate">Última conexión: hace 2 min</p>
                             </div>
-                            
+
                             <!-- Notification Badge -->
                             <div class="flex flex-col items-end space-y-1">
                                 <span class="text-xs text-gray-500 dark:text-gray-400">12:30</span>
@@ -114,7 +114,7 @@
                             </div>
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Sin resultados</h3>
                             <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">No se encontraron conversaciones con "{{ $searchTerm }}"</p>
-                            <button wire:click="$set('searchTerm', '')" 
+                            <button wire:click="$set('searchTerm', '')"
                                     class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium">
                                 Limpiar búsqueda
                             </button>
@@ -132,23 +132,23 @@
                 @endforelse
             </div>
         </div>
-        
+
         <!-- Main Chat Area -->
         <div class="flex-1 flex flex-col bg-gray-50 dark:bg-[#0a0e1f] {{ !$selectedConversation ? 'hidden lg:flex' : 'flex' }}">
-            
+
             @if ($selectedConversation)
                 <!-- Chat Header - Fixed in mobile -->
                 <div class="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4 lg:p-6 shadow-sm lg:shadow-none">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-3 lg:space-x-4">
                             <!-- Back button for mobile -->
-                            <button wire:click="backToConversations" 
+                            <button wire:click="backToConversations"
                                     class="lg:hidden p-2 -ml-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                 </svg>
                             </button>
-                            
+
                             <!-- Contact Avatar -->
                             <div class="relative">
                                 <div class="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold shadow-lg text-sm lg:text-base">
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="absolute -bottom-1 -right-1 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full border-2 border-white dark:border-gray-900"></div>
                             </div>
-                            
+
                             <!-- Contact Info -->
                             <div>
                                 <h2 class="text-base lg:text-lg font-semibold text-gray-900 dark:text-white truncate">
@@ -165,7 +165,7 @@
                                 <p class="text-xs lg:text-sm text-green-500">En línea</p>
                             </div>
                         </div>
-                        
+
                         <!-- Action Buttons -->
                         <div class="flex items-center space-x-1 lg:space-x-2">
                             @if ($userRole === 'student' && $selectedConversation->getOtherParticipant()->mentor)
@@ -180,7 +180,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Messages Area -->
                 <div class="flex-1 overflow-y-auto p-3 lg:p-6 space-y-4 lg:space-y-6 pb-20 lg:pb-6">
                     @forelse ($messages as $message)
@@ -223,17 +223,17 @@
                         </div>
                     @endforelse
                 </div>
-                
+
                 <!-- Message Input - Fixed at bottom in mobile -->
                 <div class="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 p-3 lg:p-4 shadow-lg lg:shadow-none">
                     <form wire:submit.prevent="sendMessage" class="flex items-center space-x-2 lg:space-x-4">
                         <div class="flex-1 relative">
-                            <input type="text" 
+                            <input type="text"
                                    wire:model.defer="newMessage"
                                    placeholder="Escribe tu mensaje..."
                                    class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 lg:px-6 py-2 lg:py-3 pr-10 lg:pr-12 text-sm lg:text-base text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                                    maxlength="1000" />
-                            
+
                             <!-- Emoji Button -->
                             <button type="button" class="absolute right-3 lg:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
                                 <svg class="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -241,7 +241,7 @@
                                 </svg>
                             </button>
                         </div>
-                        
+
                         <!-- Send Button -->
                         <button type="submit"
                                 class="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white p-2 lg:p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed group">

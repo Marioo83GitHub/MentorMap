@@ -42,7 +42,7 @@
         <div class="p-6 space-y-6">
 
             <!-- Coordinates Display -->
-            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 space-y-2 transition-colors duration-300">
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 space-y-2 transition-colors duration-300" hidden>
                 <h3 class="font-semibold text-gray-700 dark:text-gray-200 text-sm uppercase tracking-wide">Coordenadas
                     Seleccionadas</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -102,7 +102,7 @@
                             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                             clip-rule="evenodd"></path>
                     </svg>
-                    Guardar y Continuar
+                    Guardar
                 </button>
                 <p class="text-xs text-gray-500 dark:text-gray-400 text-center">Siguiente: Seleccionar Materias</p>
             </div>
