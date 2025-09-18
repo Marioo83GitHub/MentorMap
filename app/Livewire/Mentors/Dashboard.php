@@ -30,7 +30,7 @@ class Dashboard extends Component {
                 $time = 'am';
             }
 
-            $title = ($appointment->topic ? $appointment->topic->name . ' - ': '')  . $appointment->mentor->user->name;
+            $title = ($appointment->topic ? $appointment->topic->name . ' - ': '')  . $appointment->student->user->name;
             $subject = $appointment->topic ? $appointment->topic->subject->name : 'Sesión';
 
             return [
