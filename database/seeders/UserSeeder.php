@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Mentor;
 use App\Models\Student;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
@@ -64,8 +63,21 @@ class UserSeeder extends Seeder {
         $mentor1User->assignRole('mentor');
         Mentor::firstOrCreate(
             ['user_id' => $mentor1User->id],
-            ['about_me' => 'Experto en desarrollo backend con Laravel y ecosistema TALL stack.']
+            [
+                'about_me' => 'Experto en desarrollo backend con Laravel-Livewire y diseño de UI/UX.',
+                'average_rating' => 4.7,
+                'hours_taught' => 50,
+                'finalized_sessions' => 32,
+                'price_per_hour' => 150.00,
+                // El Botadero
+                // 'latitude_aprox' => 13.1984,
+                // 'longitude_aprox' => -87.4064
+                // Choluteca
+                'latitude_aprox' => 13.3014,
+                'longitude_aprox' => -87.1826
+            ],
         );
+
 
         // 3. Mentor Jose Rueda
         $mentor2User = User::firstOrCreate(
@@ -105,6 +117,6 @@ class UserSeeder extends Seeder {
         );
         $student2User->assignRole('student');
         Student::firstOrCreate(['user_id' => $student2User->id]);
-    
+
     }
 }
