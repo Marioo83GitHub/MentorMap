@@ -196,8 +196,7 @@
                         <!-- Action Buttons -->
                         <div class="flex items-center space-x-1 lg:space-x-2">
                             @if ($userRole === 'student' && $selectedConversation->getOtherParticipant()->mentor)
-                                <button
-                                    wire:click="triggerScheduleModal({{ $selectedConversation->getOtherParticipant()->mentor->id }})"
+                                <button x-on:click="$wire.showScheduleModal = true"
                                     class="bg-blue-500 hover:bg-blue-600 text-white px-2 lg:px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1 lg:space-x-2 shadow-md hover:shadow-lg text-sm lg:text-base">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -324,6 +323,135 @@
         </div>
     </div>
 
+
+
+
+
+    {{-- Modal to Schedule Session --}}
+
+    <div wire:show="showScheduleModal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden border border-gray-200 dark:border-gray-700 transform transition-all duration-300 scale-100">
+
+            <!-- Header del Modal -->
+            <div class="bg-gradient-to-r from-mmblue to-blue-600 text-white p-6">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold">Programar Sesión</h2>
+                            <p class="text-white/80 text-sm">Selecciona fecha y horario</p>
+                        </div>
+                    </div>
+
+                    <!-- Botón Cerrar -->
+                    <button x-on:click="$wire.showScheduleModal = false"
+                        class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-all duration-200 group">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenido del Modal -->
+            <div class="p-6 max-h-[calc(90vh-140px)] overflow-y-auto custom-scrollbar">
+                <div class="space-y-6">
+
+                    <!-- Información del Mentor -->
+                    <div
+                        class="bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
+                                M
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 dark:text-white">
+                                    @if ($selectedConversation)
+                                        {{ $selectedConversation->mentor->user->name . ' ' . $selectedConversation->mentor->user->surname }}
+                                    @endif
+                                </h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">L
+                                    @if ($selectedConversation)
+                                        {{ $selectedConversation->mentor->price_per_hour }}/hora
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-6">
+                        <div class="space-y-2 w-full">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Ingresa el título de la sesión</h3>
+                            <input placeholder="Revisión de fundamentos..." type="text" wire:model="title"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+                        <div class="space-y-2 w-max">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Cantidad de horas</h3>
+                            <input type="number" placeholder="Ej. 2" wire:model.live="hours"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+                    </div>
+
+
+                    <!-- Contenido de ejemplo -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Selecciona la Fecha</h3>
+                            <input type="date" wire:model="selectedDate"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4" />
+
+                        </div>
+
+                        {{-- Hours --}}
+                        <div class="space-y-3">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Selecciona la hora</h3>
+                            <input type="time" wire:model="selectedTime" min="08:00" max="22:00"
+                                step="900"
+                                class="w-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer del Modal -->
+            <div
+                class="bg-gray-50 dark:bg-gray-700 px-6 py-4 border-t border-gray-200 dark:border-gray-600 flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                    Total: <span class="font-semibold text-gray-900 dark:text-white">L {{ $subtotal }}</span>
+                </div>
+
+                <div class="flex space-x-3">
+                    <button x-on:click="$wire.showScheduleModal = false"
+                        class="px-6 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200">
+                        Cancelar
+                    </button>
+
+                    <button wire:click="confirmAppointment"
+                        class="px-6 py-2.5 bg-mmgreen hover:bg-green-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105">
+                        Confirmar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <!-- Schedule Appointment Modal -->
-    @livewire('students.schedule-appointment')
+    {{-- <livewire:students.schedule-appointment /> --}}
 </div>

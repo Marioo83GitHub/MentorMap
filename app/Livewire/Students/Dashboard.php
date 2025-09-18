@@ -30,8 +30,9 @@ class Dashboard extends Component {
                 $time = 'am';
             }
 
-            $title = ($appointment->topic->name ? $appointment->topic->name . ' - ': '')  . $appointment->mentor->user->name;
+            $title = ($appointment->topic ? $appointment->topic->name . ' - ': '')  . $appointment->mentor->user->name;
 
+            $subject = $appointment->topic ? $appointment->topic->subject->name : 'Sesión';
 
             return [
                 'id' => $appointment->id,
@@ -51,7 +52,11 @@ class Dashboard extends Component {
                     'student_present' => $appointment->student_present,
                     'type' => 'session',
                     'appointment_id' => $appointment->id,
-                    'subject' => $appointment->topic->subject->name  . ($appointment->topic->name ?  ' - ' . $appointment->topic->name : ''),
+
+
+
+                    'subject' => $subject,
+                    // 'subject' => $appointment->topic->subject->name  . ($appointment->topic->name ?  ' - ' . $appointment->topic->name : ''),
                     'duration' => $appointment->duration . ($appointment->duration == 1 ? ' hora' : ' horas'),
                 ]
             ];
