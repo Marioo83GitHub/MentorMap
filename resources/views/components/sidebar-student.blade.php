@@ -3,7 +3,8 @@
     class="fixed inset-0 backdrop-filter backdrop-blur-xl bg-opacity-50 z-30 lg:hidden hidden"></div>
 
 <!-- Left Sidebar - Control Panel (Fixed) -->
-<div id="sidebar" class="w-72 flex flex-col flex-shrink-0 bg-white/95 dark:bg-[#020721] backdrop-blur-md shadow-lg border-r border-gray-200 dark:border-gray-800 transition-all duration-300 h-screen lg:h-full fixed left-0 top-0 lg:top-[73px] z-40 overflow-y-auto pt-[73px] lg:pt-0
+<div id="sidebar"
+    class="w-72 flex flex-col flex-shrink-0 bg-white/95 dark:bg-[#020721] backdrop-blur-md shadow-lg border-r border-gray-200 dark:border-gray-800 transition-all duration-300 h-screen lg:h-full fixed left-0 top-0 lg:top-[73px] z-40 overflow-y-auto pt-[73px] lg:pt-0
             lg:translate-x-0 -translate-x-full lg:block">
 
     <!-- User Profile Section -->
@@ -23,8 +24,8 @@
                     title="{{ auth()->user()->email ?? 'Correo Estudiante' }}">
                     {{ auth()->user()->email ?? 'Correo Estudiante' }}
                 </p>
-                <!-- 
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Nivel: Intermedio</p> 
+                <!--
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Nivel: Intermedio</p>
                         <div class="flex items-center mt-1">
                             <div class="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full mr-2">
                                 <div class="w-3/4 h-2 bg-gradient-to-r from-mmblue to-blue-600 rounded-full"></div>
@@ -36,7 +37,7 @@
     </div>
 
     <!-- Quick Stats -->
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+    {{-- <div class="p-6 border-b border-gray-200 dark:border-gray-700">
         <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wide">
             Estadísticas</h4>
         <div class="space-y-4">
@@ -84,7 +85,7 @@
                 <span class="text-lg font-bold text-purple-600 dark:text-purple-400">3</span>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Navigation Menu -->
     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -112,24 +113,33 @@
                 <span class="font-medium">Mis Chats</span>
                 <span class="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
             </a>
+            <a href="{{ route('logout') }}"
+                class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group">
+                <svg class="w-5 h-5 text-gray-400 group-hover:text-mmblue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                    </path>
+                </svg>
+                <span class="font-medium">Cerrar Sesión</span>
+            </a>
 
-            <!-- <a href="#" 
+            <!-- <a href="#"
                        class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group">
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-mmblue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                         </svg>
                         <span class="font-medium">Mis Materias</span>
                     </a>
-                    
-                    <a href="#" 
+
+                    <a href="#"
                        class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group">
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-mmblue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                         <span class="font-medium">Mi Progreso</span>
                     </a>
-                    
-                    <a href="#" 
+
+                    <a href="#"
                        class="flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group">
                         <svg class="w-5 h-5 text-gray-400 group-hover:text-mmblue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -160,16 +170,16 @@
     }
 
     // Cerrar sidebar al hacer click en el overlay
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const overlay = document.getElementById('sidebar-overlay');
         if (overlay) {
-            overlay.addEventListener('click', function () {
+            overlay.addEventListener('click', function() {
                 toggleSidebar();
             });
         }
 
         // Cerrar sidebar automáticamente cuando la pantalla sea grande
-        window.addEventListener('resize', function () {
+        window.addEventListener('resize', function() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
 

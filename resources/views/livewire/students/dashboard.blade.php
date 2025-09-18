@@ -13,9 +13,9 @@
                             class="absolute -inset-2 bg-gradient-to-r from-mmgreen/20 to-[#33ab35]/20 rounded-xl blur opacity-0 group-hover:opacity-100 transition-all duration-300">
                         </div>
                         <div class="relative rounded-xl p-1 sm:p-2 transition-all duration-300">
-                            <img src="{{ asset('Logos/colored/LogoTextHorizontal_nobg.png') }}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/colored/LogoTextHorizontal_nobg.png') }}" alt="Mentor Map Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto dark:hidden">
-                            <img src="{{ asset('Logos/white/LogoTextHorizontal.png') }}" alt="MentorMap Logo"
+                            <img src="{{ asset('Logos/white/LogoTextHorizontal.png') }}" alt="Mentor Map Logo"
                                 class="h-6 sm:h-7 lg:h-8 w-auto hidden dark:block">
                         </div>
                     </div>

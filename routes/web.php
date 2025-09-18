@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use App\Livewire\LandingPage;
 use App\Livewire\Mentors\Dashboard as MentorDashboard;
 use App\Livewire\Mentors\SelectLocation;
@@ -15,6 +16,7 @@ use App\Livewire\Students\SearchMentor;
 
 Route::get('/', LandingPage::class);
 Route::get('/login', Login::class)->name('login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Grupo para usuarios autenticados solamente
 

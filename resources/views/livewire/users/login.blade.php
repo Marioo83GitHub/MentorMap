@@ -54,23 +54,23 @@
                                     img: '{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}',
                                     imgDark: '{{asset('Logos/white/LogoTextHorizontal.png')}}',
                                     title: 'Aprende y crece desde cualquier lugar',
-                                    desc: 'Conéctate en línea, resuelve tus dudas y alcanza tus objetivos académicos con MentorMap.'
+                                    desc: 'Conéctate en línea, resuelve tus dudas y alcanza tus objetivos académicos con Mentor Map.'
                                 }
                             ];
                             let currentIdx = 0;
                             const infoImgDark = document.getElementById('info-img-dark');
-                            
+
                             function setContent(idx) {
                                 indicators.forEach((i, j) => {
                                     i.style.opacity = (j === idx) ? '1' : '0.5';
                                 });
-                                
+
                                 // Actualizar imágenes para ambos modos
                                 infoImg.src = infoData[idx].img;
                                 if (infoImgDark) {
                                     infoImgDark.src = infoData[idx].imgDark;
                                 }
-                                
+
                                 infoTitle.textContent = infoData[idx].title;
                                 infoDesc.textContent = infoData[idx].desc;
                                 currentIdx = idx;
@@ -97,7 +97,7 @@
                     <span class="title text-gray-900 dark:text-white">Iniciar sesión</span>
                     <form wire:submit="login">
                         <div class="input-field">
-                            <input wire:model="email" type="text" placeholder="Ingresa tu correo" required 
+                            <input wire:model="email" type="text" placeholder="Ingresa tu correo" required
                                    class="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400" />
                             <i class="uil uil-envelope icon text-gray-600 dark:text-gray-400"></i>
                         </div>
@@ -134,7 +134,7 @@
 
                     <form wire:submit="formSignUp">
                         <div class="input-field">
-                            <input wire:model="registerEmail" type="text" placeholder="Ingresa tu correo" required 
+                            <input wire:model="registerEmail" type="text" placeholder="Ingresa tu correo" required
                                    class="bg-white dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400" />
                             <i class="uil uil-envelope icon text-gray-600 dark:text-gray-400"></i>
                         </div>

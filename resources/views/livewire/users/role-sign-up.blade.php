@@ -1,18 +1,18 @@
 <div class="min-h-screen flex items-center justify-center p-4 relative z-10">
     <div class="max-w-6xl w-full">
-        
+
         <!-- Header Section -->
         <div class="text-center mb-12">
           <!--  <div class="inline-flex items-center justify-center w-40 h-40">
-               <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}" 
-                             alt="MentorMap Logo" 
+               <img src="{{asset('Logos/colored/LogoTextHorizontal_nobg.png')}}"
+                             alt="Mentor Map Logo"
                              class="dark:hidden">
-                        <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}" 
-                             alt="MentorMap Logo" 
+                        <img src="{{asset('Logos/white/LogoTextHorizontal.png')}}"
+                             alt="Mentor Map Logo"
                              class="hidden dark:block">
             </div> -->
             <h1 class="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent mb-4">
-                ¡Bienvenido a MentorMap!
+                ¡Bienvenido a Mentor Map!
             </h1>
             <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
                 Selecciona cómo quieres ser parte de nuestra comunidad de aprendizaje
@@ -21,12 +21,12 @@
 
         <!-- Role Selection Cards -->
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            
+
             <!-- Mentor Card -->
             <div class="group relative">
                 <div class="absolute inset-0 bg-mmgreen rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
                 <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                    
+
                     <!-- Icon -->
                     <div class="mb-6">
                         <div class="w-16 h-16 bg-mmgreen rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
@@ -90,7 +90,7 @@
             <div class="group relative">
                 <div class="absolute inset-0 bg-mmblue rounded-3xl blur opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
                 <div class="relative bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-3xl p-8 shadow-xl border border-white/20 dark:border-gray-700/20 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                    
+
                     <!-- Icon -->
                     <div class="mb-6">
                         <div class="w-16 h-16 bg-mmblue rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <!-- en caso que lo permitamos 
+        <!-- en caso que lo permitamos
         <div class="text-center mt-12">
             <p class="text-gray-500 dark:text-gray-400 text-sm">
                 ¿No estás seguro? Siempre puedes cambiar tu rol más tarde en tu perfil

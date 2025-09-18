@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{{ $title ?? 'Page Title' }}</title>
+
         @vite('resources/css/app.css')
+
+        <link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">
 
         {{-- Leaflet CDN --}}
         {{-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -20,7 +23,7 @@
                 document.documentElement.classList.remove('dark');
             }
         </script>
-        
+
         <!-- Fondo con Superposición de Gradiente Dual -->
         <!-- Fondo claro -->
         <div class="fixed inset-0 z-0 dark:hidden"
@@ -30,7 +33,7 @@
         <!-- Fondo oscuro con orbe magenta -->
         <div class="fixed inset-0 z-0 hidden dark:block"
             style="background: #020617; background-image: linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px), radial-gradient(circle at 50% 60%, rgba(72, 236, 99, 0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%); background-size: 40px 40px, 40px 40px, 100% 100%;">
-        </div>   
+        </div>
         {{ $slot }}
 @livewireScripts
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
@@ -113,6 +116,6 @@
                 setTimeout(initializeTheme, 100);
             });
         </script>
-        
+
     </body>
 </html>

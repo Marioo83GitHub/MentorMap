@@ -21,7 +21,7 @@ class ChatSeeder extends Seeder
         // --- 1. OBTENER USUARIOS CLAVE Y COLECCIONES ---
         $mentorMario = Mentor::whereHas('user', fn($q) => $q->where('email', 'mariocarbajal@gmail.com'))->with('user', 'subjects')->first();
         $studentMoises = Student::whereHas('user', fn($q) => $q->where('email', 'moisesaguilar@gmail.com'))->with('user')->first();
-        
+
         $allStudents = Student::with('user')->get();
         $otherMentors = Mentor::with('user', 'subjects')
             ->whereHas('user', fn($q) => $q->where('email', '!=', 'mariocarbajal@gmail.com'))
@@ -42,6 +42,11 @@ class ChatSeeder extends Seeder
 
             // ¡NUEVO! Seleccionamos una materia aleatoria de las que enseña Mario
             $randomSubject = $mentorMario->subjects->random()->name;
+
+            if ($student->id === $studentMoises->id) {
+                // Saltamos a Moises, ya que tendrá conversaciones separadas
+                continue;
+            }
 
             // ¡NUEVO! Creamos una conversación más larga y dinámica
             $this->createConversation(
@@ -64,7 +69,7 @@ class ChatSeeder extends Seeder
 
         foreach ($otherMentors as $mentor) {
              if ($mentor->subjects->isEmpty()) continue;
-            
+
             // Seleccionamos una materia aleatoria del mentor
             $mentorSubject = $mentor->subjects->random()->name;
 
@@ -87,6 +92,11 @@ class ChatSeeder extends Seeder
      */
     private function createConversation(Mentor $mentor, Student $student, array $messages): void
     {
+        if ($mentor->user->name == "Mario" && $student->user->name == "Moises")
+        {
+            return;
+        }
+
         $conversation = Conversation::firstOrCreate([
             'mentor_id' => $mentor->id,
             'student_id' => $student->id,
@@ -95,8 +105,8 @@ class ChatSeeder extends Seeder
         $timestamp = Carbon::now()->subHours(rand(1, 48)); // Rango de tiempo más amplio
 
         foreach ($messages as $message) {
-            $senderId = $message['sender'] instanceof Mentor 
-                ? $message['sender']->user_id 
+            $senderId = $message['sender'] instanceof Mentor
+                ? $message['sender']->user_id
                 : $message['sender']->user_id;
 
             $delay = $message['delay_seconds'] ?? rand(20, 180); // Aumentamos el delay para más realismo
