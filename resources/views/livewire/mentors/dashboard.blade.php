@@ -121,6 +121,17 @@
                         Seleccionar Disciplinas
                     </a>
 
+                    <!-- Chats -->
+                    <a href="{{ route('logout') }}"
+                        class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-[#0a102c] transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                            </path>
+                        </svg>
+                        Cerrar Sesión
+                    </a>
+
                     <!--
                     <div class="border-t border-gray-200 dark:border-gray-700 my-4"></div>
 
@@ -796,21 +807,21 @@
 
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-600/50 flex gap-3">
                         ${props.status === 'scheduled' ? `
-                                                                <button class="flex-1 bg-mmgreen hover:from-emerald-700 hover:opacity-80 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-emerald-500/25">
-                                                                    Unirse a la sesión
-                                                                </button>
-                                                                <button class="flex-1 bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg transition-all duration-300 font-semibold border border-gray-300 dark:border-gray-600/50 hover:border-gray-400 dark:hover:border-gray-500/50">
-                                                                    Reagendar
-                                                                </button>
-                                                            ` : ''}
+                                                                        <button class="flex-1 bg-mmgreen hover:from-emerald-700 hover:opacity-80 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-emerald-500/25">
+                                                                            Unirse a la sesión
+                                                                        </button>
+                                                                        <button class="flex-1 bg-gray-200 dark:bg-gray-700/50 hover:bg-gray-300 dark:hover:bg-gray-600/50 text-gray-700 dark:text-gray-300 py-3 px-4 rounded-lg transition-all duration-300 font-semibold border border-gray-300 dark:border-gray-600/50 hover:border-gray-400 dark:hover:border-gray-500/50">
+                                                                            Reagendar
+                                                                        </button>
+                                                                    ` : ''}
                         ${props.status === 'completed' ? `
-                                                                <button class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-blue-500/25">
-                                                                    Ver notas
-                                                                </button>
-                                                                <button class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-yellow-500/25">
-                                                                    Calificar mentor
-                                                                </button>
-                                                            ` : ''}
+                                                                        <button class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-blue-500/25">
+                                                                            Ver notas
+                                                                        </button>
+                                                                        <button class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white py-3 px-4 rounded-lg transition-all duration-300 font-semibold shadow-lg hover:shadow-yellow-500/25">
+                                                                            Calificar mentor
+                                                                        </button>
+                                                                    ` : ''}
                     </div>
                 </div>
             </div>

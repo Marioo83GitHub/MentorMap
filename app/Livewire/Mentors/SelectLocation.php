@@ -28,6 +28,10 @@ class SelectLocation extends Component {
         $this->redirectRoute('mentors.dashboard');
     }
 
+    public function cancel() {
+        $this->redirectRoute('mentors.dashboard');
+    }
+
     public function render() {
         return view('livewire.mentors.select-location');
     }
