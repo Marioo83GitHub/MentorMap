@@ -1,3 +1,3 @@
 import './bootstrap';
 import 'flowbite';
-import './login/script.js';
+import './Login/script.js';
