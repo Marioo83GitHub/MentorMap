@@ -7,8 +7,7 @@ use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class ChatComponent extends Component
-{
+class ChatComponent extends Component {
     // --- PROPIEDADES PÚBLICAS ---
     // Estas propiedades están disponibles en la vista Blade.
 
@@ -25,8 +24,7 @@ class ChatComponent extends Component
      * Aquí inicializamos las propiedades.
      * @param int|null $conversationId - El ID de la conversación que se quiere abrir al cargar (opcional).
      */
-    public function mount($conversationId = null)
-    {
+    public function mount($conversationId = null) {
         // 1. Determinar el rol del usuario autenticado.
         $user = Auth::user();
         $this->userRole = $user->hasRole('mentor') ? 'mentor' : 'student';
@@ -58,8 +56,7 @@ class ChatComponent extends Component
      * Se usa with() para cargar las relaciones (mentor, student, user) y evitar el problema N+1.
      * Las conversaciones se ordenan por el último mensaje enviado.
      */
-    public function loadConversations($user)
-    {
+    public function loadConversations($user) {
         $query = Conversation::query();
 
         // Carga ansiosa para optimizar las consultas.
@@ -76,13 +73,13 @@ class ChatComponent extends Component
         $query->addSelect([
             'last_message_time' => Message::select('created_at')
                 ->whereColumn('conversation_id', 'conversations.id')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('created_at')
                 ->limit(1)
         ]);
 
         // Ordenar por el último mensaje (más reciente primero)
         // Si no hay mensajes, esas conversaciones aparecen al final
-        $query->orderByDesc('last_message_time');
+        // $query->orderByDesc('last_message_time');
 
         $this->conversations = $query->get();
     }
@@ -92,8 +89,7 @@ class ChatComponent extends Component
      * Carga la conversación seleccionada y sus mensajes.
      * @param int $conversationId - El ID de la conversación a seleccionar.
      */
-    public function selectConversation($conversationId)
-    {
+    public function selectConversation($conversationId) {
         $this->selectedConversation = Conversation::with(['mentor.user', 'student.user'])->find($conversationId);
         $this->messages = Message::where('conversation_id', $this->selectedConversation->id)
             ->with('sender') // Carga la relación con el remitente (User)
@@ -104,8 +100,7 @@ class ChatComponent extends Component
     /**
      * Vuelve a la lista de conversaciones (especialmente útil en móviles).
      */
-    public function backToConversations()
-    {
+    public function backToConversations() {
         $this->selectedConversation = null;
         $this->messages = [];
         $this->newMessage = '';
@@ -115,8 +110,7 @@ class ChatComponent extends Component
      * Envía un nuevo mensaje en la conversación seleccionada.
      * Se ejecuta cuando se envía el formulario en la vista.
      */
-    public function sendMessage()
-    {
+    public function sendMessage() {
         // 1. Validar que el mensaje no esté vacío.
         if (empty($this->newMessage)) {
             return;
@@ -148,22 +142,20 @@ class ChatComponent extends Component
     }
 
     //Mensaje en tiempo real
-    public function refreshMessages()
-    {
+    public function refreshMessages() {
         if ($this->selectedConversation) {
             $this->messages = Message::where('conversation_id', $this->selectedConversation->id)
                 ->with('sender')
                 ->orderBy('created_at', 'asc')
                 ->get();
-            
+
             // También recargar las conversaciones para mantener el orden actualizado
             $this->loadConversations(Auth::user());
         }
     }
 
     //Agendas Modal
-    public function triggerScheduleModal($mentorId)
-    {
+    public function triggerScheduleModal($mentorId) {
         $this->dispatch('openScheduleModal', $mentorId);
     }
 
@@ -171,8 +163,7 @@ class ChatComponent extends Component
      * Getter para obtener las conversaciones filtradas por el término de búsqueda.
      * Se usa como una propiedad computada en la vista.
      */
-    public function getFilteredConversationsProperty()
-    {
+    public function getFilteredConversationsProperty() {
         if (empty($this->searchTerm)) {
             return $this->conversations;
         }
@@ -187,9 +178,7 @@ class ChatComponent extends Component
     /**
      * El método render() es el encargado de mostrar la vista.
      */
-    public function render()
-    {
+    public function render() {
         return view('livewire.chat.chat-component');
     }
 }
-
