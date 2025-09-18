@@ -17,6 +17,7 @@ class ChatComponent extends Component {
     public $newMessage; // El contenido del nuevo mensaje, vinculado al input con wire:model.
     public $userRole; // Rol del usuario actual ('mentor' o 'student').
     public $searchTerm = ''; // Término de búsqueda para filtrar conversaciones.
+    public $showScheduleModal = false;
 
     /**
      * El método mount() es como el constructor de Livewire.
@@ -155,10 +156,10 @@ class ChatComponent extends Component {
         }
     }
 
-    //Agendas Modal
-    public function triggerScheduleModal($mentorId) {
-        $this->dispatch('openScheduleModal', $mentorId);
-    }
+    // //Agendas Modal
+    // public function triggerScheduleModal($mentorId) {
+    //     $this->dispatch('openScheduleModal', $mentorId);
+    // }
 
     /**
      * Getter para obtener las conversaciones filtradas por el término de búsqueda.
